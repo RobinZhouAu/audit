@@ -11,24 +11,25 @@ import java.text.SimpleDateFormat;
 
 /**
  * Created by zhouhaibin on 2016/9/27.
+ * 修改记录
  */
 public class ModifyRecord extends ObjectBase {
     static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd: HH:mm:ss");
     public static final int OPERATION_UNKNOWN = -1;
-    public static final int OPERATION_ADD = 0;
-    public static final int OPERATION_UPDATE = 1;
-    public static final int OPERATION_DELETE = 2;
-    public static final int OPERATION_OPINION_ACCEPTED = 3;
-    public static final int OPERATION_LEVEL_ACCEPTED = 4;
+    public static final int OPERATION_ADD = 0;//添加操作
+    public static final int OPERATION_UPDATE = 1;//修改操作
+    public static final int OPERATION_DELETE = 2;//删除操作
+    public static final int OPERATION_OPINION_ACCEPTED = 3;//修改“建议已修改”操作
+    public static final int OPERATION_LEVEL_ACCEPTED = 4;//修改“分级已修改”操作
 
-    public static final int TARGET_TYPE_MODULE_RECORD = 0;
-    public static final int TARGET_TYPE_DISCOVERY = 1;
-    public static final int TARGET_TYPE_CENTER_REPORT = 2;
-    public static final int TARGET_TYPE_STAGE_REPORT = 3;
+    public static final int TARGET_TYPE_MODULE_RECORD = 0;//模块记录的修改记录
+    public static final int TARGET_TYPE_DISCOVERY = 1;//发现的修改记录
+    public static final int TARGET_TYPE_CENTER_REPORT = 2;//单中心报告的修改记录
+    public static final int TARGET_TYPE_STAGE_REPORT = 3;//阶段报告的修改记录
 
-    public static final String TARGET_ID_OVERVIEW = "overview";
-    public static final String TARGET_ID_PROBLEM_TYPE = "problem";
-    public static final String TARGET_ID_REFERENCE = "reference";
+    public static final String TARGET_ID_OVERVIEW = "overview";//稽查概述字段
+    public static final String TARGET_ID_PROBLEM_TYPE = "problem";//问题描述字段
+    public static final String TARGET_ID_REFERENCE = "reference";//依据字段
 
     public static final String FIELD_NAME_OVERVIEW = "稽查概述";
     public static final String FIELD_NAME_PROBLEM = "问题归类";
@@ -41,24 +42,24 @@ public class ModifyRecord extends ObjectBase {
     public static final String FIELD_NAME_INREPORT = "入报告";
 
     String taskId = EMPTY_OBJECT;//稽查任务Id 或者 单中心报告Id 或者 项目阶段报告Id
-    String moduleId = EMPTY_OBJECT;
+    String moduleId = EMPTY_OBJECT;//模块Id
     String targetId = EMPTY_OBJECT;//ModuleRecordId 或者 DiscoveryId
-    int operation = OPERATION_UNKNOWN;
-    Timestamp created;
-    String userId = EMPTY_OBJECT;
-    int targetType = TARGET_TYPE_MODULE_RECORD;
-    String fieldName;
-    String oldValue;
-    String newValue;
-    String projectId = EMPTY_OBJECT;
-    String projectName;
-    String stageName;
-    String centerName;
+    int operation = OPERATION_UNKNOWN;//操作类型
+    Timestamp created;//创建时间
+    String userId = EMPTY_OBJECT;//操作人Id
+    int targetType = TARGET_TYPE_MODULE_RECORD;//目标类型
+    String fieldName;//字段名
+    String oldValue;//修改前的值
+    String newValue;//修改后的值
+    String projectId = EMPTY_OBJECT;//项目Id
+    String projectName;//项目名称
+    String stageName;//阶段名称
+    String centerName;//中心名称
     String patientNo;//受试者编号
-    String categoryId = EMPTY_OBJECT;
-    String fulltext;
+    String categoryId = EMPTY_OBJECT;//分类Id
+    String fulltext;//全文内容，用于检索
 
-    int index;
+    int index;//索引序号，用于界面显示
 
     public ModifyRecord() {
         id = generateID();
@@ -216,6 +217,7 @@ public class ModifyRecord extends ObjectBase {
 
     }
 
+    //根据模块记录来更新修改记录
     public void updateMetadata(ModuleRecord moduleRecord, Task task) {
         taskId = task.getId();
         moduleId = moduleRecord.getModuleId();
@@ -228,6 +230,7 @@ public class ModifyRecord extends ObjectBase {
         targetType = TARGET_TYPE_MODULE_RECORD;
     }
 
+    //根据任务里的发现来更新修改记录
     public void updateMetadata(Discovery discovery, Task task) {
         taskId = task.getId();
         targetId = discovery.getCode();
@@ -241,6 +244,7 @@ public class ModifyRecord extends ObjectBase {
         targetType = TARGET_TYPE_DISCOVERY;
     }
 
+    //根据报告中的发现来更新修改记录
     public void updateMetadata(Discovery discovery, ReportBase report) {
         taskId = report.getId();
         targetId = discovery.getCode();
@@ -255,6 +259,7 @@ public class ModifyRecord extends ObjectBase {
         targetType = TARGET_TYPE_DISCOVERY;
     }
 
+    //根据报告来更新修改记录
     public void updateMetadata(ReportBase report) {
         taskId = report.getId();
         projectId = report.getProjectId();

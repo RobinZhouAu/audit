@@ -4,18 +4,10 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 角色
  */
 public class Role extends ObjectBase {
-//    String description;
-    String privilegeIds = "";
-
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
+    String privilegeIds = "";//权限Id数组
 
     public String getPrivilegeIds() {
         return privilegeIds;

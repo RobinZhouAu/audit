@@ -141,13 +141,37 @@ public class ReportController extends ControllerBase {
         boolean canEditReport = true;
         reportService.setReportClassByType(type);
         ReportBase report = reportService.loadReport(id);
-        if (report.getCheckStatus() == ReportBase.CHECK_STATUS_SUBMITTED) {
+        if (report.getCheckStatus() != ReportBase.CHECK_STATUS_ASSIGNED) {
             canEditReport = false;
         } else {
-            if (!reportService.startEditReport(id, userId)) {
+            if (!report.getCheckUserId().equals(userId)) {
                 canEditReport = false;
+            } else {
+                if (!reportService.startEditReport(id, userId)) {
+                    canEditReport = false;
+                }
             }
         }
+        Map globalValues = new HashMap();
+        globalValues.put("reportId", id);
+        globalValues.put("mode", MODE_CHECK);
+        globalValues.put("type", type);
+        globalValues.put("canEditReport", canEditReport);
+        globalValues.put("message", reportService.getErrorMessage());
+
+        request.setAttribute(PageUtil.GLOBAL_VALUES, globalValues);
+        request.setAttribute("mode", MODE_CHECK);
+        request.setAttribute("type", type);
+        return "/jsp/report-detail";
+    }
+
+    @RequestMapping("/checkDetailReport")//进入报告评审的详情页面
+    public String checkDetailReport(HttpServletRequest request) {
+        reportService.setErrorMessage(null);
+        String type = request.getParameter("type");
+        String id = request.getParameter("id");
+        boolean canEditReport = false;
+        reportService.setReportClassByType(type);
         Map globalValues = new HashMap();
         globalValues.put("reportId", id);
         globalValues.put("mode", MODE_CHECK);
@@ -201,13 +225,41 @@ public class ReportController extends ControllerBase {
     public String classifyCenterReport(HttpServletRequest request) {
         String type = request.getParameter("type");
         String id = request.getParameter("id");
+        String userId = loadUserId(request);
         reportService.setReportClassByType(type);
-        ReportBase report = reportService.loadReport(id);
+        CenterReport report = (CenterReport)reportService.loadReport(id);
+        boolean canEditReport = true;
+        if (report.getClassifyStatus() != CenterReport.CLASSIFY_STATUS_ASSIGNED) {
+            canEditReport = false;
+        } else {
+            if (!report.getClassifyUserId().equals(userId)) {
+                canEditReport = false;
+            }
+        }
         Map globalValues = new HashMap();
         globalValues.put("reportId", id);
         globalValues.put("taskId", report.getId());
         globalValues.put("type", type);
         globalValues.put("classifyStatus", ((CenterReport)report).getClassifyStatus());
+        globalValues.put("canEditReport", canEditReport);
+        request.setAttribute(PageUtil.GLOBAL_VALUES, globalValues);
+        request.setAttribute("type", type);
+        return "/jsp/classify-center-report";
+    }
+
+    @RequestMapping("/classifyDetailCenterReport")//进入单中心报告分级的详情页面
+    public String classifyDetailCenterReport(HttpServletRequest request) {
+        String type = request.getParameter("type");
+        String id = request.getParameter("id");
+        reportService.setReportClassByType(type);
+        ReportBase report = reportService.loadReport(id);
+        boolean canEditReport = false;
+        Map globalValues = new HashMap();
+        globalValues.put("reportId", id);
+        globalValues.put("taskId", report.getId());
+        globalValues.put("type", type);
+        globalValues.put("classifyStatus", ((CenterReport)report).getClassifyStatus());
+        globalValues.put("canEditReport", canEditReport);
         request.setAttribute(PageUtil.GLOBAL_VALUES, globalValues);
         request.setAttribute("type", type);
         return "/jsp/classify-center-report";
@@ -269,7 +321,7 @@ public class ReportController extends ControllerBase {
         String id = getStringParameter(request, "id");
         reportService.setReportClassByType(type);
         ReportBase report = reportService.loadReport(id);
-        List discoveries = discoveryService.loadDiscoveriesInReport(report.getId(), "created", null, null);
+        List discoveries = discoveryService.loadDiscoveriesInReport(report.getId(), "patientNo", null, null);
         Project project = projectService.loadProject(report.getProjectId());
         List mainCategories = MemoryCache.getMainCategories();
 

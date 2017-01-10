@@ -8,6 +8,7 @@ import com.zhb.bean.Discovery;
 import com.zhb.bean.LimitedWord;
 import com.zhb.bean.MainCategory;
 import com.zhb.bean.Reference;
+import com.zhb.core.ObjectBase;
 import com.zhb.manager.MemoryCache;
 import com.zhb.view.*;
 
@@ -162,7 +163,10 @@ public class ReportPdf {
                 DiscoveryPatientView patientView = problemView.getPatientViews().get(j);
                 if (patientView.getDiscoveryViews().size() == 1) {
                     Discovery discovery = patientView.getDiscoveryViews().get(0);
-                    String description = "受试者" + patientView.getPatientNo() + ": " + discovery.getDescription();
+                    String description = discovery.getDescription();
+                    if (!patientView.getPatientNo().equals(ObjectBase.EMPTY_OBJECT)) {
+                        description = "受试者" + patientView.getPatientNo() + ": " + description;
+                    }
                     if (!reportView.isCenterReport()) {//阶段报告需要显示中心名称
                         description = description + "（" + discovery.getCenterCode() + "中心）";
                     }
@@ -172,26 +176,60 @@ public class ReportPdf {
                     addListItem(listDescriptionItem, description, new Font(ReportFont.baseFontHWFS, 12));
                     listPatient.add(listDescriptionItem);
                 } else {
-                    addListItem(listPatient, "受试者" + patientView.getPatientNo() + ": ", new Font(ReportFont.baseFontHWFS, 12));
-                    List listDescription = new List(List.ORDERED, List.ALPHABETICAL);
-                    listDescription.setFirst(1);
-                    listDescription.setLowercase(List.LOWERCASE);
-                    listDescription.setPostSymbol("）");
-                    listDescription.setIndentationLeft(25);
-                    for (int k = 0; k < patientView.getDiscoveryViews().size(); k ++) {
-                        Discovery discovery = patientView.getDiscoveryViews().get(k);
-                        List listDescriptionItem = new List(List.ORDERED, List.ALPHABETICAL);
-                        listDescriptionItem.setFirst(k + 1);
-                        listDescriptionItem.setLowercase(List.LOWERCASE);
-                        listDescriptionItem.setPostSymbol("）");
-                        String description = discovery.getDescription();
-                        if (!reportView.isCenterReport()) {//阶段报告需要显示中心名称
-                            description = description + "（" + discovery.getCenterCode() + "中心）";
+                    if (patientView.getPatientNo().equals(ObjectBase.EMPTY_OBJECT)) {
+//                        addListItem(listPatient, "受试者" + patientView.getPatientNo() + ": ", new Font(ReportFont.baseFontHWFS, 12));
+//                        List listDescription = new List(List.ORDERED, List.ALPHABETICAL);
+//                        listDescription.setFirst(1);
+//                        listDescription.setLowercase(List.LOWERCASE);
+//                        listDescription.setPostSymbol("）");
+//                        listDescription.setIndentationLeft(25);
+                        for (int k = 0; k < patientView.getDiscoveryViews().size(); k ++) {
+                            Discovery discovery = patientView.getDiscoveryViews().get(k);
+//                            String description = "受试者" + patientView.getPatientNo() + ": " + discovery.getDescription();
+                            String description = discovery.getDescription();
+                            if (!reportView.isCenterReport()) {//阶段报告需要显示中心名称
+                                description = description + "（" + discovery.getCenterCode() + "中心）";
+                            }
+                            List listDescriptionItem = new List(List.ORDERED);
+                            listDescriptionItem.setPostSymbol("）");
+                            listDescriptionItem.setFirst(j + k + 1);
+                            addListItem(listDescriptionItem, description, new Font(ReportFont.baseFontHWFS, 12));
+                            listPatient.add(listDescriptionItem);
+
+//                            List listDescriptionItem = new List(List.ORDERED, List.ALPHABETICAL);
+//                            listDescriptionItem.setFirst(k + 1);
+//                            listDescriptionItem.setLowercase(List.LOWERCASE);
+//                            listDescriptionItem.setPostSymbol("）");
+//                            String description = discovery.getDescription();
+//                            if (!reportView.isCenterReport()) {//阶段报告需要显示中心名称
+//                                description = description + "（" + discovery.getCenterCode() + "中心）";
+//                            }
+//                            addListItem(listDescriptionItem, description, new Font(ReportFont.baseFontHWFS, 12));
+//                            listDescription.add(listDescriptionItem);
                         }
-                        addListItem(listDescriptionItem, description, new Font(ReportFont.baseFontHWFS, 12));
-                        listDescription.add(listDescriptionItem);
+//                        listPatient.add(listDescription);
+                    } else {
+                        addListItem(listPatient, "受试者" + patientView.getPatientNo() + ": ", new Font(ReportFont.baseFontHWFS, 12));
+                        List listDescription = new List(List.ORDERED, List.ALPHABETICAL);
+                        listDescription.setFirst(1);
+                        listDescription.setLowercase(List.LOWERCASE);
+                        listDescription.setPostSymbol("）");
+                        listDescription.setIndentationLeft(25);
+                        for (int k = 0; k < patientView.getDiscoveryViews().size(); k ++) {
+                            Discovery discovery = patientView.getDiscoveryViews().get(k);
+                            List listDescriptionItem = new List(List.ORDERED, List.ALPHABETICAL);
+                            listDescriptionItem.setFirst(k + 1);
+                            listDescriptionItem.setLowercase(List.LOWERCASE);
+                            listDescriptionItem.setPostSymbol("）");
+                            String description = discovery.getDescription();
+                            if (!reportView.isCenterReport()) {//阶段报告需要显示中心名称
+                                description = description + "（" + discovery.getCenterCode() + "中心）";
+                            }
+                            addListItem(listDescriptionItem, description, new Font(ReportFont.baseFontHWFS, 12));
+                            listDescription.add(listDescriptionItem);
+                        }
+                        listPatient.add(listDescription);
                     }
-                    listPatient.add(listDescription);
                 }
 
             }
@@ -219,7 +257,10 @@ public class ReportPdf {
                 } else {
                     text = "            " + text;
                 }
-                listItem = new ListItem(25, text, new Font(ReportFont.baseFontHWFS, 12));
+                Chunk chunk = new Chunk(text, new Font(ReportFont.baseFontHWFS, 12));
+                chunk.setSplitCharacter(ChineseSplitCharacter.splitCharacter);
+                listItem = new ListItem(25, chunk);
+                listItem.setAlignment(Element.ALIGN_JUSTIFIED);
                 listItem.setListSymbol(new Chunk(""));
                 listCategory.add(listItem);
             }
@@ -228,6 +269,7 @@ public class ReportPdf {
     }
 
     private void addListItem(List list, String text, Font font) {
+        text = text.replaceAll("&lt;", "<");
         Chunk chunk = new Chunk(text, font);
         chunk.setSplitCharacter(ChineseSplitCharacter.splitCharacter);
         ListItem listItem = new ListItem(25, chunk);

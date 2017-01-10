@@ -21,6 +21,12 @@ var ReportCheckManager = function () {
             Header.activeMenu("check-manager");
             f.initTemplate();
             mode = Global.mode;
+            if (mode == "all" && !Global.isUserSystemAdmin()) {
+                //在待审区模式下，如果不是管理员，则只能看到待分配的
+                $("#check-status-select option[value='-1']").remove();
+                $("#check-status-select option[value='2']").remove();
+                $("#check-status-select option[value='3']").remove();
+            }
             Global.initSelect($("#check-status-select"));
             f.bindEvent();
             if (mode == "all") {
@@ -45,24 +51,46 @@ var ReportCheckManager = function () {
 
             $container.on("click", ".center-name", function () {
                 var report = $.tmplItem($(this)).data;
-                if (mode == "all" && report.checkStatus == CHECK_STATUS_UNASSIGNED && report.canceled == 0 && report.status != STATUS_CLOSED) {
-                    f.receiveReport(report);
+                if (mode == "all" && report.checkStatus == CHECK_STATUS_UNASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED) {
+                    alert("未领用状态下无法查看详情");
+                    return;
                 }
-                if (mode == "onlyMine" && report.checkStatus == CHECK_STATUS_ASSIGNED && report.canceled == 0 && report.status != STATUS_CLOSED){
-                    var url = "checkReport?id=" + report.id + "&type=" + Global.type;
-                    window.open(url, "_self");
-                }
+                ////1 如果是待审区，是未领用的，是非管理员，则询问是否领用
+                //if (mode == "all" && report.checkStatus == CHECK_STATUS_UNASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED) {
+                //    f.receiveReport(report);
+                //    return;
+                //}
+                ////2 如果是我的项目，是待评审的，是非管理员，则进入评审页面
+                //if (mode == "onlyMine" && report.checkStatus == CHECK_STATUS_ASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED){
+                //    var url = "checkReport?id=" + report.id + "&type=" + Global.type;
+                //    window.open(url, "_self");
+                //    return;
+                //}
+                ////3 其他情况，都进入详情页面
+                var url = "checkDetailReport?id=" + report.id + "&type=" + Global.type;
+                window.open(url, "_self");
             });
 
             $container.on("click", ".project-name", function () {
                 var report = $.tmplItem($(this)).data;
-                if (mode == "all" && report.checkStatus == CHECK_STATUS_UNASSIGNED && report.canceled == 0 && report.status != STATUS_CLOSED) {
-                    f.receiveReport(report);
+                if (mode == "all" && report.checkStatus == CHECK_STATUS_UNASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED) {
+                    alert("未领用状态下无法查看详情");
+                    return;
                 }
-                if (mode == "onlyMine" && report.checkStatus == CHECK_STATUS_ASSIGNED && report.canceled == 0 && report.status != STATUS_CLOSED){
-                    var url = "checkReport?id=" + report.id + "&type=" + Global.type;
-                    window.open(url, "_self");
-                }
+                ////1 如果是待审区，是未领用的，是非管理员，则询问是否领用
+                //if (mode == "all" && report.checkStatus == CHECK_STATUS_UNASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED) {
+                //    f.receiveReport(report);
+                //    return;
+                //}
+                ////2 如果是我的项目，是待评审的，是非管理员，则进入评审页面
+                //if (mode == "onlyMine" && report.checkStatus == CHECK_STATUS_ASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED){
+                //    var url = "checkReport?id=" + report.id + "&type=" + Global.type;
+                //    window.open(url, "_self");
+                //    return;
+                //}
+                ////3 其他情况，都进入详情页面
+                var url = "checkDetailReport?id=" + report.id + "&type=" + Global.type;
+                window.open(url, "_self");
             });
 
             $container.on("click", ".sendback-report", function () {
@@ -107,9 +135,9 @@ var ReportCheckManager = function () {
                     '<a title="退领" href="javascript:void(0)" class="table-operation-icon sendback-report"><i class="glyphicon glyphicon-transfer"></i></a>' +
                     '<a title="评审" href="checkReport?id=${id}&type=' + Global.type + '" class="table-operation-icon check-report"><i class="glyphicon glyphicon-check"></i></a>' +
                     '{{/if}}' +
-                    '{{if checkStatus == 3}}' +
-                    '<a title="详情" href="checkReport?id=${id}&type=' + Global.type + '" class="table-operation-icon report-detail"><i class="glyphicon glyphicon-list-alt"></i></a>' +
-                    '{{/if}}' +
+                    //'{{if checkStatus == 3}}' +
+                    '<a title="详情" href="checkDetailReport?id=${id}&type=' + Global.type + '" class="table-operation-icon report-detail"><i class="glyphicon glyphicon-list-alt"></i></a>' +
+                    //'{{/if}}' +
                     '</td>' +
                     '</tr>';
             } else {
@@ -133,9 +161,9 @@ var ReportCheckManager = function () {
                     '<a title="退领" href="javascript:void(0)" class="table-operation-icon sendback-report"><i class="glyphicon glyphicon-transfer"></i></a>' +
                     '<a title="评审" href="checkReport?id=${id}&type=' + Global.type + '" class="table-operation-icon check-report"><i class="glyphicon glyphicon-check"></i></a>' +
                     '{{/if}}' +
-                    '{{if checkStatus == 3}}' +
-                    '<a title="详情" href="checkReport?id=${id}&type=' + Global.type + '" class="table-operation-icon report-detail"><i class="glyphicon glyphicon-list-alt"></i></a>' +
-                    '{{/if}}' +
+                    //'{{if checkStatus == 3}}' +
+                    '<a title="详情" href="checkDetailReport?id=${id}&type=' + Global.type + '" class="table-operation-icon report-detail"><i class="glyphicon glyphicon-list-alt"></i></a>' +
+                    //'{{/if}}' +
                     '</td>' +
                     '</tr>';
 
@@ -191,11 +219,21 @@ var ReportCheckManager = function () {
                     return GlobalConstants.CENTER_REPORT_CHECK_STATUS[item.checkStatus];
                 }
             }));
+
             if (mode == "all") {
+                //待审区模式下，没有评审和退领按钮
                 $(".sendback-report.table-operation-icon").remove();
                 $(".check-report.table-operation-icon").remove();
+                //如果不是评审员，则不能领用
+                if (!Global.userHasPrivilege("CHECK"))
+                    $(".receive-report.table-operation-icon").remove();
             } else {
                 $(".receive-report.table-operation-icon").remove();
+            }
+
+            //如果不是管理员，则不能看详情
+            if (!Global.isUserSystemAdmin() && mode != 'onlyMine') {
+                $(".report-detail.table-operation-icon").remove();
             }
 
             $("#pagination").MyPagination({

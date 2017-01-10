@@ -31,7 +31,7 @@ var ReportTemplate = function(){
                                 '</div>' +
                                 '<div class="row">' +
                                     '<div class="col-md-12 detail-control detail-content">${problemView.problemOpinion}</div>' +
-                                    '<textarea class="col-md-12 edit-control edit-content" style="display:none;"></textarea>' +
+                                    '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none;"></textarea>' +
                                 '</div>' +
                                 '<div class="row">' +
                                     '<div class="pull-right">' +
@@ -52,7 +52,7 @@ var ReportTemplate = function(){
                                                     '{{if patientView.patientNo != "-"}}' +
                                                     '<span class="patient-item font-hwfs-12">受试者${patientView.patientNo}：</span>' +
                                                     '{{/if}}' +
-                                                    '<span class="detail-control detail-content font-hwfs-12">${discoveryView.description}</span><span class="stage">${ReportDetail.getCenterCode(discoveryView)}</span>' +
+                                                    '<span class="detail-control detail-content discovery-description font-hwfs-12">${discoveryView.description}</span><span class="stage">${ReportDetail.getCenterCode(discoveryView)}</span>' +
                                                     '<div class="row">' +
                                                         '<textarea class="col-md-12 edit-control edit-content" style="display:none;"></textarea>' +
                                                     '</div>' +
@@ -72,8 +72,8 @@ var ReportTemplate = function(){
                                                         '<div class="opinion-label">评审意见:</div>' +
                                                     '</div>' +
                                                     '<div class="row">' +
-                                                        '<div class="col-md-12 detail-control detail-content discovery-description font-hwfs-12">${discoveryView.descriptionOpinion}</div>' +
-                                                        '<textarea class="col-md-12 edit-control edit-content" style="display:none;"></textarea>' +
+                                                        '<div class="col-md-12 detail-control detail-content discovery-description-opinion font-hwfs-12">${discoveryView.descriptionOpinion}</div>' +
+                                                        '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none;"></textarea>' +
                                                     '</div>' +
                                                     '<div class="row">' +
                                                         '<div class="pull-right">' +
@@ -99,7 +99,7 @@ var ReportTemplate = function(){
                                                 //问题描述
                                                 '<div mode="detail" class="editable" fieldId="description" itemId="${discoveryView.id}" opinion="false">' +
                                                     '<span class="description-index">${ReportDetail.getLetter(discoveryView.index)}）</span>' +
-                                                    '<span class="detail-control detail-content description-detail-control">${discoveryView.description}</span><span class="stage">${ReportDetail.getCenterCode(discoveryView)}</span>' +
+                                                    '<span class="detail-control detail-content discovery-description description-detail-control">${discoveryView.description}</span><span class="stage">${ReportDetail.getCenterCode(discoveryView)}</span>' +
                                                     '<div class="row">' +
                                                         '<textarea class="col-md-12 edit-control edit-content" style="display: none;"></textarea>' +
                                                     '</div>' +
@@ -119,8 +119,8 @@ var ReportTemplate = function(){
                                                         '<div class="opinion-label">评审意见:</div>' +
                                                     '</div>' +
                                                     '<div class="row">' +
-                                                        '<div class="col-md-12 detail-control detail-content discovery-description">${discoveryView.descriptionOpinion}</div>' +
-                                                        '<textarea class="col-md-12 edit-control edit-content" style="display:none;"></textarea>' +
+                                                        '<div class="col-md-12 detail-control detail-content discovery-description-opinion">${discoveryView.descriptionOpinion}</div>' +
+                                                        '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none;"></textarea>' +
                                                     '</div>' +
                                                     '<div class="row">' +
                                                         '<div class="pull-right">' +

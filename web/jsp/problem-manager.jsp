@@ -49,7 +49,6 @@
                 </form>
                 <form class="navbar-form navbar-right" onkeydown="if(event.keyCode==13)return false;" >
                     <button id="add" class="btn btn-default">新增问题归类</button>
-                    <%--<button id="delete-selected" class="btn btn-default">批量删除</button>--%>
                 </form>
                 <div class="margin-top-10">
                     <table class="table table-striped table-bordered table-hover dataTable">
@@ -108,7 +107,6 @@
         </div>
     </div>
     <script src="js/data-structure.js" type="text/javascript"></script>
-    <%--<script src="js/test.js" type="text/javascript"></script>--%>
     <script src="js/problem-manager.js" type="text/javascript"></script>
 </body>
 

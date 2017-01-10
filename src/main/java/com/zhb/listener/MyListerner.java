@@ -18,6 +18,7 @@ import java.util.Properties;
 
 /**
  * Created by zhouhaibin on 2016/7/19.
+ * 系统初始化的监听器
  */
 public class MyListerner extends ContextLoaderListener {
     static Logger logger = Logger.getLogger(MyListerner.class);

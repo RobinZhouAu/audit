@@ -23,19 +23,19 @@
                 <li class="active">原始版稽查记录表列表</li>
             </ol>
             <div class="col-md-10 col-sm-12">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                                <div class="input-group input-medium">
-                                    <input id="keywords" type="text" placeholder="输入相关信息进行检索" class="form-control">
-                                        <span id="search" class="input-group-addon">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12 text-right">
-                            <a href="toTaskReportManager">切换到稽查记录表</a>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="input-group input-medium">
+                            <input id="keywords" type="text" placeholder="输入相关信息进行检索" class="form-control">
+                            <span id="search" class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
                         </div>
                     </div>
+                    <div class="col-md-6 col-sm-12 text-right">
+                        <a href="toTaskReportManager">切换到稽查记录表</a>
+                    </div>
+                </div>
             </div>
             <div class="margin-top-10">
                 <table tableId="OriginalReportManager" class="table table-striped table-bordered table-hover dataTable">
@@ -58,7 +58,6 @@
             </div>
         </div>
     </div>
-    <%--<script src="js/template-util.js" type="text/javascript"></script>--%>
     <script src="js/original-report-manager.js" type="text/javascript"></script>
 </body>
 

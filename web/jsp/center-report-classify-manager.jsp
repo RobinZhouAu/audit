@@ -81,7 +81,6 @@
             </div>
         </div>
     </div>
-    <%--<script src="js/template-util.js" type="text/javascript"></script>--%>
     <script src="js/center-report-classify-manager.js" type="text/javascript"></script>
 </body>
 

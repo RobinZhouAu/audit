@@ -2,6 +2,7 @@ package com.zhb.bean;
 
 /**
  * Created by zhouhaibin on 2016/10/5.
+ * 项目里包含的中心
  */
 public class ProjectCenter extends Center {
     String code;//中心编号

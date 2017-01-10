@@ -30,38 +30,6 @@
                         <option value="1">已评估</option>
                     </select>
                 </div>
-                <%--<div class="form-group margin-right-20">--%>
-                    <%--<label class="control-label">位置</label>--%>
-                    <%--<select id="target" class="form-control" style="width: 200px;">--%>
-                        <%--<option value="">全部</option>--%>
-                    <%--</select>--%>
-                <%--</div>--%>
-                <%--<div class="form-group margin-right-20">--%>
-                    <%--<label class="control-label">稽查发现分类</label>--%>
-                    <%--<select id="category" class="form-control" style="width: 260px;">--%>
-                        <%--<option value="">全部</option>--%>
-                    <%--</select>--%>
-                <%--</div>--%>
-                <%--<div class="form-group margin-right-20">--%>
-                    <%--<label class="control-label">日期</label>--%>
-                    <%--<div class="input-group date date-picker">--%>
-                        <%--<input id="createdFrom" type="text" size="16" class="form-control">--%>
-                        <%--<span class="input-group-btn">--%>
-                            <%--<button class="btn default date-set" type="button">--%>
-                                <%--<i class="fa fa-calendar"></i>--%>
-                            <%--</button>--%>
-                        <%--</span>--%>
-                    <%--</div>--%>
-                    <%-----%>
-                    <%--<div class="input-group date date-picker">--%>
-                        <%--<input id="createdTo" type="text" size="16" class="form-control">--%>
-                        <%--<span class="input-group-btn">--%>
-                            <%--<button class="btn default date-set" type="button">--%>
-                                <%--<i class="fa fa-calendar"></i>--%>
-                            <%--</button>--%>
-                        <%--</span>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
             </form>
             <form class="navbar-form navbar-right" onkeydown="if(event.keyCode==13)return false;" >
                 <div class="form-group">

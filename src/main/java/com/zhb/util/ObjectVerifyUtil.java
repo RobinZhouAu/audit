@@ -16,6 +16,7 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/11/14.
+ * 字段校验工具
  */
 public class ObjectVerifyUtil {
     static Map objectDisplayNames;
@@ -35,9 +36,9 @@ public class ObjectVerifyUtil {
         displayNames.put("mobilephone", "手机");
         displayNames.put("wechat", "微信公众号");
         displayNames.put("url", "网址");
-        displayNames.put("purpose", "项目目的");
-        displayNames.put("range", "项目范围");
-        displayNames.put("foundation", "项目依据");
+        displayNames.put("purpose", "稽查目的");
+        displayNames.put("range", "稽查范围");
+        displayNames.put("foundation", "稽查依据");
         displayNames.put("versionno", "《试验方案》版本号");
 
         displayNames.put("versiondate", "《试验方案》版本日期");
@@ -56,6 +57,7 @@ public class ObjectVerifyUtil {
         displayNames.put("description", "问题描述");
         objectDisplayNames.put(Discovery.class, displayNames);
     }
+
     public static String verify(ObjectBase object) throws Exception {
         VerifyError verifyError = verifyObject(object);
         if (verifyError == null)

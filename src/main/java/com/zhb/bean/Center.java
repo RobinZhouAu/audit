@@ -4,18 +4,19 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 中心
  */
 public class Center extends ObjectBase {
-    String firstChar;
-    String type;
-    String province = "";
-    String city = "";
-    String town = "";
-    String website;
-    String address;
-    String contact;
-    String department;
-    String certificate;
+    String firstChar;//名称汉语拼音首字母，用于过滤
+    String type;//机构类型
+    String province = "";//省
+    String city = "";//市
+    String town = "";//区县
+    String website;//医院网站
+    String address;//医院地址
+    String contact;//联系方式
+    String department;//科室
+    String certificate;//证书
 
 
     public String getProvince() {

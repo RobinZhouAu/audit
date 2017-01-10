@@ -7,12 +7,13 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 阶段包含的中心
  */
 public class StageCenter extends Center {
-    String centerId;
-    String leaderId = EMPTY_OBJECT;
-    List<String> memberIdList = new ArrayList<>();
-    int canceled = 0;
+    String centerId;//中心Id
+    String leaderId = EMPTY_OBJECT;//组长
+    List<String> memberIdList = new ArrayList<>();//组员
+    int canceled = 0;//是否被取消
 
     public int getCanceled() {
         return canceled;

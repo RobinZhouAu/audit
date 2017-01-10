@@ -4,6 +4,7 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 阶段
  */
 public class Stage extends ObjectBase {
     @Override

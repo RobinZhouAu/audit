@@ -18,40 +18,38 @@
 <body class="page-header-fixed">
     <%@include file="header.jsp" %>
     <div class="container-fluid">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li>系统管理</li>
-                <li class="active">数据模板管理</li>
-            </ol>
-            <c:if test="${type != 'Config'}">
-                <ul class="nav nav-pills" role="tablist">
-                    <li role="presentation"><a href="toCategoryManager">分类管理</a></li>
-                    <li role="presentation"><a href="toProblemManager">问题归类管理</a></li>
-                    <li role="presentation"><a href="toReferenceManager">依据管理</a></li>
-                    <li role="presentation" type="Project"><a href="toDataTemplateManager?type=Project">目的范围依据</a></li>
-                    <li role="presentation" type="CenterReport"><a href="toDataTemplateManager?type=CenterReport">单中心报告稽查概述</a></li>
-                    <li role="presentation" type="StageReport"><a href="toDataTemplateManager?type=StageReport">项目阶段报告稽查概述</a></li>
-                    <li role="presentation" type="Company"><a href="toDataTemplateManager?type=Company">公司基本信息</a></li>
-
-                </ul>
-            </c:if>
+        <div class="page-container">
+        <ol class="breadcrumb">
+            <li>系统管理</li>
+            <li class="active">数据模板管理</li>
+        </ol>
+            <ul class="nav nav-pills" role="tablist">
+                <li role="presentation"><a href="toCategoryManager">分类管理</a></li>
+                <li role="presentation"><a href="toProblemManager">问题归类管理</a></li>
+                <li role="presentation"><a href="toReferenceManager">依据管理</a></li>
+                <li role="presentation" type="Project"><a href="toDataTemplateManager?type=Project">目的范围依据</a></li>
+                <li role="presentation" type="CenterReport"><a href="toDataTemplateManager?type=CenterReport">单中心报告稽查概述</a></li>
+                <li role="presentation" type="StageReport"><a href="toDataTemplateManager?type=StageReport">项目阶段报告稽查概述</a></li>
+                <li role="presentation" type="Company"><a href="toDataTemplateManager?type=Company">公司基本信息</a></li>
+            </ul>
+            <div class="container">
             <div class="margin-top-10">
                 <form class="form-horizontal" role="form">
                     <c:if test="${type == 'Project'}">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label text-left">项目目的</label>
+                            <label class="col-sm-2 control-label text-left">稽查目的</label>
                             <div class="col-md-10 col-sm-12">
                                 <textarea id="ProjectPurpose" class="form-control data-item" style="height: 120px;"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label text-left">项目范围</label>
+                            <label class="col-sm-2 control-label text-left">稽查范围</label>
                             <div class="col-md-10 col-sm-12">
                                 <textarea id="ProjectRange" class="form-control data-item" style="height: 120px;"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label text-left">项目依据</label>
+                            <label class="col-sm-2 control-label text-left">稽查依据</label>
                             <div class="col-md-10 col-sm-12">
                                 <textarea id="ProjectFoundation" class="form-control data-item" style="height: 120px;"></textarea>
                             </div>
@@ -130,6 +128,7 @@
                     </div>
                 </form>
             </div>
+        </div>
         </div>
     </div>
 

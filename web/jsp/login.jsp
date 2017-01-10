@@ -91,11 +91,6 @@
     </style>
 </head>
 <body >
-    <%--<div class="container-fluid">--%>
-        <%--<div class="page-container">--%>
-
-        <%--</div>--%>
-    <%--</div>--%>
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
@@ -110,14 +105,8 @@
                             登录</button>
                         <label id="message" style="width: 100%;">
                         </label>
-                        <%--<label class="checkbox pull-left">--%>
-                            <%--<input type="checkbox" value="remember-me">--%>
-                            <%--记住我--%>
-                        <%--</label>--%>
-                        <%--<a href="#" class="pull-right need-help">需要帮助? </a><span class="clearfix"></span>--%>
                     </form>
                 </div>
-                <%--<a href="register" class="text-center new-account">注册</a>--%>
             </div>
         </div>
     </div>

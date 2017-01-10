@@ -4,6 +4,7 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/9/27.
+ * 字段，用于描述模块记录的字段
  */
 public class Field extends ObjectBase {
     public static final int TYPE_STRING = 0;//单行文本
@@ -13,12 +14,11 @@ public class Field extends ObjectBase {
     public static final int TYPE_TEXT = 4;//多行文本
     public static final int TYPE_MULTI_SELECT = 5;//多选
 
-    int type = TYPE_STRING;
-//    String limitedWordId = EMPTY_OBJECT;
-    LimitedWord limitedWord;
-    boolean readonly = false;
-    String inheritFrom;
-    boolean nullable = true;
+    int type = TYPE_STRING;//字段类型
+    LimitedWord limitedWord;//受控词
+    boolean readonly = false;//是否只读
+    String inheritFrom;//继承，如果有值，表示此字段的值继承自项目
+    boolean nullable = true;//是否可空
 
     public boolean isNullable() {
         return nullable;
@@ -51,14 +51,6 @@ public class Field extends ObjectBase {
     public void setLimitedWord(LimitedWord limitedWord) {
         this.limitedWord = limitedWord;
     }
-
-//    public String getLimitedWordId() {
-//        return limitedWordId;
-//    }
-//
-//    public void setLimitedWordId(String limitedWordId) {
-//        this.limitedWordId = limitedWordId;
-//    }
 
     public int getType() {
         return type;

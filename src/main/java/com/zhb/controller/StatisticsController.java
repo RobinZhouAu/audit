@@ -18,11 +18,12 @@ public class StatisticsController extends ControllerBase {
     @javax.annotation.Resource(name="StatisticsService")
     private StatisticsService statisticsService;
 
-    @RequestMapping("/toStatisticsManager")//进入单中心报告管理页面
+    @RequestMapping("/toStatisticsManager")//进入报表统计页面
     public String toStatisticsManager(HttpServletRequest request) {
         return "/jsp/statistics-manager";
     }
 
+    //加载项目成员详细报表的数据
     @RequestMapping("/loadMemberReport")
     @ResponseBody
     public Map loadMemberReport(HttpServletRequest request) {
@@ -35,6 +36,7 @@ public class StatisticsController extends ControllerBase {
         return result;
     }
 
+    //加载评审员详细报表的数据
     @RequestMapping("/loadCheckerReport")
     @ResponseBody
     public Map loadCheckerReport(HttpServletRequest request) {

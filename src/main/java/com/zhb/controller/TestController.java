@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/11/3.
+ * 用于测试的类
  */
 @Controller
 public class TestController extends ControllerBase {
@@ -107,11 +108,6 @@ public class TestController extends ControllerBase {
     public Map reloadPageConfig(HttpServletRequest request) {
         testService.reloadPageConfig();
         return successResult();
-    }
-
-    @RequestMapping("/toPrintIcon")
-    public String toPrintIcon(HttpServletRequest request) {
-        return "/jsp/print-icon";
     }
 
     @RequestMapping("/toLockManager")

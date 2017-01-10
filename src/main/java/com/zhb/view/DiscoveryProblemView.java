@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/10/7.
+ * 报告里的第二层数据，问题归类的视图
  */
 public class DiscoveryProblemView {
     int index = 0;
@@ -95,16 +96,23 @@ public class DiscoveryProblemView {
 
     public void addDiscovery(Discovery discovery) {
         String patientNo = discovery.getPatientNo();
-        if (patientNo == null || patientNo.isEmpty())
+        if (patientNo == null || patientNo.isEmpty()) {
             patientNo = ObjectBase.EMPTY_OBJECT;
-        DiscoveryPatientView view = findPatientView(patientNo);
-        if (view == null) {
-            view = new DiscoveryPatientView();
+            DiscoveryPatientView view = new DiscoveryPatientView();
             view.setIndex(patientViews.size() + 1);
             view.setPatientNo(patientNo);
             patientViews.add(view);
+            view.addDiscovery(discovery);
+        } else {
+            DiscoveryPatientView view = findPatientView(patientNo);
+            if (view == null) {
+                view = new DiscoveryPatientView();
+                view.setIndex(patientViews.size() + 1);
+                view.setPatientNo(patientNo);
+                patientViews.add(view);
+            }
+            view.addDiscovery(discovery);
         }
-        view.addDiscovery(discovery);
     }
 
     public void addReference(Reference reference) {

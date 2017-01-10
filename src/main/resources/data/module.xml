@@ -60,13 +60,13 @@
 	</bean>
 
 	<bean id="97" class="com.zhb.bean.Module">
-		<property name="name" value="研究用药物/器械"></property>
+		<property name="name" value="试验用药品/器械"></property>
 		<property name="multipleRecord" value="1"></property>
 		<property name="tableId" value="研究用药物/器械"></property>
 	</bean>
 
 	<bean id="98" class="com.zhb.bean.Module">
-		<property name="name" value="生物样本/器械"></property>
+		<property name="name" value="生物样本/实验室"></property>
 		<property name="multipleRecord" value="0"></property>
     <property name="tableId" value="生物样本/器械"></property>
 	</bean>

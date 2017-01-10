@@ -7,10 +7,11 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/11/10.
+ * 页面的表格
  */
 public class PageTable extends ObjectBase {
-    String columnWidths;
-    List<PageTableColumn> columns = new ArrayList<>();
+    String columnWidths;//表格的所有列的宽度
+    List<PageTableColumn> columns = new ArrayList<>();//表格的列信息
 
     public String getColumnWidths() {
         return columnWidths;

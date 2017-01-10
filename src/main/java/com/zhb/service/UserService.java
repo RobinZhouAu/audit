@@ -5,7 +5,7 @@ import com.zhb.dao.Condition;
 import com.zhb.dao.DaoPara;
 import com.zhb.manager.MemoryCache;
 import com.zhb.query.QueryResult;
-import com.zhb.view.ObjectView;
+import com.zhb.core.ObjectView;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -34,6 +34,8 @@ public class UserService extends AuditServiceBase {
         daoPara.setStart(start);
         daoPara.setLimit(limit);
         Condition condition = buildKeywordsCondition(keywords, "name");
+        if (condition != null)
+            daoPara.addCondition(condition);
         daoPara.addOrder("id");
         int totalCount = dao.getTotalCount(daoPara);
         List list = dao.loadList(daoPara);
@@ -106,18 +108,19 @@ public class UserService extends AuditServiceBase {
             User user = (User)list.get(i);
             map.put(user.getId(), user);
         }
+        MemoryCache.userMap = MemoryCache.getObjectMap(User.class);
     }
 
     public boolean isUserAdmin(String userId) {
         User user = getUser(userId);
-        if (user.hasPrivilege(Privilege.PRIVILEGE_ID_SYSTEM_ADMIN))
+        if (userHasPrivilege(user, Privilege.PRIVILEGE_ID_SYSTEM_ADMIN))
             return true;
         return false;
     }
 
     public boolean isUserPrinter(String userId) {
         User user = getUser(userId);
-        if (user.hasPrivilege(Privilege.PRIVILEGE_ID_PRINT))
+        if (userHasPrivilege(user, Privilege.PRIVILEGE_ID_PRINT))
             return true;
         return false;
     }
@@ -125,9 +128,9 @@ public class UserService extends AuditServiceBase {
     //用户是否是管理员或打印员
     public boolean isUserAdminOrPrinter(String userId) {
         User user = getUser(userId);
-        if (user.hasPrivilege(Privilege.PRIVILEGE_ID_SYSTEM_ADMIN))
+        if (userHasPrivilege(user, Privilege.PRIVILEGE_ID_SYSTEM_ADMIN))
             return true;
-        if (user.hasPrivilege(Privilege.PRIVILEGE_ID_PRINT))
+        if (userHasPrivilege(user, Privilege.PRIVILEGE_ID_PRINT))
             return true;
         return false;
     }
@@ -135,11 +138,23 @@ public class UserService extends AuditServiceBase {
     //用户是否是系统管理员或业务管理员
     public boolean isUserAdminOrBusinessAdmin(String userId) {
         User user = getUser(userId);
-        if (user.hasPrivilege(Privilege.PRIVILEGE_ID_SYSTEM_ADMIN))
+        if (user.getUserPrivileges() == null) {
+            Map privilegeIdMap = getUserPrivilegeIdMap(userId);
+            user.setUserPrivileges(privilegeIdMap);
+        }
+        if (userHasPrivilege(user, Privilege.PRIVILEGE_ID_SYSTEM_ADMIN))
             return true;
-        if (user.hasPrivilege(Privilege.PRIVILEGE_ID_BUSINESS_ADMIN))
+        if (userHasPrivilege(user, Privilege.PRIVILEGE_ID_BUSINESS_ADMIN))
             return true;
         return false;
+    }
+
+    public boolean userHasPrivilege(User user, String privilegeId) {
+        if (user.getUserPrivileges() == null) {
+            Map privilegeIdMap = getUserPrivilegeIdMap(user.getId());
+            user.setUserPrivileges(privilegeIdMap);
+        }
+        return user.hasPrivilege(privilegeId);
     }
 
     public Map getUserPrivilegeIdMap(String userId) {

@@ -20,7 +20,6 @@
                 <li class="classic-menu-dropdown">
                     <a id="project-manager" href="toProjectManager" class="nva-item">
                         项目管理
-                        <%--<span class="selected"></span>--%>
                     </a>
                 </li>
                 <li class="classic-menu-dropdown">
@@ -60,7 +59,6 @@
                         <li><a class="nav-item" pid="SYSTEM_ADMIN" href="toUserManager">用户管理</a></li>
                         <li><a class="nav-item" pid="SYSTEM_ADMIN" href="toStatisticsManager">报表统计</a></li>
                         <li><a class="nav-item" pid="SYSTEM_ADMIN" href="toCategoryManager">稽查基础数据管理</a></li>
-                        <%--<li><a class="nav-item" pid="SYSTEM_ADMIN" href="toDataTemplateManager?type=Company">公司信息管理</a></li>--%>
                         <li><a class="nav-item" pid="SYSTEM_ADMIN" href="toDataTemplateManager?type=Config">系统设置</a></li>
                     </ul>
                 </li>

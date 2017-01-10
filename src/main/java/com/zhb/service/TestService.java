@@ -4,6 +4,7 @@ import com.zhb.bean.Department;
 import com.zhb.bean.Discovery;
 import com.zhb.bean.Role;
 import com.zhb.bean.User;
+import com.zhb.core.ServiceBase;
 import com.zhb.manager.LockManager;
 import com.zhb.manager.MemoryCache;
 import com.zhb.manager.PageManager;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/11/3.
+ * 测试用Service
  */
 @Service("TestService")
 public class TestService extends ServiceBase {

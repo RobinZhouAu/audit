@@ -117,6 +117,7 @@ var DiscoveryManager = function(){
                 $discovery.find(".discovery-problem").select2("destroy");
                 var $problemSelect = $discovery.find(".discovery-problem");
 
+                $problemSelect.empty();
                 //根据分类来过滤问题归类选项
                 for (var i = 0; i < Global.allProblems.length; i ++) {
                     var problem = Global.allProblems[i];
@@ -367,7 +368,8 @@ var DiscoveryManager = function(){
                 code: "",
                 taskId: Global.taskId,
                 moduleId: Global.moduleId,
-                taskModuleId: taskModuleId
+                taskModuleId: taskModuleId,
+                inReport: 1
             };
 
             //if (Global.debugMode == true)

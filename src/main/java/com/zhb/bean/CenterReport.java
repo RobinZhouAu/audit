@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 单中心报告
  */
 public class CenterReport extends ReportBase {
     public static final int CLASSIFY_STATUS_UNREADY = 0;//未进入分级
@@ -15,15 +16,15 @@ public class CenterReport extends ReportBase {
     public static final int CLASSIFY_STATUS_ASSIGNED = 2;//分级中（已领取）
     public static final int CLASSIFY_STATUS_SUBMITTED = 3;//已分级
 
-    String centerId = EMPTY_OBJECT;
-    String taskId = EMPTY_OBJECT;
+    String centerId = EMPTY_OBJECT;//中心Id
+    String taskId = EMPTY_OBJECT;//任务Id
     String classifyUserId = EMPTY_OBJECT;//分级人
     int classifyStatus = CLASSIFY_STATUS_UNREADY;//分级状态
-    String centerName;
+    String centerName;//中心名称
     Timestamp lastClassifyModify;//最后分级修改时间
     Timestamp classifyAssignedTime;//分级领用时间
     Timestamp classifySubmittedTime;//分级提交时间
-    String fulltext;
+    String fulltext;//全文内容，用于检索
 
     public CenterReport() {
 
@@ -43,13 +44,6 @@ public class CenterReport extends ReportBase {
         leaderId = task.getLeaderId();
         fulltext = task.getFulltext();
         status = STATUS_EDITING;
-    }
-
-    public void copyMetadata(Task task) {
-        memberIds = task.getMemberIds();
-        projectName = task.getProjectName();
-        leaderId = task.getLeaderId();
-        fulltext = task.getFulltext();
     }
 
     public String getFulltext() {
@@ -130,7 +124,5 @@ public class CenterReport extends ReportBase {
     @Override
     public void copyForUpdate(ObjectBase object) {
         super.copyForUpdate(object);
-        CenterReport centerReport = (CenterReport)object;
     }
-
 }

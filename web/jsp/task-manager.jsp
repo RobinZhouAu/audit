@@ -28,9 +28,9 @@
                         <div class="col-md-6 col-sm-12">
                             <div class="input-group input-medium">
                                 <input id="keywords" type="text" placeholder="输入相关信息进行检索" class="form-control">
-                                    <span id="search" class="input-group-addon">
-                                        <i class="fa fa-search"></i>
-                                    </span>
+                                <span id="search" class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12 text-right">
@@ -62,7 +62,6 @@
     </div>
     <div class="clearfix"></div>
     <script src="js/data-structure.js" type="text/javascript"></script>
-    <%--<script src="js/test.js" type="text/javascript"></script>--%>
     <script src="js/task-manager.js" type="text/javascript"></script>
 </body>
 

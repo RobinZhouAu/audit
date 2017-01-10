@@ -22,19 +22,19 @@
                 <li class="active">项目阶段稽查报告</li>
             </ol>
             <div class="col-md-10 col-sm-12">
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                                <div class="input-group input-medium">
-                                    <input id="keywords" type="text" placeholder="输入相关信息进行检索" class="form-control">
-                                        <span id="search" class="input-group-addon">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                </div>
-                        </div>
-                        <div class="col-md-6 col-sm-12 text-right">
-                            <button id="show-modify-records" pid="SYSTEM_ADMIN" class="btn default" type="button">查看修改记录</button>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="input-group input-medium">
+                            <input id="keywords" type="text" placeholder="输入相关信息进行检索" class="form-control">
+                            <span id="search" class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </span>
                         </div>
                     </div>
+                    <div class="col-md-6 col-sm-12 text-right">
+                        <button id="show-modify-records" pid="SYSTEM_ADMIN" class="btn default" type="button">查看修改记录</button>
+                    </div>
+                </div>
             </div>
             <div class="margin-top-10">
                 <table tableId="StageReportManager" class="table table-striped table-bordered table-hover dataTable">

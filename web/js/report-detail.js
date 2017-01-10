@@ -1,5 +1,6 @@
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 单中心报告的详情页，评审页，编辑页
  */
 var ReportDetail = function(){
     var STATUS_EDITING = 1;//报告填写中
@@ -33,7 +34,7 @@ var ReportDetail = function(){
             f = this;
             mode = Global.mode;
             canEditReport = Global.canEditReport;
-            if (Global.message) {
+            if (Global.message) {//如果有警告信息，先显示信息
                 Notify.info(Global.message);
             }
             $(".navbar-form").hide();
@@ -127,6 +128,7 @@ var ReportDetail = function(){
                 return false;
             });
 
+            //修改发现（弹出对话框）
             $(".page-container").on("click", ".edit-discovery", function() {
                 var id = $(this).parents(".discovery-item").attr("id");
                 f.saveCurrentEditingFirst(function() {
@@ -134,6 +136,7 @@ var ReportDetail = function(){
                 });
             });
 
+            //建议已处理
             $(".page-container").on("click", ".editable .opinion-accepted", function() {
                 var $checkbox = $(this);
                 var $parent = $(this).parents(".editable");
@@ -157,6 +160,7 @@ var ReportDetail = function(){
                 });
             });
 
+            //编辑
             $(".page-container").on("click", ".editable .edit-button", function() {
                 var $thisElement = $(this).parents(".editable");
                 f.saveCurrentEditingFirst(function() {
@@ -164,6 +168,7 @@ var ReportDetail = function(){
                 });
             });
 
+            //添加依据
             $(".page-container").on("click", ".add-reference", function() {
                 var $container = $(this).parent().find(".reference-container");
                 f.saveCurrentEditingFirst(function() {
@@ -171,6 +176,7 @@ var ReportDetail = function(){
                 });
             });
 
+            //删除依据
             $(".page-container").on("click", ".editable .delete-reference", function() {
                 var $parent = $(this).parents(".editable");
                 f.saveCurrentEditingFirst(function() {
@@ -178,6 +184,7 @@ var ReportDetail = function(){
                 });
             });
 
+            //重置问题归类
             $(".page-container").on("click", ".reset-button", function() {
                 var $parent = $(this).parents(".editable");
                 f.saveCurrentEditingFirst(function() {
@@ -198,6 +205,7 @@ var ReportDetail = function(){
                 });
             });
 
+            //保存
             $(".page-container").on("click", ".editable .save-button", function() {
                 var $parent = $(this).parents(".editable");
                 f.save($parent);
@@ -534,6 +542,7 @@ var ReportDetail = function(){
             if (!text)
                 $control.html('');
             else {
+                text = text.replaceAll('\r\n', '<br>');
                 text = text.replaceAll('\n', '<br>');
                 $control.html(text);
             }
@@ -584,11 +593,13 @@ var ReportDetail = function(){
             });
         },
 
+        //模板里用到的函数
         getHanziNumber: function(index) {
             var hanziNumber = ["", "一", "二", "三"];
             return hanziNumber[index];
         },
 
+        //模板里用到的函数
         getCenterCode: function(discovery) {
             if (Global.type == "StageReport")
                 return "（" + discovery.centerCode + "中心）";
@@ -596,6 +607,7 @@ var ReportDetail = function(){
                 return "";
         },
 
+        //模板里用到的函数
         getLetter: function(index) {
             return LETTER.substring(index, index + 1);
         },
@@ -611,6 +623,8 @@ var ReportDetail = function(){
                         for (var l = 0; l < patientView.discoveryViews.length; l ++) {
                             var discovery = patientView.discoveryViews[l];
                             var $discovery = $("#" + discovery.id);
+                            f.renderMultiLineText($discovery.find(".discovery-description"), discovery.description);
+                            f.renderMultiLineText($discovery.find(".discovery-description-opinion"), discovery.descriptionOpinion);
                             var color;
                             $discovery.find(".opinion-accepted").prop("checked", discovery.descriptionOpinionAccepted == 1);
 

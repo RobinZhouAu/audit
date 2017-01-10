@@ -40,7 +40,13 @@ var EditDiscoveryDialog = function(){
             dialog.on("click", ".dialog-ok", function(e) {
                 var discovery = f.discovery;
                 f.control2Value(dialog, discovery);
+
+                if (discovery.description == '') {
+                    alert("问题描述不能为空");
+                    return false;
+                }
                 if (f.options.callback) {
+                    dialog.modal('hide');
                     f.options.callback(f.discovery);
                 }
             });
@@ -49,6 +55,7 @@ var EditDiscoveryDialog = function(){
                 dialog.find(".discovery-problem").select2("destroy");
                 var $problemSelect = dialog.find(".discovery-problem");
 
+                $problemSelect.empty();
                 //根据分类来过滤问题归类选项
                 for (var i = 0; i < Global.allProblems.length; i ++) {
                     var problem = Global.allProblems[i];

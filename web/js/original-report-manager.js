@@ -35,7 +35,6 @@ var OriginalReportManager = function(){
                     '<td>${created}</td>' +
                     '<td>' +
                         '<a title="详情" href="originalReportDetail?id=${id}" class="table-operation-icon center-report-detail"><i class="glyphicon glyphicon-list-alt"></i></a>' +
-                        //'<a title="打印" target="_blank" href="printOriginalReport?id=${id}" class="table-operation-icon print-center-report"><i class="glyphicon glyphicon-print"></i></a>' +
                     '</td>' +
                 '</tr>';
             $.template("originalReportTemplate", originalReportTemplate);

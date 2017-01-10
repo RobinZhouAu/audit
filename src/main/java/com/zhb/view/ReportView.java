@@ -10,20 +10,21 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/10/7.
+ * 报告的视图
  */
 public class ReportView {
-    String id;
-    boolean centerReport = true;
-    String projectId;
-    String purpose;
-    String range;
-    String foundation;
-    String overview;
-    String overviewOpinion;
+    String id;//报告Id
+    boolean centerReport = true;//是否是单中心报告
+    String projectId;//项目Id
+    String purpose;//稽查目的
+    String range;//稽查范围
+    String foundation;//稽查依旧
+    String overview;//稽查概述
+    String overviewOpinion;//稽查概述的评审意见
 
-    List<DiscoveryLevelView> levelViews = new ArrayList<>();
-    Map<String, CategoryLevelCount> categoryLevelCountMap = new HashMap<>();
-    Map<String, Integer> levelCountMap = new HashMap<>();
+    List<DiscoveryLevelView> levelViews = new ArrayList<>();//所有的第一层数据
+    Map<String, CategoryLevelCount> categoryLevelCountMap = new HashMap<>();//统计表格的数据
+    Map<String, Integer> levelCountMap = new HashMap<>();//按分级统计的发现总数
 
     public ReportView() {
 
@@ -142,7 +143,7 @@ public class ReportView {
             categoryLevelCount.addCenterType(discovery.getCenterType());
             categoryLevelCountMap.put(discovery.getCategoryId(), categoryLevelCount);
         }
-        categoryLevelCount.addCount(discovery.getLevel());
+        categoryLevelCount.addCount(discovery.getLevel(), discovery.getProblemId());
 
 
         //计算总和
@@ -151,7 +152,7 @@ public class ReportView {
             categoryLevelCount = new CategoryLevelCount();
             categoryLevelCountMap.put("TOTAL", categoryLevelCount);
         }
-        categoryLevelCount.addCount(discovery.getLevel());
+        categoryLevelCount.addCount(discovery.getLevel(), discovery.getProblemId());
 
 
         Integer count = levelCountMap.get(discovery.getLevel());
@@ -166,12 +167,5 @@ public class ReportView {
         for (DiscoveryLevelView levelView : levelViews) {
             levelView.addReference(reference);
         }
-    }
-
-    public int getCountByLevel(String level) {
-        Integer count = levelCountMap.get(level);
-        if (count == null)
-            return 0;
-        return count;
     }
 }

@@ -8,7 +8,7 @@ import com.zhb.service.DepartmentService;
 import com.zhb.service.ProjectService;
 import com.zhb.service.UserService;
 import com.zhb.util.PageUtil;
-import com.zhb.view.ObjectView;
+import com.zhb.core.ObjectView;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,12 +34,11 @@ public class UserController extends ControllerBase {
     @javax.annotation.Resource(name="ProjectService")
     private ProjectService projectService;
 
-    @RequestMapping("/toUserManager")
+    @RequestMapping("/toUserManager")//跳转到用户管理页面
     public String toUserManager(HttpServletRequest request) {
         Map globalValues = new HashMap();
         List allDepartments = departmentService.loadAllDepartments(false);
         globalValues.put("allDepartments", allDepartments);
-//        globalValues.put("allDepartments", MemoryCache.getObjectList(Department.class));
         List allUsers = userService.loadAllUsers();
         globalValues.put("allUsers", allUsers);
         List allRoles = MemoryCache.getObjectList(Role.class);
@@ -54,17 +53,17 @@ public class UserController extends ControllerBase {
         return "/jsp/user-manager";
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/login")//跳转到登陆页面
     public String login(HttpServletRequest request) {
         return "/jsp/login";
     }
 
-    @RequestMapping("/toModifyPassword")
+    @RequestMapping("/toModifyPassword")//跳转到修改密码页面
     public String toModifyPassword(HttpServletRequest request) {
         return "/jsp/modify-password";
     }
 
-    @RequestMapping("/logout")
+    @RequestMapping("/logout")//注销
     public String logout(HttpServletRequest request) {
         request.getSession().removeAttribute(USER_ID);
         request.getSession().removeAttribute(USER_NAME);
@@ -114,7 +113,7 @@ public class UserController extends ControllerBase {
         return successResult();
     }
 
-    @RequestMapping("/stopUser")
+    @RequestMapping("/stopUser")//挂起用户
     @ResponseBody
     public Map stopUser(HttpServletRequest request) {
         String id = getStringParameter(request, "id");
@@ -122,7 +121,7 @@ public class UserController extends ControllerBase {
         return successResult();
     }
 
-    @RequestMapping("/startUser")
+    @RequestMapping("/startUser")//取消挂起用户
     @ResponseBody
     public Map startUser(HttpServletRequest request) {
         String id = getStringParameter(request, "id");
@@ -140,7 +139,7 @@ public class UserController extends ControllerBase {
         return result;
     }
 
-    @RequestMapping("/userLogin")
+    @RequestMapping("/userLogin")//用户登陆
     @ResponseBody
     public Map userLogin(HttpServletRequest request) {
         String userId = getStringParameter(request, "userId");
@@ -161,7 +160,7 @@ public class UserController extends ControllerBase {
         return result;
     }
 
-    @RequestMapping("/loadUserResources")
+    @RequestMapping("/loadUserResources")//加载用户所包含的资源内容，其实就是用户参与的项目和中心信息
     @ResponseBody
     public Map loadUserResources(HttpServletRequest request) {
         String id = getStringParameter(request, "id");
@@ -173,7 +172,7 @@ public class UserController extends ControllerBase {
         return result;
     }
 
-    @RequestMapping("/handoverProject")
+    @RequestMapping("/handoverProject")//移交项目
     @ResponseBody
     public Map handoverProject(HttpServletRequest request) {
         String projectId = getStringParameter(request, "projectId");
@@ -183,7 +182,7 @@ public class UserController extends ControllerBase {
         return successResult();
     }
 
-    @RequestMapping("/handoverProjectCenter")
+    @RequestMapping("/handoverProjectCenter")//移交中心
     @ResponseBody
     public Map handoverProjectCenter(HttpServletRequest request) {
         String projectId = getStringParameter(request, "projectId");
@@ -195,7 +194,7 @@ public class UserController extends ControllerBase {
         return successResult();
     }
 
-    @RequestMapping("/modifyPassword")
+    @RequestMapping("/modifyPassword")//修改密码
     @ResponseBody
     public Map modifyPassword(HttpServletRequest request) throws Exception {
         String oldPw = getStringParameter(request, "oldPw");
@@ -208,7 +207,7 @@ public class UserController extends ControllerBase {
         return successResult();
     }
 
-    @RequestMapping("/resetPassword")
+    @RequestMapping("/resetPassword")//重置密码
     @ResponseBody
     public Map resetPassword(HttpServletRequest request) throws Exception {
         String id = getStringParameter(request, "id");

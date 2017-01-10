@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 项目
  */
 public class Project extends ObjectBase {
     public static final int STATUS_PLANNING = 0;//项目计划
@@ -21,31 +22,31 @@ public class Project extends ObjectBase {
     public static final int STATUS_TRACING = 2;//项目跟踪
     public static final int STATUS_CLOSED = 3;//项目关闭
 
-    List<ProjectCenter> centers;
-    List<ProjectStage> stages;
-    int stageCount;
-    int status = STATUS_PLANNING;
-    String leaderId;
-    Timestamp created;
+    List<ProjectCenter> centers;//项目包含的中心
+    List<ProjectStage> stages;//项目包含的阶段
+    int stageCount;//阶段数量
+    int status = STATUS_PLANNING;//状态
+    String leaderId;//项目经理
+    Timestamp created;//创建时间
 
-    String principal;
-    String description;
-    String title;
-    String assignee;
-    String address;
-    String telephone;
-    String mobilephone;
-    String wechat;
-    String url;
-    String purpose;
-    String range;
-    String foundation;
-    String versionno;
-    Timestamp versiondate;
-    String sopno;
-    Timestamp sopdate;
-    String centerContent = EMPTY_JSON_ARRAY;
-    String stageContent = EMPTY_JSON_ARRAY;
+    String principal;//委托方
+    String description;//项目简介
+    String title;//试验题目
+    String assignee;//受托方
+    String address;//地址
+    String telephone;//联系方式
+    String mobilephone;//手机
+    String wechat;//微信公众号
+    String url;//网址
+    String purpose;//稽查目的
+    String range;//稽查范围
+    String foundation;//稽查依据
+    String versionno;//《试验方案》版本号
+    Timestamp versiondate;//版本日期
+    String sopno;//项目SOP版本号
+    Timestamp sopdate;//版本日期
+    String centerContent = EMPTY_JSON_ARRAY;//中心内容
+    String stageContent = EMPTY_JSON_ARRAY;//阶段内容
 
     String medicine;//药物名称
     String disease;//适应症
@@ -316,7 +317,6 @@ public class Project extends ObjectBase {
         classMap.put("centers", ProjectCenter.class);
         classMap.put("stageCenters", StageCenter.class);
         classMap.put("stages", ProjectStage.class);
-//        classMap.put("centerContent", String.class);
 
         JSONArray jsonArray = JSONArray.fromObject(centerContent);
         centers = new ArrayList<>();

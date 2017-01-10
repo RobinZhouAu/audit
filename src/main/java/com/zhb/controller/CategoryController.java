@@ -19,7 +19,7 @@ public class CategoryController extends ControllerBase {
     @javax.annotation.Resource(name="CategoryService")
     private CategoryService categoryService;
 
-    @RequestMapping("/toCategoryManager")
+    @RequestMapping("/toCategoryManager")//跳转到分类管理页
     public String toCategoryManager(HttpServletRequest request) {
         return "/jsp/category-manager";
     }

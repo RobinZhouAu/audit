@@ -19,9 +19,6 @@ import java.util.Map;
  */
 @Controller
 public class TaskReportController extends ControllerBase {
-    public static final String MODE_DETAIL = "detail";
-    public static final String MODE_PRINT = "print";
-
     @javax.annotation.Resource(name="TaskService")
     private TaskService taskService;
 
@@ -54,22 +51,11 @@ public class TaskReportController extends ControllerBase {
         return result;
     }
 
-    @RequestMapping("/printTaskReport")//进入稽查记录表打印页面
-    public String printTaskReport(HttpServletRequest request) {
-        String id = request.getParameter("id");
-        Map globalValues = new HashMap();
-        globalValues.put("reportId", id);
-        globalValues.put("mode", MODE_PRINT);
-        request.setAttribute(PageUtil.GLOBAL_VALUES, globalValues);
-        return "/jsp/task-report-detail";
-    }
-
     @RequestMapping("/taskReportDetail")//进入稽查记录表详情页面
     public String taskReportDetail(HttpServletRequest request) {
         String id = request.getParameter("id");
         Map globalValues = new HashMap();
         globalValues.put("reportId", id);
-        globalValues.put("mode", MODE_DETAIL);
         request.setAttribute(PageUtil.GLOBAL_VALUES, globalValues);
         return "/jsp/task-report-detail";
     }

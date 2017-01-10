@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 内存缓存管理
  */
 public class MemoryCache {
     public static Map<String, Map> allObjectMap = new HashMap<>();
@@ -27,6 +28,7 @@ public class MemoryCache {
     public static Configuration hibernateConfig;
 
     public static void initialize(ApplicationContext applicationContext) {
+        //通过各个Service从数据库中初始化数据到内存
         applicationContext.getBean(CenterService.class).init();
         applicationContext.getBean(DepartmentService.class).init();
         applicationContext.getBean(UserService.class).init();
@@ -36,24 +38,22 @@ public class MemoryCache {
         applicationContext.getBean(ReferenceService.class).init();
         applicationContext.getBean(DataTemplateService.class).init();
 
+        //通过xml数据，初始化到内存
         MemoryCache.applicationContext = applicationContext;
-//        initObjectMap(DataTemplate.class);
         initObjectMap(Module.class);
         initObjectMap(Stage.class);
         initObjectMap(Table.class);
         initObjectMap(Field.class);
         initObjectMap(LimitedWord.class);
-//        initObjectMap(Discovery.class);
         initObjectMap(ScoreItem.class);
         initObjectMap(Privilege.class);
         initObjectMap(MainCategory.class);
+
+        //初始化中心首字母的过滤
         initFilters();
         initMainCategory();
 
-        userMap = getObjectMap(User.class);
-
-        LocalSessionFactoryBean factory = (LocalSessionFactoryBean) applicationContext
-                .getBean("&sessionFactory");
+        LocalSessionFactoryBean factory = (LocalSessionFactoryBean)applicationContext.getBean("&sessionFactory");
         hibernateConfig = factory.getConfiguration();
 
         DataTemplate dataTemplate = (DataTemplate) getObject(DataTemplate.class, "SessionTimeout");
@@ -197,7 +197,7 @@ public class MemoryCache {
     public static String getObjectName(Class clazz, String id) {
         if (id == null)
             return "";
-        ObjectBase object = (ObjectBase)getObject(clazz, id);
+        ObjectBase object = getObject(clazz, id);
         if (object == null)
             return "";
         return object.getName();

@@ -11,29 +11,29 @@ import java.sql.Timestamp;
  * 稽查发现
  */
 public class Discovery extends ObjectBase {
-    String code;
-    String taskId = EMPTY_OBJECT;
-    String patientNo;
-    String description;
-    String level = EMPTY_OBJECT;
-    String categoryId = EMPTY_OBJECT;
-    String problemId = EMPTY_OBJECT;
-    String memo;
-    String creatorId = EMPTY_OBJECT;
-    Timestamp created;
-    String editorId = EMPTY_OBJECT;
-    Timestamp editTime;
-    int inReport;
+    String code;//发现编号
+    String taskId = EMPTY_OBJECT;//任务Id
+    String patientNo;//受试者编号
+    String description;//问题描述
+    String level = EMPTY_OBJECT;//分级
+    String categoryId = EMPTY_OBJECT;//分类
+    String problemId = EMPTY_OBJECT;//问题归类
+    String memo;//备注
+    String creatorId = EMPTY_OBJECT;//创建者Id
+    Timestamp created;//创建时间
+    String editorId = EMPTY_OBJECT;//修改者Id
+    Timestamp editTime;//修改时间
+    int inReport;//是否入报告，0不入，1入
     String level2 = "";//分级员分级
     String descriptionOpinion;//问题描述评审建议
     int descriptionOpinionAccepted = 0;//问题描述评审建议已处理
     int level2Accepted = 0;//分级员分级已处理
-    String centerId = EMPTY_OBJECT;
+    String centerId = EMPTY_OBJECT;//中心Id
 
     //如下数据，用于在渲染阶段报告时使用。
-    String centerName;
-    String centerType;
-    String centerCode;
+    String centerName;//中心名称
+    String centerType;//机构类型
+    String centerCode;//中心编号
     int index = 0;//用于报告显示的时候的序号
 
     public int getIndex() {

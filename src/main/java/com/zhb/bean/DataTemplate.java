@@ -4,6 +4,7 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 数据模板
  */
 public class DataTemplate extends ObjectBase {
     public static final String ID_AUTO_SAVE_INTERVAL = "AudoSaveInterval";

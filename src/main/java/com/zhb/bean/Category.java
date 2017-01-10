@@ -4,9 +4,10 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/9/29.
+ * 发现分类
  */
 public class Category extends ObjectBase {
-    String moduleId;
+    String moduleId;//模块Id
 
     public String getModuleId() {
         return moduleId;

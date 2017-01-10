@@ -2,6 +2,7 @@ package com.zhb.bean;
 
 /**
  * Created by zhouhaibin on 2016/10/27.
+ * 阶段报告
  */
 public class StageReport extends ReportBase {
     public StageReport() {

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSessionListener;
 
 /**
  * Created by zhouhaibin on 2016/11/30.
+ * 监控Session变化的监听器
  */
 public class SessionListener implements HttpSessionListener {
     protected Logger logger = Logger.getLogger(SessionListener.class);

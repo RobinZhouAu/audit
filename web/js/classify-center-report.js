@@ -9,6 +9,7 @@ var ClassifyCenterReport = function(){
 
     var f;
     var $container = $("#discovery-container");
+    var canEditReport = true;
     return{
         init: function() {
             f = this;
@@ -126,6 +127,7 @@ var ClassifyCenterReport = function(){
                     patientNo: patientNo
                 },
                 f: function(response) {
+                    canEditReport = response.canEditReport;
                     f.render(response);
                     Global.refreshControlsByPrivilege();
                 }
@@ -163,16 +165,21 @@ var ClassifyCenterReport = function(){
         },
 
         refreshButtons: function() {
-            switch(Global.classifyStatus) {
-                case CLASSIFY_STATUS_UNREADY:
-                case CLASSIFY_STATUS_UNASSIGNED:
-                case CLASSIFY_STATUS_SUBMITTED: {
-                    $("#submit").remove();
-                    $("#save").remove();
-                    $(".discovery-level").attr("disabled", true);
-                }
-                    break;
+            if (!canEditReport) {
+                $("#submit").remove();
+                $("#save").remove();
+                $(".discovery-level").attr("disabled", true);
             }
+            //switch(Global.classifyStatus) {
+            //    case CLASSIFY_STATUS_UNREADY:
+            //    case CLASSIFY_STATUS_UNASSIGNED:
+            //    case CLASSIFY_STATUS_SUBMITTED: {
+            //        $("#submit").remove();
+            //        $("#save").remove();
+            //        $(".discovery-level").attr("disabled", true);
+            //    }
+            //        break;
+            //}
             $(".navbar-form").show();
         },
         empty: null

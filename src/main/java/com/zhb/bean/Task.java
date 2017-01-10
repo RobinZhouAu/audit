@@ -22,28 +22,25 @@ public class Task extends ObjectBase {
     public static final int STATUS_SUBMITTED = 4;//报告已提交
     public static final int STATUS_CLOSED = 5;//关闭
 
-    Timestamp created;
+    Timestamp created;//创建时间
     Timestamp lastModify;//最后修改时间
-    String projectId = EMPTY_OBJECT;
-    String centerId = EMPTY_OBJECT;
-    String stageId = EMPTY_OBJECT;
-    int status = STATUS_MODULE_EDITING;
-    int canceled = 0;
-//    int closed = 0;
+    String projectId = EMPTY_OBJECT;//项目Id
+    String centerId = EMPTY_OBJECT;//中心Id
+    String stageId = EMPTY_OBJECT;//阶段Id
+    int status = STATUS_MODULE_EDITING;//状态
+    int canceled = 0;//是否被取消
 
+    String leaderId = EMPTY_OBJECT;//项目经理
+    String memberIds = EMPTY_JSON_ARRAY;//项目成员
 
+    List<TaskModule> taskModules;//任务包含的模块
 
-    String leaderId = EMPTY_OBJECT;
-    String memberIds = EMPTY_JSON_ARRAY;
-
-    List<TaskModule> taskModules;
-
-    String projectName;
-    String stageName;
-    String centerName;
-    String content;
-    Timestamp projectCreated;
-    String fulltext;
+    String projectName;//项目名称
+    String stageName;//阶段名称
+    String centerName;//中心名称
+    String content;//内容，大字段存储JSON格式的数据
+    Timestamp projectCreated;//项目创建时间
+    String fulltext;//全文，用于检索
 
     public int getCanceled() {
         return canceled;

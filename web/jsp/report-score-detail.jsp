@@ -14,17 +14,7 @@
     <%@include file="jspbase.jsp" %>
 
     <link href="thirdparty/bootstrap-star-rating/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
-
-    <%--<!-- optionally if you need to use a theme, then include the theme file as mentioned below -->--%>
-    <%--<link href="thirdparty/bootstrap-star-rating/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />--%>
-
     <script src="thirdparty/bootstrap-star-rating/js/star-rating.js" type="text/javascript"></script>
-
-    <%--<!-- optionally if you need to use a theme, then include the theme file as mentioned below -->--%>
-    <%--<script src="thirdparty/bootstrap-star-rating/themes/krajee-svg/theme.js"></script>--%>
-
-    <%--<!-- optionally if you need translation for your language then include locale file as mentioned below -->--%>
-    <%--<script src="thirdparty/bootstrap-star-rating/js/locales/zh.js"></script>--%>
 </head>
 <body class="page-header-fixed">
     <%@include file="header.jsp" %>

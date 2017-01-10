@@ -4,10 +4,11 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/11/3.
+ * 区县，用于中心管理
  */
 public class Town extends ObjectBase {
-    String province;
-    String city;
+    String province;//所属省
+    String city;//所属市
 
     public String getProvince() {
         return province;

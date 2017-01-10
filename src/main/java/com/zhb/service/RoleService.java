@@ -16,32 +16,8 @@ import java.util.Map;
 public class RoleService extends AuditServiceBase {
     public List loadRoles() {
         List list = MemoryCache.getObjectList(Role.class);
-//        List viewList = new ArrayList();
-//        for (int i = 0; i < list.size(); i ++) {
-//            Role role = (Role)list.get(i);
-//            ObjectView view = convertRole(role);
-//            viewList.add(view);
-//        }
-//
-//        QueryResult queryResult = new QueryResult();
-//        queryResult.setList(viewList);
-//        queryResult.setStart(start);
-//        queryResult.setLimit(limit);
-//        queryResult.setTotalCount(totalCount);
-//        queryResult.refreshPage();
         return list;
     }
-
-//    private ObjectView convertRole(Role role) {
-//        ObjectView view = new ObjectView(role);
-//        view.put("departmentId", role.getDepartmentId());
-//        view.put("contact", role.getContact());
-//        view.put("projectCount", 0);
-//        view.put("centerCount", 0);
-////        JSONArray jsonArray = JSONArray.fromObject(role.getRoleIds());
-//        view.put("roleIds", role.getRoleIds());
-//        return view;
-//    }
 
     public void addRole(Role role) throws Exception {
         dao.save(role);

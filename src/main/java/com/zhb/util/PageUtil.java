@@ -2,18 +2,14 @@ package com.zhb.util;
 
 import com.zhb.bean.*;
 import com.zhb.controller.ControllerBase;
-import com.zhb.core.ObjectBase;
 import com.zhb.manager.MemoryCache;
 import com.zhb.manager.PageManager;
 import com.zhb.service.UserService;
-import com.zhb.view.ObjectView;
 import net.sf.json.JSONObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -56,22 +52,11 @@ public class PageUtil {
             autoSaveInterval = 30000;//10second
         jo.put("autoSaveInterval", autoSaveInterval);
         jo.put("userPrivileges", request.getSession().getAttribute(ControllerBase.USER_PRIVILEGES));
+        jo.put("userId", request.getSession().getAttribute(ControllerBase.USER_ID));
         jo.put("userName", request.getSession().getAttribute(ControllerBase.USER_NAME));
         jo.put("debugMode", debugMode);
 
         return jo.toString();
-    }
-
-    private static Map getObjectMap(Class clazz) {
-        Map map = MemoryCache.getObjectMap(clazz);
-        Map viewMap = new HashMap();
-        for (Iterator iterator = map.keySet().iterator(); iterator.hasNext();) {
-            String id = (String)iterator.next();
-            ObjectBase object = (ObjectBase)map.get(id);
-            ObjectView view = new ObjectView(object);
-            viewMap.put(id, view);
-        }
-        return viewMap;
     }
 
     private static long getAutoSaveInterval() {

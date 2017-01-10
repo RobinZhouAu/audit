@@ -19,7 +19,7 @@ import java.util.Map;
  */
 
 @Service("ModifyRecordService")
-public class ModifyRecordService extends ServiceBase {
+public class ModifyRecordService extends AuditServiceBase {
     static String [] OPERATION = {"增加", "修改", "删除", "建议已处理", "分级已处理"};
     public QueryResult loadModifyRecords(int start, int limit, QueryModifyRecordCondition condition) {
         DaoPara daoPara = condition.buildDaoPara();
@@ -79,6 +79,7 @@ public class ModifyRecordService extends ServiceBase {
         }
     }
 
+    //获得模块记录里发生变化的字段列表
     private List getFieldChanged(ModuleRecord oldModuleRecord, ModuleRecord newModuleRecord) {
         List list = new ArrayList();
         JSONObject oldObject = JSONObject.fromObject(oldModuleRecord.getContent());
@@ -98,6 +99,7 @@ public class ModifyRecordService extends ServiceBase {
         return list;
     }
 
+    //判断两个值是否相等
     private boolean equal(Object value1, Object value2) {
         if (value1 == null && value2 != null)
             return false;
@@ -149,6 +151,7 @@ public class ModifyRecordService extends ServiceBase {
         }
     }
 
+    //获得发现里发生变化的字段列表
     private List getFieldChanged(Discovery oldDiscovery, Discovery newDiscovery) {
         List list = new ArrayList();
         if (!equal(oldDiscovery.getLevel(), newDiscovery.getLevel()))
@@ -181,6 +184,7 @@ public class ModifyRecordService extends ServiceBase {
         return list;
     }
 
+    //获得发生变化的依据
     private List getReferenceChanged(Map<String, String> oldReferences, Map newReferenceMap) {
         List list = new ArrayList();
         for (Iterator iterator = newReferenceMap.keySet().iterator(); iterator.hasNext(); ) {
@@ -216,6 +220,7 @@ public class ModifyRecordService extends ServiceBase {
         return list;
     }
 
+    //当单中心报告的依据发生变化时
     public void onCenterReportReferenceChanged(ReportBase report, Map newReferenceMap, String userId) {
         List list = getReferenceChanged(report.getReferenceMap(), newReferenceMap);
         for (int i = 0; i < list.size(); i ++) {
@@ -227,6 +232,7 @@ public class ModifyRecordService extends ServiceBase {
         }
     }
 
+    //当单中心报告的依据发生变化时
     public void onCenterReportReferenceChanged(ReportBase report, String oldReference, String newReference, String userId) {
         if (equal(oldReference, newReference))
             return;
@@ -241,6 +247,7 @@ public class ModifyRecordService extends ServiceBase {
         updateModifyRecord(modifyRecord);
     }
 
+    //当单中心报告的其他值发生变化时
     public void onCenterReportValueChanged(ReportBase report, String fieldName, String oldValue, String newValue, String userId) {
         if (equal(oldValue, newValue))
             return;
@@ -275,6 +282,7 @@ public class ModifyRecordService extends ServiceBase {
         updateModifyRecord(modifyRecord);
     }
 
+    //当单中心报告的"建议已处理"发生变化时
     public void onCenterReportOpinionAcceptedValueChanged(ReportBase report, Discovery discovery, String fieldName, String oldValue, String newValue, String userId) {
         if (equal(oldValue, newValue))
             return;
@@ -288,6 +296,7 @@ public class ModifyRecordService extends ServiceBase {
         updateModifyRecord(modifyRecord);
     }
 
+    //当发现的值发生变化时
     public void onDiscoveryValueChanged(ReportBase report, Discovery discovery, String fieldName, String oldValue, String newValue, String userId) {
         if (equal(oldValue, newValue))
             return;
@@ -301,12 +310,12 @@ public class ModifyRecordService extends ServiceBase {
         updateModifyRecord(modifyRecord);
     }
 
-    public void updateModifyRecord(ModifyRecord modifyRecord) {
+    private void updateModifyRecord(ModifyRecord modifyRecord) {
         modifyRecord.buildFulltext();
         dao.update(modifyRecord);
     }
 
-    public String findDiscoveryModuleId(Discovery discovery) {
+    private String findDiscoveryModuleId(Discovery discovery) {
         Category category = (Category)MemoryCache.getObject(Category.class, discovery.getCategoryId());
         if (category == null)
             return ObjectBase.EMPTY_OBJECT;

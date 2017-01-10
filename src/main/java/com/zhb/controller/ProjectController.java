@@ -32,7 +32,7 @@ public class ProjectController extends ControllerBase {
     @javax.annotation.Resource(name="UserService")
     private UserService userService;
 
-    @RequestMapping("/toProjectManager")
+    @RequestMapping("/toProjectManager")//跳转到项目管理页面
     public String toProjectManager(HttpServletRequest request) {
         Map globalValues = new HashMap();
         List allUsers = userService.loadAllUsers();
@@ -60,6 +60,7 @@ public class ProjectController extends ControllerBase {
         return result;
     }
 
+    //构建JSON转换时需要的class map
     private Map buildClassMap() {
         Map classMap = new HashMap();
         classMap.put("centers", ProjectCenter.class);

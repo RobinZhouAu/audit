@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
- * 项目阶段稽查报告
+ * 报告基类，单中心报告和阶段报告都由此类继承
  */
 public abstract class ReportBase extends ObjectBase {
     public static final int STATUS_UNREADY = 0;//模块填写中
@@ -28,16 +28,16 @@ public abstract class ReportBase extends ObjectBase {
     public static final int CHECK_STATUS_ASSIGNED = 2;//评审中（已领取）
     public static final int CHECK_STATUS_SUBMITTED = 3;//已评审
 
-    String projectId = EMPTY_OBJECT;
-    String stageId = EMPTY_OBJECT;
-    String creatorId = EMPTY_OBJECT;
+    String projectId = EMPTY_OBJECT;//项目Id
+    String stageId = EMPTY_OBJECT;//阶段Id
+    String creatorId = EMPTY_OBJECT;//分类Id
     String leaderId = EMPTY_OBJECT;//项目经理
     String checkUserId = EMPTY_OBJECT;//评审人
     String memberIds = EMPTY_JSON_ARRAY;
     int status = STATUS_UNREADY;//报告状态
     int checkStatus = CHECK_STATUS_UNREADY;
-    String projectName;
-    String stageName;
+    String projectName;//项目名称
+    String stageName;//阶段名称
     String content = EMPTY_JSON_OBJECT;
 
     Timestamp created;
@@ -47,13 +47,12 @@ public abstract class ReportBase extends ObjectBase {
     Timestamp submittedToCheckTime;//提交评审时间
     Timestamp checkAssignedTime;//评审领用时间
     Timestamp checkSubmittedTime;//评审提交时间
-    Timestamp projectCreated;
+    Timestamp projectCreated;//项目创建时间
     int canceled = 0;//是否被取消
 
     //以下内容为报告里修改的内容，以JSON方式存储在content字段里
     String overview;//稽查概述
     String overviewOpinion; //稽查概述的评审意见
-//    int overviewAccepted; //稽查概述的评审意见已处理
     Map<String, String> referenceMap = new HashMap<>();//参考依据Map
     Map<String, String> problemMap = new HashMap<>();//用于记录报告里的问题归类
     Map<String, String> problemOpinionMap = new HashMap<>();//用于记录报告里的问题归类的评审意见
@@ -109,14 +108,6 @@ public abstract class ReportBase extends ObjectBase {
         this.opinionAcceptedMap = opinionAcceptedMap;
     }
 
-//    public int getOverviewAccepted() {
-//        return overviewAccepted;
-//    }
-
-//    public void setOverviewAccepted(int overviewAccepted) {
-//        this.overviewAccepted = overviewAccepted;
-//    }
-
     public String getOverviewOpinion() {
         return overviewOpinion;
     }
@@ -141,14 +132,6 @@ public abstract class ReportBase extends ObjectBase {
         this.descriptionOpinionMap = descriptionOpinionMap;
     }
 
-//    public Map<String, String> getDescriptionMap() {
-//        return descriptionMap;
-//    }
-//
-//    public void setDescriptionMap(Map<String, String> descriptionMap) {
-//        this.descriptionMap = descriptionMap;
-//    }
-
     public Map<String, String> getProblemMap() {
         return problemMap;
     }
@@ -156,14 +139,6 @@ public abstract class ReportBase extends ObjectBase {
     public void setProblemMap(Map<String, String> problemMap) {
         this.problemMap = problemMap;
     }
-
-//    public String getLeaderId() {
-//        return leaderId;
-//    }
-
-//    public void setLeaderId(String leaderId) {
-//        this.leaderId = leaderId;
-//    }
 
     public String getMemberIds() {
         return memberIds;

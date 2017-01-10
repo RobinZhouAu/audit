@@ -63,7 +63,6 @@
     </div>
     <div class="clearfix"></div>
     <script src="js/data-structure.js" type="text/javascript"></script>
-    <%--<script src="js/test.js" type="text/javascript"></script>--%>
     <script src="js/task-report-manager.js" type="text/javascript"></script>
 </body>
 

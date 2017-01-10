@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/11/9.
+ * 项目比较结果，用于项目修改时来记录项目变化的内容
  */
 public class ProjectCompareResult {
     boolean projectNameChanged = false;

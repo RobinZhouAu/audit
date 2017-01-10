@@ -13,7 +13,7 @@ var StageCenterManager = function(){
         initTemplate: function() {
             var stageCenterManagerTemplate =
                 '<tr>' +
-                '<td>${centerId}</td>' +
+                '<td>${code}</td>' +
                 '<td>${name}</td>' +
                 '<td>${stageName}</td>' +
                 '<td>${$item.getStatusString($item.data)}</td>' +

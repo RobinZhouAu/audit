@@ -25,30 +25,18 @@ public abstract class ObjectBase implements Serializable{
 
     @SetMyAnnotation(needView = true)
     protected String name;
-//    protected int objectType;
-
-//    protected String objectClassID;
-
     public static String EMPTY_OBJECT = "-";
     public static String EMPTY_JSON_ARRAY = "[]";
     public static String EMPTY_JSON_OBJECT = "{}";
-    public static String EVERYONE = "everyone";
     public ObjectBase(){
 
     }
 
-//    public ObjectBase(String id, String name) {
-//        this.id = id;
-//        this.name = name;
-//    }
-
-    public ObjectBase(String id, String name, int objectType){
+    public ObjectBase(String id, String name) {
         this.id = id;
         this.name = name;
-//        this.objectType = objectType;
     }
 
-//    @Column(name="id", nullable=true)
     public String getId() {
         return id;
     }
@@ -57,7 +45,6 @@ public abstract class ObjectBase implements Serializable{
         this.id = id;
     }
 
-//    @Column(name="name", nullable=true)
     public String getName() {
         return name;
     }
@@ -66,23 +53,6 @@ public abstract class ObjectBase implements Serializable{
         this.name = name;
     }
 
-//    public int getObjectType() {
-//        return objectType;
-//    }
-//
-//    public void setObjectType(int objectType) {
-//        this.objectType = objectType;
-//    }
-//
-//
-//    public String getObjectClassID() {
-//        return objectClassID;
-//    }
-//
-//    public void setObjectClassID(String objectClassID) {
-//        this.objectClassID = objectClassID;
-//    }
-
     public static String generateID() {
         java.util.UUID uuid = java.util.UUID.randomUUID();
         String id = uuid.toString().toUpperCase();
@@ -90,13 +60,6 @@ public abstract class ObjectBase implements Serializable{
         return id;
     }
     
-    public int overrideHashCode(String keyOne,String keyTwo) {
-		final int prime = 31;
-        int result = 1;
-        result = prime * result + ((keyOne == null) ? 0 : keyOne.hashCode());
-        result = prime * result + ((keyTwo == null) ? 0 : keyTwo.hashCode());
-        return result;
-	}
     /**
      * 清除操作，具体操作由子类实现
      */

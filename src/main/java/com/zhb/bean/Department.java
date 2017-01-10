@@ -9,11 +9,12 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 部门（用户所属部门）
  */
 public class Department extends ObjectBase {
-    String parentId;
-    String fullPathName;
-    List<Department> children = new ArrayList<>();
+    String parentId;//父部门Id
+    String fullPathName;//含父部门的名称
+    List<Department> children = new ArrayList<>();//子部门
 
     public void addChild(Department child) {
         children.add(child);
@@ -52,16 +53,5 @@ public class Department extends ObjectBase {
         Collections.sort(children, new ObjectNameComparator());
         for (Department child : children)
             child.sortChildren();
-//        for (int i = 0; i < children.size(); i ++) {
-//            Department child1 = children.get(i);
-//            for (int j = i + 1; j < children.size(); j ++) {
-//                Department child2 = children.get(j);
-//                if (child1.getName().compareTo(child2.getName()) > 0) {
-//                    children.set(i, child2);
-//                    children.set(j, child1);
-//                    child1 = child2;
-//                }
-//            }
-//        }
     }
 }

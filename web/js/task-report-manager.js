@@ -55,7 +55,6 @@ var TaskReportManager = function(){
                         '{{if canceled == 0 && status != 5}}' +
                             '<a title="生成原始版稽查记录表" pid="EDIT_TASK_REPORT" href="javascript:void(0)" class="table-operation-icon create-original-report"><i class="glyphicon glyphicon-th-list"></i></a>' +
                         '{{/if}}' +
-                        //'<a title="打印" href="printTaskReport?id=${id}" pid="PRINT" class="table-operation-icon"><i class="glyphicon glyphicon-print"></i></a>' +
                     '</td>' +
                 '</tr>';
             $.template("taskReportTemplate", taskReportTemplate);

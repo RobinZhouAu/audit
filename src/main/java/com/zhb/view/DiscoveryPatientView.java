@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/10/7.
+ * 报告里的第三层数据，受试者的视图
  */
 public class DiscoveryPatientView {
     int index = 0;

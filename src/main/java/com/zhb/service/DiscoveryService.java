@@ -209,6 +209,8 @@ public class DiscoveryService extends AuditServiceBase {
 
     public boolean endEditDiscovery(String discoveryId, String  userId) {
         Discovery discovery = loadDiscovery(discoveryId);
+        if (discovery == null)
+            return true;
         LockManager.releaseLock(discovery.getCode(), userId);
         return true;
     }

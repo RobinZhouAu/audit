@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/10/7.
+ * 报告里的第一层数据，分级的视图
  */
 public class DiscoveryLevelView {
     int index = 0;

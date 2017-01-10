@@ -10,7 +10,7 @@
             <column name="id" not-null="true" length="14"/>
         </id>
         <property name="name" type="java.lang.String">
-            <column name="name" not-null="true" length="64" />
+            <column name="name" not-null="true" length="100" />
         </property>
         <property name="stageCount" type="java.lang.Integer">
             <column name="stageCount" not-null="true" />

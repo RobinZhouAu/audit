@@ -23,11 +23,6 @@
             counter-reset: elementcounter;
             padding-left: 0;
         }
-        /*.problem-list li:before{*/
-            /*content: counter(elementcounter) ".";*/
-            /*counter-increment:elementcounter;*/
-            /*!*font-weight: bold;*!*/
-        /*}*/
         .problem-edit-control {
             margin-left: 20px;
         }
@@ -67,10 +62,6 @@
             margin-left: 5px;
             float: left;
         }
-        /*.reference-container {*/
-            /*margin-left: 80px;*/
-        /*}*/
-
         .level2-item {
             margin-left: 5px;
         }
@@ -299,9 +290,6 @@
                     <div id="discovery-container">
                     </div>
                 </div><%--part3--%>
-                <%--<div class="font-hwxh-16">附录1：</div>--%>
-                <%--<br>--%>
-                <%--<div class="text-center font-hwxh-bold-15">稽查发现问题程度分级</div>--%>
             </div>
         </div><%--page-container--%>
         </div>

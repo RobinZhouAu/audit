@@ -14,7 +14,6 @@
     <%@include file="jspbase.jsp" %>
 </head>
 <body class="page-header-fixed">
-    <%--<%@include file="header.jsp" %>--%>
     <div class="container-fluid">
         <div class="page-container">
             <ol class="breadcrumb">

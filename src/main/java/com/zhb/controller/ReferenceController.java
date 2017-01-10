@@ -19,7 +19,7 @@ public class ReferenceController extends ControllerBase {
     @javax.annotation.Resource(name="ReferenceService")
     private ReferenceService referenceService;
 
-    @RequestMapping("/toReferenceManager")
+    @RequestMapping("/toReferenceManager")//跳转到依据管理页面
     public String toReferenceManager(HttpServletRequest request) {
         return "/jsp/reference-manager";
     }

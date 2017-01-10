@@ -1,6 +1,7 @@
 package com.zhb.service;
 
 import com.zhb.core.ObjectBase;
+import com.zhb.core.ServiceBase;
 import com.zhb.dao.Condition;
 import com.zhb.dao.ConditionGroup;
 import com.zhb.dao.DaoPara;
@@ -13,13 +14,15 @@ import java.text.SimpleDateFormat;
 
 /**
  * Created by zhouhaibin on 2016/10/17.
+ * 本项目所有Service的基类
  */
-public class AuditServiceBase extends ServiceBase {
+public abstract class AuditServiceBase extends ServiceBase {
     protected static Logger logger = Logger.getLogger(AuditServiceBase.class);
     protected final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     @javax.annotation.Resource(name="UserService")
     protected UserService userService;
 
+    //构建查询参数
     public DaoPara buildDaoPara(int start, int limit, String userId, String projectId, String stageId, String centerId, String keywords) {
         DaoPara daoPara = new DaoPara();
         //如果是管理员或者打印员，则列出所有的内容，否则，只列出成员包含自己的内容
@@ -50,6 +53,7 @@ public class AuditServiceBase extends ServiceBase {
         daoPara.setLimit(limit);
         return daoPara;
     }
+
     public boolean isValueEmpty(String value) {
         if (value != null && !value.isEmpty() && !value.equals(ObjectBase.EMPTY_OBJECT) && !value.equals("null"))
             return false;

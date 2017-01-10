@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 
 /**
  * Created by zhouhaibin on 2016/11/30.
+ * 资源锁
  */
 public class ResourceLock {
     public static final int RESOURCE_TYPE_TASK_MODULE = 0;
@@ -14,10 +15,10 @@ public class ResourceLock {
     public static final int RESOURCE_TYPE_CENTER_REPORT = 2;
     public static final int RESOURCE_TYPE_STAGE_REPORT = 3;
 
-    String resourceId;
-    int resourceType;
-    String userId;
-    Timestamp lastUpdateTime;
+    String resourceId;//资源Id
+    int resourceType;//资源类型
+    String userId;//加锁用户Id
+    Timestamp lastUpdateTime;//最后更新时间
 
     public ResourceLock() {
     }

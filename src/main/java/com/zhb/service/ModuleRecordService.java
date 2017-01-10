@@ -1,6 +1,7 @@
 package com.zhb.service;
 
 import com.zhb.bean.*;
+import com.zhb.core.ObjectBase;
 import com.zhb.manager.LockManager;
 import com.zhb.manager.MemoryCache;
 import net.sf.json.JSONObject;
@@ -13,15 +14,12 @@ import java.util.List;
  */
 
 @Service("ModuleRecordService")
-public class ModuleRecordService extends ServiceBase {
+public class ModuleRecordService extends AuditServiceBase {
     @javax.annotation.Resource(name="ModifyRecordService")
     private ModifyRecordService modifyRecordService;
 
     @javax.annotation.Resource(name="TaskService")
     private TaskService taskService;
-
-    @javax.annotation.Resource(name="ModuleService")
-    private ModuleService moduleService;
 
     @javax.annotation.Resource(name="ProjectService")
     private ProjectService projectService;
@@ -98,6 +96,7 @@ public class ModuleRecordService extends ServiceBase {
         return moduleRecord;
     }
 
+    //根据JSON字符串生成模块记录
     public ModuleRecord createModuleRecordFromJsonObject(JSONObject jsonObject) {
         ModuleRecord moduleRecord = new ModuleRecord();
         moduleRecord.setId(jsonObject.getString("id"));
@@ -108,11 +107,12 @@ public class ModuleRecordService extends ServiceBase {
         return moduleRecord;
     }
 
+    //创建一个模块记录，并填充其中需要继承的字段信息
     public JSONObject createModuleRecordWithInherit(String taskId, String moduleId) {
         JSONObject jsonObject = new JSONObject();
         Task task = taskService.loadTask(taskId);
         Project project = projectService.loadProject(task.getProjectId());
-        Table table = moduleService.loadModuleTable(moduleId);
+        Table table = getModuleTable(moduleId);
         ProjectStage projectStage = project.findStage(task.getStageId());
         StageCenter stageCenter = projectStage.findCenter(task.getCenterId());
         ProjectCenter projectCenter = project.findCenter(task.getCenterId());
@@ -171,7 +171,7 @@ public class ModuleRecordService extends ServiceBase {
             return;
         ModuleRecord moduleRecord = (ModuleRecord)list.get(0);
         JSONObject jsonObject = JSONObject.fromObject(moduleRecord.getContent());
-        Table table = moduleService.loadModuleTable(moduleId);
+        Table table = getModuleTable(moduleId);
         for (Field field : table.getFields()) {
             if (field.getInheritFrom() == null)
                 continue;
@@ -193,13 +193,13 @@ public class ModuleRecordService extends ServiceBase {
 
     //当项目里配置的组长或组员信息发生变化时，更新“项目简介”模块的元数据信息
     public void updateModuleRecordAfterProjectMemberChanged(String taskId, String fromUserName, String toUserName) {
-        String moduleId = "90";//项目简介
+        String moduleId = Module.MODULE_ID_PROJECT_DESCRIPTION;//项目简介
         List list = loadModuleRecordsByTaskIdAndModuleId(taskId, moduleId);
         if (list.size() == 0)
             return;
         ModuleRecord moduleRecord = (ModuleRecord)list.get(0);
         JSONObject jsonObject = JSONObject.fromObject(moduleRecord.getContent());
-        Table table = moduleService.loadModuleTable(moduleId);
+        Table table = getModuleTable(moduleId);
         for (Field field : table.getFields()) {
             if (field.getInheritFrom() == null)
                 continue;
@@ -215,5 +215,14 @@ public class ModuleRecordService extends ServiceBase {
         }
         moduleRecord.setContent(jsonObject.toString());
         dao.update(moduleRecord);
+    }
+
+    //得到模块对应的表结构
+    public Table getModuleTable(String moduleId) {
+        Module module = (Module)MemoryCache.getObject(Module.class, moduleId);
+        if (module.getTableId().equals(ObjectBase.EMPTY_OBJECT))
+            return null;
+        Table table = (Table)MemoryCache.getObject(Table.class, module.getTableId());
+        return table;
     }
 }

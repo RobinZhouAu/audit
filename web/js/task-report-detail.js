@@ -2,19 +2,10 @@
  * Created by zhouhaibin on 2016/9/19.
  */
 var TaskReportDetail = function(){
-    var MODE_DETAIL = "detail";
-    var MODE_PRINT = "print";
-
-    var mode;
     var f;
     return{
         init: function() {
             f = this;
-            mode = Global.mode;
-            if (mode == MODE_PRINT) {
-                $(".not-print").remove();
-            }
-
             f.initTemplate();
             f.bindEvent();
             f.load();
@@ -46,18 +37,6 @@ var TaskReportDetail = function(){
         },
 
         bindEvent: function() {
-            $("#print").on("click", function() {
-                var url = "printTaskReport?id=" + Global.reportId;
-                window.open(url, '_blank');
-                return false;
-            });
-
-        },
-
-        lastStep: function() {
-            if (mode == MODE_PRINT) {
-                window.print();
-            }
         },
 
         load: function() {
@@ -69,7 +48,6 @@ var TaskReportDetail = function(){
                 f: function(response) {
                     f.render(response);
                     Global.refreshControlsByPrivilege();
-                    f.lastStep();
                 }
             });
 

@@ -22,7 +22,6 @@
                 <li>稽查任务</li>
                 <li class="active">稽查模块</li>
             </ol>
-            <%@include file="task-header.jsp" %>
             <div id="task-module-container">
             </div>
         </div>

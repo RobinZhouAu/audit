@@ -54,9 +54,9 @@ var Test = function() {
                 for (var j = 0; j < project.centers.length; j ++) {
                     var center = project.centers[j];
                     project.stages[i].stageCenters.push({
-                        centerId: center.id,
-                        leaderId: "U002",
-                        memberIdList: ["U003", "U004"]
+                        centerId: center.id
+                        //leaderId: "U002",
+                        //memberIdList: ["U003", "U004"]
                     });
                 }
                 for (var j = 0; j < Global.allModules.length; j ++) {

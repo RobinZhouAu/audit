@@ -4,12 +4,12 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/10/5.
- * 违法依据
+ * 依据
  */
 public class Reference extends ObjectBase {
-    String moduleId;
-    String categoryId;
-    String problemId;
+    String moduleId;//模块Id
+    String categoryId;//分类Id
+    String problemId;//问题归类Id
 
     public Reference() {
 

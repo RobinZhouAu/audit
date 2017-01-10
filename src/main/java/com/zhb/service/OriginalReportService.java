@@ -43,7 +43,8 @@ public class OriginalReportService extends AuditServiceBase {
         return true;
     }
 
-    public boolean checkModuleRecords(List moduleRecords) {
+    //检查模块记录，是否非空字段都填写了
+    private boolean checkModuleRecords(List moduleRecords) {
         Map moduleMap = MemoryCache.getObjectMap(Module.class);
         Map tableMap = MemoryCache.getObjectMap(Table.class);
         for (int i = 0; i < moduleRecords.size(); i ++) {

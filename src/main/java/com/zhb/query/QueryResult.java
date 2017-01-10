@@ -8,7 +8,7 @@ import java.util.List;
  * User: Administrator
  * Date: 12-10-24
  * Time: 下午12:48
- * To change this template use File | Settings | File Templates.
+ * 通用查询结果集（带分页）
  */
 public class QueryResult {
     int start;

@@ -1,6 +1,5 @@
 package com.zhb.dao;
 
-import com.zhb.core.BaseConstants;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -22,6 +21,15 @@ import java.util.Map.Entry;
 @Repository("HibernateDao")
 @SuppressWarnings("all")
 public class HibernateDao<T> {
+    /** 未知 */
+    public static final int DATABASE_TYPE_UNKNOWN = -1;
+    /** sql server */
+    public static final int DATABASE_TYPE_SQLSERVER = 0;
+    /** oracle */
+    public static final int DATABASE_TYPE_ORACLE = 1;
+    /** db2 */
+    public static final int DATABASE_TYPE_DB2 = 2;
+
     Logger logger = Logger.getLogger(HibernateDao.class);
     private SessionFactory sessionFactory;
 //    private DaoPara daoPara;
@@ -800,12 +808,12 @@ public class HibernateDao<T> {
     }
 
     /**
-     * 获取数据库类型，对应枚举在 BaseConstants.DATABASE_TYPE_XXX 定义
+     * 获取数据库类型
      *
      * @return
      */
     public int getDbType() {
-        int dbType = BaseConstants.DATABASE_TYPE_UNKNOWN;
+        int dbType = DATABASE_TYPE_UNKNOWN;
         try {
             Connection c = getConnection();
             String company = c.getMetaData().getDatabaseProductName();
@@ -815,13 +823,13 @@ public class HibernateDao<T> {
                 company = company.toLowerCase();
 
                 if (company.startsWith("microsoft")) {
-                    dbType = BaseConstants.DATABASE_TYPE_SQLSERVER;
+                    dbType = DATABASE_TYPE_SQLSERVER;
                 }
                 if (company.startsWith("oracle")) {
-                    dbType = BaseConstants.DATABASE_TYPE_ORACLE;
+                    dbType = DATABASE_TYPE_ORACLE;
                 }
                 if (company.startsWith("db2")) {
-                    dbType = BaseConstants.DATABASE_TYPE_DB2;
+                    dbType = DATABASE_TYPE_DB2;
                 }
             }
 

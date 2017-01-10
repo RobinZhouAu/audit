@@ -56,7 +56,7 @@ var DataStructure = function(){
                     length: 14,
                     id: "id"
                 },{
-                    length: 64,
+                    length: 100,
                     id: "name"
                 },{
                     length: 64,

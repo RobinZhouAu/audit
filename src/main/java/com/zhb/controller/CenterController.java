@@ -20,7 +20,7 @@ public class CenterController extends ControllerBase {
     @javax.annotation.Resource(name="CenterService")
     private CenterService centerService;
 
-    @RequestMapping("/toCenterManager")
+    @RequestMapping("/toCenterManager")//跳转到中心管理页
     public String toCenterManager(HttpServletRequest request) {
         return "/jsp/center-manager";
     }
@@ -64,16 +64,6 @@ public class CenterController extends ControllerBase {
         centerService.deleteCenter(id);
         return successResult();
     }
-
-//    @RequestMapping("/loadCenter")
-//    @ResponseBody
-//    public Map loadCenter(HttpServletRequest request) {
-//        String id = ServletRequestUtils.getStringParameter(request, "id", null);
-//        Center center = centerService.getCenter(id);
-//        Map result = new HashMap();
-//        result.put("item", center);
-//        return result;
-//    }
 
     @RequestMapping("/loadProvince")
     @ResponseBody

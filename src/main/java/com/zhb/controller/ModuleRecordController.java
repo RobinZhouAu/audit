@@ -112,6 +112,7 @@ public class ModuleRecordController extends ControllerBase {
         return successResult();
     }
 
+    //加载需要被继承的元数据，用于新建一个模块记录而此模块记录的字段需要从项目信息里继承的时候使用
     @RequestMapping("/loadInheritMetadata")
     @ResponseBody
     public Map loadInheritMetadata(HttpServletRequest request) {

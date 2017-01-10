@@ -20,7 +20,6 @@
         <div class="page-container">
             <ol class="breadcrumb">
                 <li class="active">项目管理</li>
-                <%--<li class="active">项目列表</li>--%>
             </ol>
             <div id="project-manager-page">
                 <div class="row">
@@ -107,7 +106,6 @@
                                 <label class="col-sm-2 control-label">稽查类型</label>
                                 <div class="col-sm-2">
                                     <select id="project-auditType" class="form-control">
-                                        <%--<option>常规稽查</option>--%>
                                     </select>
                                 </div>
                             </div>
@@ -244,21 +242,21 @@
                     <div class="col-md-10 col-md-offset-1 project-property-page" page="2">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-left">项目目的</label>
+                                <label class="col-sm-2 control-label text-left">稽查目的</label>
                                 <div class="col-md-10 col-sm-12">
                                     <textarea id="project-purpose" class="form-control"></textarea>
                                 </div>
                             </div>
                             <hr>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-left">项目范围</label>
+                                <label class="col-sm-2 control-label text-left">稽查范围</label>
                                 <div class="col-md-10 col-sm-12">
                                     <textarea id="project-range" class="form-control"></textarea>
                                 </div>
                             </div>
                             <hr>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label text-left">项目依据</label>
+                                <label class="col-sm-2 control-label text-left">稽查依据</label>
                                 <div class="col-md-10 col-sm-12">
                                     <textarea id="project-foundation" class="form-control"></textarea>
                                 </div>

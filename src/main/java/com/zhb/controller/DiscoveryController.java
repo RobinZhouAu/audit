@@ -36,7 +36,7 @@ public class DiscoveryController extends ControllerBase {
         return "discovery-manager";
     }
 
-    @RequestMapping("/toDiscoveryList")
+    @RequestMapping("/toDiscoveryList")//跳转到发现列表页（未入报告的稽查发现列表）
     public String toDiscoveryList(HttpServletRequest request) {
         String taskId = request.getParameter("taskId");
         String type = request.getParameter("type");
@@ -176,11 +176,7 @@ public class DiscoveryController extends ControllerBase {
         String id = getStringParameter(request, "id");
         Discovery discovery = discoveryService.loadDiscovery(id);
         int inReport = getIntParameter(request, "inReport");
-//        boolean needCompleteMetadata = false;
-//        Map result = new HashMap();
         if (!discoveryService.updateDiscoveryInReport(id, inReport)) {
-//            needCompleteMetadata = true;
-//            result.put("needCompleteMetadata",)
             return popupMessage(discoveryService.getErrorMessage());
         }
         taskService.updateTaskLastModify(discovery.getTaskId());

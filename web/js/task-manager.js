@@ -117,6 +117,8 @@ var TaskManager = function(){
         render: function(result) {
             $("#task-container").html($.tmpl("taskTemplate", result.list, {
                 getStatusString: function (item) {
+                    if (item.canceled)
+                        return GlobalConstants.REPORT_STATUS[6];
                     return GlobalConstants.REPORT_STATUS[item.status];
                 }
             }));

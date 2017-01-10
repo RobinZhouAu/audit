@@ -6,7 +6,7 @@ import com.zhb.dao.Condition;
 import com.zhb.dao.DaoPara;
 import com.zhb.manager.MemoryCache;
 import com.zhb.query.QueryResult;
-import com.zhb.view.ObjectView;
+import com.zhb.core.ObjectView;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Service;
 
@@ -137,18 +137,6 @@ public class ProjectService extends AuditServiceBase {
         dao.executeNativeSql(sql, new Object[]{id});
     }
 
-    public Project loadProjectName(String id) {
-        if (projectMap != null) {
-            if (projectMap.containsKey(id))
-                return projectMap.get(id);
-        }
-        Project project = (Project)loadObjectById(id, Project.class);
-        if (projectMap == null)
-            projectMap = new HashMap<>();
-        projectMap.put(project.getId(), project);
-        return project;
-    }
-
     public List loadProjectStages(String projectId) {
         Project project = loadProject(projectId);
         List viewList = new ArrayList();
@@ -239,11 +227,13 @@ public class ProjectService extends AuditServiceBase {
             return viewList;
         for (StageCenter stageCenter : projectStage.getStageCenters()) {
             Center center = (Center)centerMap.get(stageCenter.getCenterId());
+            String centerCode = project.findCenterCode(stageCenter.getCenterId());
             ObjectView view = new ObjectView(stageCenter);
             User leader = (User)MemoryCache.getObject(User.class, stageCenter.getLeaderId());
             String leaderName = leader != null ? leader.getName() : "";
             view.put("name", center.getName());
             view.put("centerId", stageCenter.getCenterId());
+            view.put("code", centerCode);
             view.put("stageName", projectStage.getName());
             view.put("leaderName", leaderName);
             view.putDate("projectCreated", project.getCreated());
@@ -266,7 +256,6 @@ public class ProjectService extends AuditServiceBase {
                     viewList.set(i, view2);
                     viewList.set(j, view1);
                     center1 = center2;
-                    centerId1 = centerId2;
                     view1 = view2;
                 }
             }
@@ -358,6 +347,7 @@ public class ProjectService extends AuditServiceBase {
         return true;
     }
 
+    //是否可以修改成员信息
     private boolean canChangeMember(ProjectCompareResult projectCompareResult) {
         for (Iterator iterator = projectCompareResult.getStageCenterMemberChanged().keySet().iterator(); iterator.hasNext();) {
             String stageId = (String) iterator.next();
@@ -373,6 +363,7 @@ public class ProjectService extends AuditServiceBase {
         return true;
     }
 
+    //当项目内容改变时，其他相应的对象也同步做更新
     private void updateOtherObjectAfterProjectChanged(Project project, ProjectCompareResult projectCompareResult) {
         if (projectCompareResult.isProjectNameChanged()) {
             updateOtherObjectAfterProjectNameChanged(project);
@@ -394,24 +385,6 @@ public class ProjectService extends AuditServiceBase {
             String sql = "delete from Task where projectId=? and stageId=?";
             dao.executeNativeSql(sql,  new Object[]{project.getId(), projectStage.getId()});
         }
-
-        //不需要自动增加
-//        //如果有中心被增加，则增加对应的稽查任务
-//        for (Iterator iterator = projectCompareResult.getStageCenterAdded().keySet().iterator(); iterator.hasNext();) {
-//            String stageId = (String)iterator.next();
-//            List<StageCenter> centerAdded = projectCompareResult.getStageCenterAdded().get(stageId);
-//            for (StageCenter stageCenter : centerAdded) {
-//                ProjectStage projectStage = project.findStage(stageId);
-//                taskService.addTask(project, projectStage, stageCenter);
-//            }
-//        }
-
-//        //如果有阶段被增加，则增加对应的稽查任务
-//        for (ProjectStage projectStage : projectCompareResult.getProjectStageAdded()) {
-//            for (StageCenter stageCenter : projectStage.getStageCenters()) {
-//                taskService.addTask(project, projectStage, stageCenter);
-//            }
-//        }
 
         //如果有中心的成员被修改，则更新对应的稽查任务，单中心报告，原始版稽查记录表，阶段报告，UserResource和稽查模块中的项目简介模块
         for (Iterator iterator = projectCompareResult.getStageCenterMemberChanged().keySet().iterator(); iterator.hasNext();) {
@@ -437,9 +410,9 @@ public class ProjectService extends AuditServiceBase {
                 moduleRecordService.updateModuleRecordAfterProjectMemberChanged(stageCenter);
             }
         }
-
     }
 
+    //当项目名称改变时，需要同步更新其他表的字段
     private void updateOtherObjectAfterProjectNameChanged(Project project) {
         Object[] parameters = new Object[]{project.getName(), project.getId()};
         String sql = "update Task set projectName=? where projectId=?";
@@ -452,6 +425,7 @@ public class ProjectService extends AuditServiceBase {
         dao.executeNativeSql(sql, parameters);
     }
 
+    //检查是否可以在修改项目的时候，删除中心，模块或阶段
     private boolean canDeleteAnything(Project project, ProjectCompareResult projectCompareResult) {
         for (Iterator iterator = projectCompareResult.getStageCenterDeleted().keySet().iterator(); iterator.hasNext();) {
             String stageId = (String)iterator.next();
@@ -488,6 +462,7 @@ public class ProjectService extends AuditServiceBase {
         return true;
     }
 
+    //检查阶段是否已经存在数据
     private boolean stageExistAnyData(String projectId, String stageId) {
         String sql = "select count(*) from ModuleRecord where taskId in(select id from Task where projectId=? and stageId=?)";
         int count = dao.queryNativeForInt(sql, new Object[]{projectId, stageId});
@@ -501,6 +476,7 @@ public class ProjectService extends AuditServiceBase {
         return false;
     }
 
+    //检查中心是否已经存在数据
     private boolean centerExistAnyData(String stageCenterId) {
         String taskId = stageCenterId;
         String sql = "select count(*) from ModuleRecord where taskId=?";
@@ -516,6 +492,7 @@ public class ProjectService extends AuditServiceBase {
         return false;
     }
 
+    //检查模块是否已经存在任何数据
     private boolean moduleExistAnyData(String projectId, String stageId, String moduleId) {
         String sql = "select * from ModuleRecord where taskId in(select id from Task where projectId=? and stageId=?) and moduleId=?";
         int count = dao.queryNativeForInt(sql, new Object[]{projectId, stageId, moduleId});
@@ -568,6 +545,5 @@ public class ProjectService extends AuditServiceBase {
         }
         return true;
     }
-
 }
 

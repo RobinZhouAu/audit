@@ -4,10 +4,11 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/9/29.
+ * 问题归类
  */
 public class Problem extends ObjectBase {
-    String categoryId = EMPTY_OBJECT;
-    String moduleId = EMPTY_OBJECT;
+    String categoryId = EMPTY_OBJECT;//分类Id
+    String moduleId = EMPTY_OBJECT;//模块Id
 
     public String getCategoryId() {
         return categoryId;

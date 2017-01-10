@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 
 /**
  * Created by zhouhaibin on 2016/10/26.
+ * 为了写好日志加载的拦截器
  */
 public class LogInterceptor implements HandlerInterceptor {
     private Logger logger = Logger.getLogger(LogInterceptor.class);

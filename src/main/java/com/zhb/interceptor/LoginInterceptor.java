@@ -18,6 +18,7 @@ import java.util.Set;
 
 /**
  * Created by zhouhaibin on 2016/10/26.
+ * 用户登陆认证的拦截器
  */
 public class LoginInterceptor implements HandlerInterceptor {
     private Logger logger = Logger.getLogger(LoginInterceptor.class);
@@ -46,8 +47,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-        if (debugMode) {
-            request.getSession().setMaxInactiveInterval(30);
+        if (debugMode) {//此部分是测试模式下的使用的代码，和正式系统无关
+            request.getSession().setMaxInactiveInterval(600);
             String userId = (String)request.getSession().getAttribute(ControllerBase.USER_ID);
             if (userId == null) {
                 userId = "U002";
@@ -64,15 +65,11 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         request.getSession().setMaxInactiveInterval(MemoryCache.sessionTimeout);
 
-        //1、请求到登录页面 放行
         String servletPath = request.getServletPath();
         if(ignorUrl.contains(servletPath)) {
             return true;
         }
 
-        //2、TODO 比如退出、首页等页面无需登录，即此处要放行 允许游客的请求
-
-        //3、如果用户已经登录 放行
         String userId = (String)request.getSession().getAttribute(ControllerBase.USER_ID);
         if(userId != null) {
             if (servletPath.equals(MODIFY_PASSWORD_URL) || servletPath.equals("/modifyPassword"))
@@ -81,11 +78,10 @@ public class LoginInterceptor implements HandlerInterceptor {
                 response.sendRedirect(request.getContextPath() + MODIFY_PASSWORD_URL);
                 return false;
             }
-            //更好的实现方式的使用cookie
             return true;
         }
 
-        //4、非法请求 即这些请求需要登录后才能访问
+        //非法请求 即这些请求需要登录后才能访问
         //重定向到登录页面
         response.sendRedirect(request.getContextPath() + LOGIN_URL);
         return false;

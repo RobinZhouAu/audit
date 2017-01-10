@@ -14,19 +14,8 @@
     <%@include file="jspbase.jsp" %>
 </head>
 <body class="page-header-fixed">
-    <%--<%@include file="header.jsp" %>--%>
     <div class="container-fluid">
         <div class="page-container">
-            <%--<ol class="breadcrumb">--%>
-                <%--<li>稽查管理</li>--%>
-                <%--<li class="active">稽查任务</li>--%>
-            <%--</ol>--%>
-            <%--<form class="navbar-form navbar-right" onkeydown="if(event.keyCode==13)return false;" >--%>
-                <%--<div class="form-group">--%>
-                    <%--<input id="keywords" type="text" class="form-control" placeholder="输入搜索关键字">--%>
-                <%--</div>--%>
-                <%--<button id="search" class="btn btn-default">搜索</button>--%>
-            <%--</form>--%>
             <div class="margin-top-10">
                 <table class="table table-striped table-bordered table-hover dataTable">
                     <thead>
@@ -42,7 +31,6 @@
                     <tbody id="lock-container">
                     </tbody>
                 </table>
-                <%--<div id="pagination"></div>--%>
             </div>
         </div>
     </div>

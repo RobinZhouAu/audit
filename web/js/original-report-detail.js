@@ -2,19 +2,10 @@
  * Created by zhouhaibin on 2016/9/19.
  */
 var OriginalReportDetail = function(){
-    var MODE_DETAIL = "detail";
-    var MODE_PRINT = "print";
-
-    var mode;
     var f;
     return{
         init: function() {
             f = this;
-            mode = Global.mode;
-            if (mode == MODE_PRINT) {
-                $(".not-print").remove();
-            }
-
             f.initTemplate();
             f.bindEvent();
             f.load();
@@ -53,12 +44,6 @@ var OriginalReportDetail = function(){
 
         },
 
-        lastStep: function() {
-            if (mode == MODE_PRINT) {
-                window.print();
-            }
-        },
-
         load: function() {
             Ajax.call({
                 url: "loadOriginalReport",
@@ -68,7 +53,6 @@ var OriginalReportDetail = function(){
                 f: function(response) {
                     f.render(response);
                     Global.refreshControlsByPrivilege();
-                    f.lastStep();
                 }
             });
 

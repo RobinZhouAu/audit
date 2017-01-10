@@ -3,7 +3,7 @@ package com.zhb.service;
 import com.zhb.bean.Department;
 import com.zhb.core.ObjectBase;
 import com.zhb.manager.MemoryCache;
-import com.zhb.view.ObjectView;
+import com.zhb.core.ObjectView;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,7 +13,7 @@ import java.util.*;
  */
 
 @Service("DepartmentService")
-public class DepartmentService extends ServiceBase {
+public class DepartmentService extends AuditServiceBase {
     private static Department departmentRoot = null;
     public void init() {
         departmentRoot = new Department();

@@ -23,7 +23,7 @@
                 <li class="active">原始版稽查记录表详情</li>
             </ol>
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse not-print">
+            <div class="collapse navbar-collapse">
                 <form class="navbar-form navbar-right">
                     <button id="print" pid="PID_PRINT" class="btn btn-default">打印</button>
                 </form>

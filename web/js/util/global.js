@@ -995,6 +995,8 @@ var Global = function(){
 		},
 
 		refreshControlsByPrivilege: function() {
+			if (Global.isUserSystemAdmin())
+				return;
 			$("a").each(function() {
 				var pid = $(this).attr("pid");
 				if (!pid || pid == '')
@@ -1025,6 +1027,14 @@ var Global = function(){
 			if (!Global.userPrivileges)
 				return false;
 			if (Global.userPrivileges["SYSTEM_ADMIN"] != 1)
+				return false;
+			return true;
+		},
+
+		userHasPrivilege: function(privilegeId) {
+			if (!Global.userPrivileges)
+				return false;
+			if (Global.userPrivileges[privilegeId] != 1)
 				return false;
 			return true;
 		},

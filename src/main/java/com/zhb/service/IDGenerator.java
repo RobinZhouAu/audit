@@ -10,7 +10,7 @@ import com.zhb.bean.Task;
  */
 public class IDGenerator {
     /**
-     * 项目Project ID，8位，用户手填
+     * 项目Project ID，14位，用户手填
      * 项目中心ID，复用中心ID
      * 项目阶段ProjectStage ID，复用阶段ID
      * 项目阶段中心StageCenter ID，项目ID+阶段ID+中心ID
@@ -28,10 +28,6 @@ public class IDGenerator {
         return id;
     }
 
-    public static String createTaskId(Project project, ProjectStage projectStage, StageCenter stageCenter) {
-        String id = project.getId() + projectStage.getId() + stageCenter.getCenterId();
-        return id;
-    }
 
     public static String createTaskModuleId(String moduleId, Task task) {
         String id = task.getId() + "D" + moduleId;

@@ -19,12 +19,6 @@ import java.util.Map;
  */
 @Controller
 public class OriginalReportController extends ControllerBase {
-    public static final String MODE_DETAIL = "detail";
-    public static final String MODE_EDIT = "edit";
-    public static final String MODE_CHECK = "check";
-    public static final String MODE_EDIT_AFTER_CHECK = "editAfterCheck";
-    public static final String MODE_PRINT = "print";
-
     @javax.annotation.Resource(name="OriginalReportService")
     private OriginalReportService reportService;
 
@@ -41,17 +35,6 @@ public class OriginalReportController extends ControllerBase {
         String id = request.getParameter("id");
         Map globalValues = new HashMap();
         globalValues.put("reportId", id);
-        globalValues.put("mode", MODE_DETAIL);
-        request.setAttribute(PageUtil.GLOBAL_VALUES, globalValues);
-        return "/jsp/original-report-detail";
-    }
-
-    @RequestMapping("/printOriginalReport")//进入原始版稽查记录表打印页面
-    public String printOriginalReport(HttpServletRequest request) {
-        String id = request.getParameter("id");
-        Map globalValues = new HashMap();
-        globalValues.put("reportId", id);
-        globalValues.put("mode", MODE_PRINT);
         request.setAttribute(PageUtil.GLOBAL_VALUES, globalValues);
         return "/jsp/original-report-detail";
     }
@@ -72,12 +55,12 @@ public class OriginalReportController extends ControllerBase {
         return result;
     }
 
-    @RequestMapping("/toReportScoreManager")//进入单中心报告管理页面
+    @RequestMapping("/toReportScoreManager")//进入研究中心评价表管理页面
     public String toReportScoreManager(HttpServletRequest request) {
         return "/jsp/report-score-manager";
     }
 
-    @RequestMapping("/toReportScoreDetail")//进入单中心报告管理页面
+    @RequestMapping("/toReportScoreDetail")//进入研究中心评价表详情页面
     public String toReportScoreDetail(HttpServletRequest request) {
         String id = request.getParameter("id");
         Map globalValues = new HashMap();
@@ -86,6 +69,7 @@ public class OriginalReportController extends ControllerBase {
         return "/jsp/report-score-detail";
     }
 
+    //更新报告的评价分数
     @RequestMapping("/updateReportScore")
     @ResponseBody
     public Map updateReportScore(HttpServletRequest request) {
@@ -97,6 +81,7 @@ public class OriginalReportController extends ControllerBase {
         return successResult();
     }
 
+    //在评价表详情页面加载单个原始稽查记录表
     @RequestMapping("/loadOriginalReportForScoring")
     @ResponseBody
     public Map loadOriginalReportForScoring(HttpServletRequest request) {
@@ -109,6 +94,7 @@ public class OriginalReportController extends ControllerBase {
         return result;
     }
 
+    //提交评价分数
     @RequestMapping("/submitReportScore")
     @ResponseBody
     public Map submitReportScore(HttpServletRequest request) {
@@ -121,6 +107,7 @@ public class OriginalReportController extends ControllerBase {
         return successResult();
     }
 
+    //在评价表管理页面加载原始稽查记录表列表
     @RequestMapping("/loadOriginalReportsForScoring")
     @ResponseBody
     public Map loadOriginalReportsForScoring(HttpServletRequest request) {

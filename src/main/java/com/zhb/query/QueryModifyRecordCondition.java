@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/10/21.
+ * 查询修改记录的查询条件
  */
 public class QueryModifyRecordCondition {
     String createdFrom;

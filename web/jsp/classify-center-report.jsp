@@ -50,7 +50,6 @@
             </div>
             <div id="discovery-container"><%--稽查发现记录--%>
             </div>
-
         </div>
     </div>
 

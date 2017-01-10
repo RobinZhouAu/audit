@@ -43,14 +43,10 @@ var ProjectManager = function(){
             //render stage center filter
             $("#stage-center .center-filter").html($.tmpl("filterTemplate", Global.allFilters));
 
-            ////render project centers
-            //$("#project-center").find(".center-container").html($.tmpl("projectCenterTemplate", Global.allCenters));
-
             //set input controls max length
             DataStructure.setControlMaxLength("Project");
 
             f.loadProjects();
-            //f.onAdd();
         },
 
         enableAllInputControl: function(enable) {
@@ -84,16 +80,9 @@ var ProjectManager = function(){
                 if (currentPageMode == PAGE_MODE_PROJECT_PREVIEW || currentPageMode == PAGE_MODE_PROJECT_DETAIL)
                     return;
                 var $td = $(this).parents("td");
-                var singleSelect = $(this).attr("singleselect");
-                //var userIdListCanNotBeSelected = [];
-                //if (singleSelect) {//当前是选组长
-                //    //组员中的人不能再被选择
-                //} else {//当前是选组员
-                //
-                //}
+                var singleSelect = $(this).attr("singleselect");//是否单选，选择组长是单选，选择组员是多选
 
-
-                var selectedUserIdList = [];
+                var selectedUserIdList = [];//已经选中的内容
                 $td.find(".center-member").each(function() {
                     selectedUserIdList.push({
                         id: $(this).attr("userid")
@@ -107,7 +96,7 @@ var ProjectManager = function(){
                         $td.find(".member-container").html($.tmpl("memberTemplate", selectedUsers));
                         if (selectedUsers.length > 0) {
                             if ($td.parents("tr").find(".select-center-checkbox").prop("checked") == false) {
-                                //自动选中中心
+                                //选择组长或组员后，自动选中该中心
                                 $td.parents("tr").find(".select-center-checkbox").trigger("click");
                             }
                         }
@@ -124,11 +113,10 @@ var ProjectManager = function(){
                 f.filterCenter($centerContainer);
             });
 
-            $("#project-center").on("click", ".edit", function() {
+            $("#project-center").on("click", ".edit", function() {//点击中心的编辑按钮，弹出编辑中心的机构代码等信息
                 var $tr = $(this).parents("tr");
                 if (currentPageMode == PAGE_MODE_PROJECT_PREVIEW || currentPageMode == PAGE_MODE_PROJECT_DETAIL)
                     return;
-                //var center = $.tmplItem($(this)).data;
                 EditCenterCodeDialog.show({
                     data: {
                         code: $tr.find(".project-center-code").html(),
@@ -150,7 +138,7 @@ var ProjectManager = function(){
 
             $("#project-center").on("click", ".select-center-checkbox", function(event) {
                 if ($(event.target).prop("checked") == false) {
-                    //取消 选择某个中心，需要先检查该中心是否已经在某个阶段的中心里了
+                    //取消选择某个中心，需要先检查该中心是否已经在某个阶段的中心里了
                     var center = $.tmplItem($(this)).data;
                     for (var i = 0; i < currentProject.stages.length; i ++) {
                         var stage = currentProject.stages[i];
@@ -181,11 +169,10 @@ var ProjectManager = function(){
                 stage.selected = checked;
             });
 
+            //点击阶段
             $("#stage-container").on("click", "li", function(event) {
                 if ($(event.target).prop('type') == "checkbox")
                     return;
-                //if (currentStage && $(this).attr("stageid") == currentStage.id)
-                //    return;
                 $("#stage-container li").removeClass("active");
                 $(this).addClass("active");
                 if (currentPageMode == PAGE_MODE_ADD_PROJECT_3)
@@ -196,6 +183,7 @@ var ProjectManager = function(){
                 f.refreshSelectedCenterCount($("#stage-center"));
             });
 
+            //生成稽查任务
             $("#project-container").on("click", ".create-task", function() {
                 var project = $.tmplItem($(this)).data;
                 if (!window.confirm("您是否要现在生成稽查任务?请确认基本数据已填写完成，一旦生成后，稽查任务的继承数据将无法修改。"))
@@ -415,7 +403,6 @@ var ProjectManager = function(){
                         '<a title="项目详情" href="javascript:void(0)" class="detail-project table-operation-icon"><i class="glyphicon glyphicon-list-alt"></i></a>' +
                         '{{if status == 3 || canceled == 1}}' +//Closed
                             '{{if status == 3}}' +//Closed
-
                             '{{else}}' +
                                 '<a title="启动项目" href="javascript:void(0)" class="start-project table-operation-icon"><i class="glyphicon glyphicon-play-circle"></i></a>' +
                             '{{/if}}' +
@@ -473,13 +460,14 @@ var ProjectManager = function(){
         },
 
         openProject: function() {
-            if (newProject) {
+            if (newProject) {//新建模式
                 $("#save").html("添加");
                 $("#project-id").removeAttr("readonly");
-            } else {
+            } else {//修改模式
                 $("#save").html("保存");
                 $("#project-id").attr("readonly", true);
             }
+
             //把项目元数据set到控件上。
             DataStructure.object2control(currentProject, "Project");
 
@@ -529,7 +517,6 @@ var ProjectManager = function(){
                     }
                 }
             }
-            //$("#stage-container").html($.tmpl("stageTemplate", currentProject.stages));
             $("#stage-container").html($.tmpl("stageTemplate", stagesInPage));
 
             //重新刷新本项目阶段选择情况
@@ -541,6 +528,7 @@ var ProjectManager = function(){
             currentStage = null;
         },
 
+        //当更换了当前选中的阶段之前，先把阶段的信息保存下来
         updateStage: function() {
             if (currentStage == undefined)
                 return;
@@ -749,6 +737,10 @@ var ProjectManager = function(){
 
         onPageModeChange: function() {
             f.enableAllInputControl(currentPageMode != PAGE_MODE_PROJECT_PREVIEW && currentPageMode != PAGE_MODE_PROJECT_DETAIL);
+            if (currentProject && currentProject.leaderId == Global.userId) {
+                $("#project-leaderId").attr("disabled", true);
+            }
+
             $("#add-project-page").hide();
             $("#project-manager-page").hide();
             $("#stage-manager-page").hide();
@@ -779,7 +771,7 @@ var ProjectManager = function(){
                     $("#add-project-page-nav li").removeClass("active");
                     $("#add-project-page-nav li[page='" + currentPageMode + "']").addClass("active");
                     $("#next-step").show();
-                    $("#prev-step").show();             f
+                    $("#prev-step").show();
                     $(".date-picker").datetimepicker({
                         minView: 2,
                         format:'yyyy-mm-dd',
@@ -798,7 +790,6 @@ var ProjectManager = function(){
                     $("#save").show();
                     $("#preview").show();
                     $("#prev-step").show();
-                    //currentStage = undefined;
                     $("#stage-center").find(".center-container").html($.tmpl("stageCenterTemplate", currentProject.centers));
                     //默认选中第1个阶段
                     $("#stage-container li:eq(0)").trigger("click");

@@ -6,18 +6,10 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/9/27.
+ * 任务模块对应的表结构
  */
 public class Table extends ObjectBase {
-    List<Field> fields;
-    int inheritable = 0;
-
-    public int getInheritable() {
-        return inheritable;
-    }
-
-    public void setInheritable(int inheritable) {
-        this.inheritable = inheritable;
-    }
+    List<Field> fields;//字段列表
 
     public List<Field> getFields() {
         return fields;

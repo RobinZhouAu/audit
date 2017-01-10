@@ -41,22 +41,4 @@ public class ModifyRecordController extends ControllerBase {
         result.put("result", queryResult);
         return result;
     }
-
-    @RequestMapping("/addModifyRecord")
-    @ResponseBody
-    public Map addModifyRecord(HttpServletRequest request) {
-//        modifyRecordService.addModifyRecord();
-        return successResult();
-    }
-
-//    @RequestMapping("/loadModifyRecord")
-//    @ResponseBody
-//    public Map loadModifyRecord(HttpServletRequest request) {
-//        String id = ServletRequestUtils.getStringParameter(request, "id", null);
-//        ModifyRecord modifyRecord = modifyRecordService.loadModifyRecord(id);
-//        Map result = new HashMap();
-//        result.put("item", modifyRecord);
-//        return result;
-//    }
-
 }

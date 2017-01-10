@@ -51,7 +51,6 @@
                     <div id="left-panel" class="col-md-8"><%--左侧模块记录--%>
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <%--<span id="module-name"></span>--%>
                                 <span>记录</span>
                             </div>
                             <div class="panel-body">

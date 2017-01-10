@@ -20,7 +20,7 @@ public class DataTemplateController extends ControllerBase {
     @javax.annotation.Resource(name="DataTemplateService")
     private DataTemplateService dataTemplateService;
 
-    @RequestMapping("/toDataTemplateManager")
+    @RequestMapping("/toDataTemplateManager")//跳转到数据模板管理页
     public String toDataTemplateManager(HttpServletRequest request) {
         String type = request.getParameter("type");
         Map globalValues = new HashMap();

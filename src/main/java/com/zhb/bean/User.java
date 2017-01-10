@@ -6,18 +6,19 @@ import java.util.Map;
 
 /**
  * Created by zhouhaibin on 2016/9/19.
+ * 用户
  */
 public class User extends ObjectBase {
     public static final int STATUS_NORMAL = 0;
     public static final int STATUS_HANGUP = 1;//挂起
 
-    int status = STATUS_NORMAL;
-    String departmentId;
-    String roleIds = "";
-    String password = EMPTY_OBJECT;
-    String contact;
+    int status = STATUS_NORMAL;//状态
+    String departmentId;//部门Id
+    String roleIds = "";//角色Id
+    String password = EMPTY_OBJECT;//密码
+    String contact;//联系方式
 
-    Map userPrivileges;
+    Map userPrivileges;//用户拥有的权限
 
     public boolean hasPrivilege(String privilegeId) {
         if (userPrivileges == null)

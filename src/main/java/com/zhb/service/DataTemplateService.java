@@ -13,7 +13,7 @@ import java.util.Map;
  */
 
 @Service("DataTemplateService")
-public class DataTemplateService extends ServiceBase {
+public class DataTemplateService extends AuditServiceBase {
     public Map loadDataTemplateMap() {
         return MemoryCache.getObjectMap(DataTemplate.class);
     }

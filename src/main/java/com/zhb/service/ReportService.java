@@ -40,9 +40,11 @@ public class ReportService extends AuditServiceBase {
     @javax.annotation.Resource(name="OriginalReportService")
     private OriginalReportService originalReportService;
 
-    private Class currentReportClass;
-    private String currentReportClassName;
-    private boolean isCenterReport;
+    private Class currentReportClass;//当前报告的Class，可能是CenterReport或StageReport
+    private String currentReportClassName;//当前报告的类名
+    private boolean isCenterReport;//当前报告的类型是否是中心报告
+
+    //设置当前的报告类型
     public void setReportClassByType(String type) {
         currentReportClassName = type;
         if (type.equals("CenterReport")) {
@@ -69,6 +71,7 @@ public class ReportService extends AuditServiceBase {
         return queryResult;
     }
 
+    //为评审加载报告列表
     public QueryResult loadReportsToCheck(int start, int limit, int checkStatus, String userId, String keywords, String mode) {
         DaoPara daoPara = buildDaoPara(start, limit, null, null, null, null, keywords);
         if (mode.equals("all")) {
@@ -101,6 +104,7 @@ public class ReportService extends AuditServiceBase {
         return queryResult;
     }
 
+    //为分级加载报告列表
     public QueryResult loadCenterReportsToClassify(int start, int limit, int classifyStatus, String userId, String keywords, String mode) {
         DaoPara daoPara = buildDaoPara(start, limit, null, null, null, null, keywords);
         if (mode.equals("all")) {
@@ -148,12 +152,9 @@ public class ReportService extends AuditServiceBase {
 
     public StageReport createStageReport(String projectId, String stageId, String creatorId) {
         DataTemplate overview = (DataTemplate)MemoryCache.getObject(DataTemplate.class, "StageReportOverview");
-//        String id = projectId + stageId;
-//        StageReport stageReport = (StageReport)loadReport(StageReport.class, id);
         Project project = projectService.loadProject(projectId);
         Stage stage = (Stage)MemoryCache.getObject(Stage.class, stageId);
         StageReport stageReport = new StageReport(project, stage);
-//        stageReport.copyMetadata(project);
         stageReport.setOverview(overview.getContent());
         stageReport.setCreatorId(creatorId);
         stageReport.setCreated(new Timestamp(System.currentTimeMillis()));
@@ -165,6 +166,7 @@ public class ReportService extends AuditServiceBase {
         return stageReport;
     }
 
+    //创建阶段报告时，复制所有的发现
     public void createDiscoveriesForStageReport(String projectId, String stageId, String reportId) {
         String sql = "from CenterReport where projectId=? and stageId=?";
         List reports = dao.loadList(sql, 0, 1000, new Object[]{projectId, stageId});
@@ -183,8 +185,8 @@ public class ReportService extends AuditServiceBase {
                 dao.save(discovery);
             }
         }
-
     }
+
 
     public boolean reportExist(String id, Class clazz) {
         ReportBase report = (ReportBase)loadObjectById(id, clazz);
@@ -209,6 +211,7 @@ public class ReportService extends AuditServiceBase {
         return report;
     }
 
+    //为报告的显示，渲染所有的报告的发现
     public void renderDiscoveriesForReport(Project project, List discoveries, ReportView reportView) {
         LimitedWord levels = (LimitedWord)MemoryCache.getObject(LimitedWord.class, LimitedWord.ID_DISCOVERY_LEVEL);
         for (int i = 0; i < levels.getWords().size(); i ++) {
@@ -230,6 +233,7 @@ public class ReportService extends AuditServiceBase {
         }
     }
 
+    //为报告的显示，渲染依据
     public void renderReferences(Map<String, String> referenceMap, ReportView reportView) {
         Map allReferenceMap = MemoryCache.getObjectMap(Reference.class);
         for (Iterator iterator = referenceMap.keySet().iterator(); iterator.hasNext(); ) {
@@ -240,6 +244,7 @@ public class ReportService extends AuditServiceBase {
         }
     }
 
+    //为报告的显示，渲染报告
     public ReportView renderReportView(ReportBase report, Project project, List discoveries) {
         ReportView reportView = new ReportView();
         reportView.setCenterReport(isCenterReport);
@@ -282,6 +287,7 @@ public class ReportService extends AuditServiceBase {
         return reportView;
     }
 
+    //更新报告的内容
     public void saveReportValue(String reportId, String fieldId, String itemId, String value, boolean opinion, String userId) {
         ReportBase report = loadReport(reportId);
         if (fieldId.equals("overview")) {//更新稽查概述
@@ -331,6 +337,7 @@ public class ReportService extends AuditServiceBase {
         dao.update(report);
     }
 
+    //更新报告的“建议已修改”的值
     public void saveReportOpinionAccepted(String reportId, String fieldId, String itemId, boolean opinionAccepted, String userId) {
         ReportBase report = loadReport(reportId);
         if (fieldId.equals("description")) {
@@ -404,6 +411,7 @@ public class ReportService extends AuditServiceBase {
         return true;
     }
 
+    //当评审或分级提交以后要做的事情
     public void onCheckOrClassifySubmitted(String id) {
         //如果评审和分级都已经提交了，则修改报告状态为“审阅后修改”
         String sql = "update CenterReport set status=" + ReportBase.STATUS_CORRECTING +
@@ -413,12 +421,6 @@ public class ReportService extends AuditServiceBase {
         taskService.updateTaskStatus(id);
     }
 
-//    public void updateCenterReportStatus(String id, int status) {
-//        String sql = "update CenterReport set status=? where id=?";
-//        dao.executeSql(sql, new Object[]{status, id});
-//        taskService.updateTaskStatus(id);
-//    }
-
     public void updateReportStatus(String id, int status) {
         String sql = "update " + currentReportClassName + " set status=? where id=?";
         dao.executeSql(sql, new Object[]{status, id});        
@@ -427,6 +429,7 @@ public class ReportService extends AuditServiceBase {
         }
     }
 
+    //是否所以的依据都填写了
     private boolean areAllReferencesFilled(ReportBase report) {
         List discoveries = discoveryService.loadDiscoveriesInReport(report.getId(), "created", null, null);
         Project project = projectService.loadProject(report.getProjectId());
@@ -443,6 +446,7 @@ public class ReportService extends AuditServiceBase {
         return true;
     }
 
+    //提交报告到评审
     public boolean submitReportToCheck(String id) {
         ReportBase report = loadReport(id);
         if (!areAllReferencesFilled(report))
@@ -462,6 +466,7 @@ public class ReportService extends AuditServiceBase {
         return true;
     }
 
+    //是否所以的建议都已处理
     private boolean areAllOpinionAccepted(ReportBase report) {
         String opinion = report.getOverviewOpinion();
         String opinionAccepted = report.getOpinionAcceptedMap().get(report.getId());
@@ -499,6 +504,7 @@ public class ReportService extends AuditServiceBase {
         return true;
     }
 
+    //提交报告
     public boolean submitReport(String id) {
         ReportBase report = loadReport(id);
         if (!areAllOpinionAccepted(report))
@@ -511,7 +517,6 @@ public class ReportService extends AuditServiceBase {
         dao.executeSql(sql, new Object[]{ReportBase.STATUS_SUBMITTED, now, id});
         taskService.updateTaskStatus(id);
         if (isCenterReport) {
-//            ReportBase report = loadReport(id);
             //检查是否该阶段的所有中心报告都提交了
             sql = "select count(*) from Task where projectId=? and stageId=?";
             int stageCenterCount = dao.queryNativeForInt(sql, new Object[]{report.getProjectId(), report.getStageId()});
@@ -585,18 +590,21 @@ public class ReportService extends AuditServiceBase {
         return true;
     }
 
+    //更新报告的最后更新时间
     public void updateReportLastModify(String id) {
         String sql = "update " + currentReportClassName + " set lastModify=? where id=?";
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         dao.executeNativeSql(sql, new Object[]{currentTime, id});
     }
 
+    //更新报告的最后评审更新时间
     public void updateReportLastCheckModify(String id) {
         String sql = "update " + currentReportClassName + " set lastCheckModify=? where id=?";
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
         dao.executeNativeSql(sql, new Object[]{currentTime, id});
     }
 
+    //更新报告的最后分级更新时间
     public void updateCenterReportLastClassifyModify(String id) {
         String sql = "update CenterReport set lastClassifyModify=? where id=?";
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
@@ -624,6 +632,7 @@ public class ReportService extends AuditServiceBase {
         return ReportBase.STATUS_SUBMITTED;
     }
 
+    //重置问题归类
     public String resetProblem(String reportId, String problemId, String userId) {
         ReportBase report = loadReport(reportId);
         Problem problem = (Problem)MemoryCache.getObject(Problem.class, problemId);
@@ -635,41 +644,49 @@ public class ReportService extends AuditServiceBase {
         return newValue;
     }
 
+    //取消中心报告
     public void cancelCenterReport(String id) {
         String sql = "update CenterReport set canceled=1 where id=?";
         dao.executeNativeSql(sql, new Object[]{id});
     }
 
+    //由取消项目触发的取消中心报告
     public void cancelCenterReportByProject(String projectId) {
         String sql = "update CenterReport set canceled=1 where projectId=?";
         dao.executeNativeSql(sql, new Object[]{projectId});
     }
 
+    //由取消阶段触发的取消中心报告
     public void cancelCenterReportByProjectStage(String projectId, String stageId) {
         String sql = "update CenterReport set canceled=1 where projectId=? and stageId=?";
         dao.executeNativeSql(sql, new Object[]{projectId, stageId});
     }
 
+    //启动中心报告
     public void startCenterReport(String id) {
         String sql = "update CenterReport set canceled=0 where id=?";
         dao.executeNativeSql(sql, new Object[]{id});
     }
 
+    //取消中心报告
     public void cancelStageReport(String id) {
         String sql = "update StageReport set canceled=1 where id=?";
         dao.executeNativeSql(sql, new Object[]{id});
     }
 
+    //由取消项目触发的取消阶段报告
     public void cancelStageReportByProject(String projectId) {
         String sql = "update StageReport set canceled=1 where projectId=?";
         dao.executeNativeSql(sql, new Object[]{projectId});
     }
 
+    //启动阶段报告
     public void startStageReport(String id) {
         String sql = "update StageReport set canceled=0 where id=?";
         dao.executeNativeSql(sql, new Object[]{id});
     }
 
+    //开始编辑报告
     public boolean startEditReport(String reportId, String  userId) {
         String locker = LockManager.getResourceLocker(reportId);
         if (locker != null) {
@@ -683,6 +700,7 @@ public class ReportService extends AuditServiceBase {
         return true;
     }
 
+    //结束编辑报告
     public boolean endEditReport(String reportId, String  userId) {
         LockManager.releaseLock(reportId, userId);
         return true;

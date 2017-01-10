@@ -2,7 +2,7 @@ package com.zhb.bean;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.zhb.core.ObjectBase;
-import com.zhb.core.TimestampMorpher;
+import com.zhb.util.TimestampMorpher;
 import com.zhb.util.JsonTimestampSerializer;
 import com.zhb.util.TimestampValueProcessor;
 import net.sf.json.JSONArray;
@@ -22,30 +22,30 @@ public class OriginalReport extends ObjectBase {
     public static final int SCORE_STATUS_UNSCORED = 0;//未评估
     public static final int SCORE_STATUS_SCORED = 1;//已评估
 
-    String projectId = EMPTY_OBJECT;
-    String stageId = EMPTY_OBJECT;
-    String centerId = EMPTY_OBJECT;
-    String taskId = EMPTY_OBJECT;
-    String creatorId = EMPTY_OBJECT;
-    Timestamp created;
-    int scoreStatus = SCORE_STATUS_UNSCORED;
-    int score = 0;
-    String itemScore = EMPTY_JSON_ARRAY;
-    String scoreUserId = EMPTY_OBJECT;
-    Timestamp scoreTime;
-    String projectName;
-    String centerName;
-    String stageName;
-    String leaderId = EMPTY_OBJECT;
-    String memberIds = EMPTY_JSON_ARRAY;
-    String content;
-    String fulltext;
-    int canceled = 0;
-    int closed = 0;
+    String projectId = EMPTY_OBJECT;//项目Id
+    String stageId = EMPTY_OBJECT;//阶段Id
+    String centerId = EMPTY_OBJECT;//中心Id
+    String taskId = EMPTY_OBJECT;//任务Id
+    String creatorId = EMPTY_OBJECT;//创建者Id
+    Timestamp created;//创建时间
+    int scoreStatus = SCORE_STATUS_UNSCORED;//评分状态
+    int score = 0;//评分总分
+    String itemScore = EMPTY_JSON_ARRAY;//分项得分
+    String scoreUserId = EMPTY_OBJECT;//评分者
+    Timestamp scoreTime;//评分时间
+    String projectName;//项目名称
+    String centerName;//中心名称
+    String stageName;//阶段名称
+    String leaderId = EMPTY_OBJECT;//项目经理
+    String memberIds = EMPTY_JSON_ARRAY;//组长和组员
+    String content;//内容大字段，用于存储JSON格式的数据
+    String fulltext;//全文
+    int canceled = 0;//是否已取消
+    int closed = 0;//是否已关闭
 
 
-    List<Discovery> discoveries;
-    List<ModuleRecord> moduleRecords;
+    List<Discovery> discoveries;//报告包含的发现
+    List<ModuleRecord> moduleRecords;//报告包含的模块记录
 
     public OriginalReport() {
 
@@ -259,7 +259,6 @@ public class OriginalReport extends ObjectBase {
     public void content2List() {
         JSONUtils.getMorpherRegistry().registerMorpher(new TimestampMorpher());
         JSONObject jsonObject = JSONObject.fromObject(content);
-//        moduleRecords = convertJSONArrayToList(jsonObject.getJSONArray("moduleRecords"), ModuleRecord.class, classMap);
         moduleRecords = new ArrayList();
         JSONArray jsonArray = jsonObject.getJSONArray("moduleRecords");
         for (int i = 0; i < jsonArray.size(); i ++) {

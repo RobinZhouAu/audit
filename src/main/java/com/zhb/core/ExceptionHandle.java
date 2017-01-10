@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
  * User: zhouhaibin
  * Date: 15-3-16
  * Time: 下午9:15
- * To change this template use File | Settings | File Templates.
+ * 异常处理类
  */
 public class ExceptionHandle {
     protected static Logger logger = Logger.getLogger(ExceptionHandle.class);

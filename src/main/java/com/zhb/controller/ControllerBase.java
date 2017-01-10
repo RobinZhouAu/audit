@@ -1,7 +1,7 @@
 package com.zhb.controller;
 
 import com.zhb.core.ExceptionHandle;
-import com.zhb.core.TimestampMorpher;
+import com.zhb.util.TimestampMorpher;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
@@ -29,13 +29,6 @@ public class ControllerBase {
     public ControllerBase() {
         JSONUtils.getMorpherRegistry().registerMorpher(new TimestampMorpher());
     }
-
-//    public JSONObject getJsonObjectParameter(HttpServletRequest request, String name) {
-//        String para = ServletRequestUtils.getStringParameter(request, name, null);
-//        if (para == null)
-//            return null;
-//        return JSONObject.fromObject(para);
-//    }
 
     public JSONObject getJsonObjectParameter(HttpServletRequest request) {
         String para = ServletRequestUtils.getStringParameter(request, "para", null);
@@ -86,10 +79,7 @@ public class ControllerBase {
             return null;
         return JSONObject.toBean(jsonParameter, clazz, classMap);
     }
-//    public JSONObject getStringParameter(HttpServletRequest request, String name) {
-//        String para = ServletRequestUtils.getStringParameter(request, name, "{}");
-//        return JSONObject.fromObject(para);
-//    }
+
     //统一的Ajax请求的异常处理，如果发生异常，可以把有异常的堆栈和id，返回到客户端，可以在firebug中直接看到
     @ExceptionHandler
     @ResponseBody

@@ -37,7 +37,6 @@
 <link href="thirdparty/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
 <link href="thirdparty/pnotify/jquery.pnotify.default.css" rel="stylesheet" type="text/css" />
 <link href="thirdparty/pnotify/jquery.pnotify.default.icons.css" rel="stylesheet" type="text/css" />
-<%--<link href="/fe/css/<%=PageSupport.loadCustomThemePath(request).toLowerCase()%>base.css" rel="stylesheet" type="text/css"/>--%>
 <link href="thirdparty/typeahead/typeahead.css" rel="stylesheet" type="text/css" />
 
 <link href="js/pagination/pagination.css" rel="stylesheet" type="text/css" />
@@ -51,6 +50,7 @@
 <script type="text/javascript" src="thirdparty/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript" src="thirdparty/select2/select2.js"></script>
 <script type="text/javascript" src="thirdparty/jquery-multi-select/js/jquery.multi-select.js"></script>
+<script type="text/javascript" src="thirdparty/jquery.quicksearch/jquery.quicksearch.js"></script><%--用于配合multiSelect使用，用于过滤--%>
 <script type="text/javascript" src="thirdparty/pnotify/jquery.pnotify.js"></script>
 <script type="text/javascript" src="thirdparty/jquery-slimscroll/jquery.slimscroll.js"></script>
 

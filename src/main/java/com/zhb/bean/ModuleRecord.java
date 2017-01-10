@@ -9,14 +9,15 @@ import java.sql.Timestamp;
 
 /**
  * Created by zhouhaibin on 2016/9/29.
+ * 模块记录
  */
 public class ModuleRecord extends ObjectBase {
-    String taskId;
-    String moduleId;
-    String taskModuleId;
-    String creatorId;
-    Timestamp created;
-    String content;
+    String taskId = EMPTY_OBJECT;//任务Id
+    String moduleId = EMPTY_OBJECT;//模块Id
+    String taskModuleId = EMPTY_OBJECT;//任务模块Id
+    String creatorId = EMPTY_OBJECT;//创建者Id
+    Timestamp created;//创建时间
+    String content;//内容
 
     public String getTaskId() {
         return taskId;
@@ -75,7 +76,6 @@ public class ModuleRecord extends ObjectBase {
 
     public void fromJsonObject(JSONObject jsonObject) {
         id = jsonObject.getString("id");
-//        name = jsonObject.getString("name");
         taskId = jsonObject.getString("taskId");
         moduleId = jsonObject.getString("moduleId");
         taskModuleId = jsonObject.getString("taskModuleId");

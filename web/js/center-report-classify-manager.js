@@ -21,6 +21,12 @@ var CenterReportClassifyManager = function(){
             Header.activeMenu("check-manager");
             f.initTemplate();
             mode = Global.mode;
+            if (mode == "all" && !Global.isUserSystemAdmin()) {
+                //在待审区模式下，如果不是管理员，则只能看到待分配的
+                $("#classify-status-select option[value='-1']").remove();
+                $("#classify-status-select option[value='2']").remove();
+                $("#classify-status-select option[value='3']").remove();
+            }
             Global.initSelect($("#classify-status-select"));
             f.bindEvent();
             if (mode == "all") {
@@ -34,18 +40,24 @@ var CenterReportClassifyManager = function(){
         bindEvent: function() {
             $container.on("click", ".center-name", function () {
                 var report = $.tmplItem($(this)).data;
-                if (mode == "all" && report.classifyStatus == CLASSIFY_STATUS_UNASSIGNED && report.canceled == 0 && report.status != STATUS_CLOSED) {
-                    f.receiveReport(report);
+                if (mode == "all" && report.classifyStatus == CLASSIFY_STATUS_UNASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED) {
+                    alert("未领用状态下无法查看详情");
+                    return;
                 }
-                if (mode == "onlyMine" && (report.classifyStatus == CLASSIFY_STATUS_ASSIGNED || report.classifyStatus == CLASSIFY_STATUS_SUBMITTED)
-                    && report.canceled == 0 && report.status != STATUS_CLOSED){
-                    var url = "classifyCenterReport?id=" + report.id + "&type=" + Global.type;
-                    window.open(url, "_self");
-                }
-                if (Global.isUserSystemAdmin()) {
-                    var url = "classifyCenterReport?id=" + report.id + "&type=" + Global.type;
-                    window.open(url, "_self");
-                }
+                ////1 如果是待审区，是未领用的，是非管理员，则询问是否领用
+                //if (mode == "all" && report.classifyStatus == CLASSIFY_STATUS_UNASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED) {
+                //    f.receiveReport(report);
+                //    return;
+                //}
+                ////2 如果是我的项目，是待评审的，是非管理员，则进入评审页面
+                //if (mode == "onlyMine" && report.classifyStatus == CLASSIFY_STATUS_ASSIGNED && !Global.isUserSystemAdmin() && report.canceled == 0 && report.status != STATUS_CLOSED){
+                //    var url = "classifyCenterReport?id=" + report.id + "&type=" + Global.type;
+                //    window.open(url, "_self");
+                //    return;
+                //}
+                ////3 其他情况，都进入详情页面
+                var url = "classifyDetailCenterReport?id=" + report.id + "&type=" + Global.type;
+                window.open(url, "_self");
             });
 
             $("#search").on("click", function() {
@@ -97,8 +109,11 @@ var CenterReportClassifyManager = function(){
                         '{{/if}}' +
                         '{{if classifyStatus == 2 && canceled == 0 && status != 5}}' +
                         '<a title="退领" href="javascript:void(0)" class="table-operation-icon sendback-center-report"><i class="glyphicon glyphicon-transfer"></i></a>' +
-                        '{{/if}}' +
                         '<a title="分级" href="classifyCenterReport?id=${id}&type=' + Global.type + '" class="table-operation-icon classify-center-report"><i class="glyphicon glyphicon-check"></i></a>' +
+                        '{{/if}}' +
+                        //'{{if classifyStatus == 3}}' +
+                        '<a title="详情" href="classifyDetailCenterReport?id=${id}&type=' + Global.type + '" class="report-detail table-operation-icon"><i class="glyphicon glyphicon-list-alt"></i></a>' +
+                        //'{{/if}}' +
                     '</td>' +
                 '</tr>';
             $.template("centerReportTemplate", centerReportTemplate);
@@ -153,12 +168,20 @@ var CenterReportClassifyManager = function(){
                 }
             }));
             if (mode == "all") {
+                //待审区模式下，没有分级和退领按钮
                 $(".sendback-center-report.table-operation-icon").remove();
-                if (!Global.isUserSystemAdmin())
-                    $(".classify-center-report.table-operation-icon").remove();
+                $(".classify-center-report.table-operation-icon").remove();
+                //如果不是分级员，则不能领用
+                if (!Global.userHasPrivilege("CLASSIFY"))
+                    $(".receive-center-report.table-operation-icon").remove();
             } else {
                 $(".receive-center-report.table-operation-icon").remove();
             }
+            //如果不是管理员，则不能看详情
+            if (!Global.isUserSystemAdmin() && mode != 'onlyMine') {
+                $(".report-detail.table-operation-icon").remove();
+            }
+
 
             $("#pagination").MyPagination({
                 currentPage: result.currentPage,

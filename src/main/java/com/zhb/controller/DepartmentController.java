@@ -19,7 +19,7 @@ public class DepartmentController extends ControllerBase {
     @javax.annotation.Resource(name="DepartmentService")
     private DepartmentService departmentService;
 
-    @RequestMapping("/toDepartmentManager")
+    @RequestMapping("/toDepartmentManager")//跳转到部门管理页
     public String toDepartmentManager(HttpServletRequest request) {
         return "/jsp/department-manager";
     }

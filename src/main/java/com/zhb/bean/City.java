@@ -4,9 +4,10 @@ import com.zhb.core.ObjectBase;
 
 /**
  * Created by zhouhaibin on 2016/11/3.
+ * 市
  */
 public class City extends ObjectBase {
-    String province;
+    String province;//所属省
 
     public String getProvince() {
         return province;
