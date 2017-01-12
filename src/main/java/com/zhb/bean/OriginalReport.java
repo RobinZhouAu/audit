@@ -19,8 +19,8 @@ import java.util.List;
  * 原始版稽查记录表
  */
 public class OriginalReport extends ObjectBase {
-    public static final int SCORE_STATUS_UNSCORED = 0;//未评估
-    public static final int SCORE_STATUS_SCORED = 1;//已评估
+    public static final int SCORE_STATUS_UNSCORED = 0;//未评价
+    public static final int SCORE_STATUS_SCORED = 1;//已评价
 
     String projectId = EMPTY_OBJECT;//项目Id
     String stageId = EMPTY_OBJECT;//阶段Id
@@ -28,11 +28,11 @@ public class OriginalReport extends ObjectBase {
     String taskId = EMPTY_OBJECT;//任务Id
     String creatorId = EMPTY_OBJECT;//创建者Id
     Timestamp created;//创建时间
-    int scoreStatus = SCORE_STATUS_UNSCORED;//评分状态
-    int score = 0;//评分总分
+    int scoreStatus = SCORE_STATUS_UNSCORED;//评价状态
+    int score = 0;//评价总分
     String itemScore = EMPTY_JSON_ARRAY;//分项得分
-    String scoreUserId = EMPTY_OBJECT;//评分者
-    Timestamp scoreTime;//评分时间
+    String scoreUserId = EMPTY_OBJECT;//评价者
+    Timestamp scoreTime;//评价时间
     String projectName;//项目名称
     String centerName;//中心名称
     String stageName;//阶段名称

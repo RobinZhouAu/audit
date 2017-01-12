@@ -26,8 +26,8 @@
                     <label class="control-label">操作</label>
                     <select id="score-status" class="form-control" style="width: 120px;">
                         <option value="-1">全部</option>
-                        <option value="0">未评估</option>
-                        <option value="1">已评估</option>
+                        <option value="0">未评价</option>
+                        <option value="1">已评价</option>
                     </select>
                 </div>
             </form>
@@ -45,10 +45,10 @@
                         <th>项目名称</th>
                         <th>项目阶段</th>
                         <th>中心名称</th>
-                        <th>评估得分</th>
-                        <th>评估状态</th>
-                        <th>评估人</th>
-                        <th>评估日期</th>
+                        <th>评价得分</th>
+                        <th>评价状态</th>
+                        <th>评价人</th>
+                        <th>评价日期</th>
                         <th>操作</th>
                     </tr>
                     </thead>

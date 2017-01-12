@@ -21,7 +21,7 @@ var ReportScoreDetail = function(){
 
         bindEvent: function() {
             $("#submit").on("click", function() {
-                if (!window.confirm("您确定要提交评估结果吗？"))
+                if (!window.confirm("您确定要提交评价结果吗？"))
                     return;
                 var score = parseInt($("#score").html());
                 var itemScore = [];

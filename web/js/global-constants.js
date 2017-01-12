@@ -62,8 +62,8 @@ var GlobalConstants = function(){
             };
 
             this.REPORT_SCORE_STATUS = {
-                "0": "未评估",
-                "1": "已评估"
+                "0": "未评价",
+                "1": "已评价"
             };
 
             this.USER_STATUS = {

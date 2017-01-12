@@ -6,10 +6,10 @@ import java.util.List;
 
 /**
  * Created by zhouhaibin on 2016/10/24.
- * 评分项
+ * 评价项
  */
 public class ScoreItem extends ObjectBase {
-    List<String> questions;//评分项问题
+    List<String> questions;//评价项问题
 
     public List<String> getQuestions() {
         return questions;

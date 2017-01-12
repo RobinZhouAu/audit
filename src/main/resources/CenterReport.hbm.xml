@@ -97,8 +97,5 @@
         <property name="canceled" type="java.lang.Integer">
             <column name="canceled" not-null="true" />
         </property>
-        <!--<property name="overview" type="java.lang.String">-->
-            <!--<column name="overview"/>-->
-        <!--</property>-->
     </class>
 </hibernate-mapping>

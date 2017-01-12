@@ -1,9 +1,6 @@
 package com.zhb.controller;
 
-import com.zhb.bean.Module;
-import com.zhb.bean.ModuleRecord;
-import com.zhb.bean.Task;
-import com.zhb.bean.TaskModule;
+import com.zhb.bean.*;
 import com.zhb.manager.MemoryCache;
 import com.zhb.service.ModifyRecordService;
 import com.zhb.service.ModuleRecordService;
@@ -121,6 +118,18 @@ public class ModuleRecordController extends ControllerBase {
         JSONObject jsonObject = moduleRecordService.createModuleRecordWithInherit(taskId, moduleId);
         Map result = new HashMap();
         result.put("content", jsonObject);
+        return result;
+    }
+
+    @RequestMapping("/loadModuleTable")
+    @ResponseBody
+    public Map loadModuleTable(HttpServletRequest request) {
+        String moduleId = getStringParameter(request, "moduleId");
+        Module module = (Module)MemoryCache.getObject(Module.class, moduleId);
+        Table table = moduleRecordService.getModuleTable(moduleId);
+        Map result = new HashMap();
+        result.put("table", table);
+        result.put("module", module);
         return result;
     }
 }

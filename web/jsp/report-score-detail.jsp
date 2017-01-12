@@ -30,7 +30,7 @@
                 <button id="save" pid="EDIT_REPORT_SCORE" class="btn btn-default">保存</button>
             </form>
             <div class="row">
-                <H1 class="text-center">评估总分<span id="score">0</span></H1>
+                <H1 class="text-center">评价总分<span id="score">0</span></H1>
             </div>
             <div class="margin-top-10">
                 <table tableId="ReportScoreDetail" class="table table-striped table-bordered table-hover dataTable">

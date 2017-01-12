@@ -18,6 +18,7 @@ public class StageReport extends ReportBase {
         projectCreated = project.getCreated();
         leaderId = project.getLeaderId();
         status = STATUS_EDITING;
+        fulltext = project.getName();
     }
 
     public void copyMetadata(Project project) {

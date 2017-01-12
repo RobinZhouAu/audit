@@ -49,6 +49,7 @@ public abstract class ReportBase extends ObjectBase {
     Timestamp checkSubmittedTime;//评审提交时间
     Timestamp projectCreated;//项目创建时间
     int canceled = 0;//是否被取消
+    String fulltext;//全文内容，用于检索
 
     //以下内容为报告里修改的内容，以JSON方式存储在content字段里
     String overview;//稽查概述
@@ -313,6 +314,14 @@ public abstract class ReportBase extends ObjectBase {
 
     public String getCenterName() {
         return "";
+    }
+
+    public String getFulltext() {
+        return fulltext;
+    }
+
+    public void setFulltext(String fulltext) {
+        this.fulltext = fulltext;
     }
 
 }

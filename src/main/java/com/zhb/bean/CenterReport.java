@@ -24,7 +24,6 @@ public class CenterReport extends ReportBase {
     Timestamp lastClassifyModify;//最后分级修改时间
     Timestamp classifyAssignedTime;//分级领用时间
     Timestamp classifySubmittedTime;//分级提交时间
-    String fulltext;//全文内容，用于检索
 
     public CenterReport() {
 
@@ -45,15 +44,6 @@ public class CenterReport extends ReportBase {
         fulltext = task.getFulltext();
         status = STATUS_EDITING;
     }
-
-    public String getFulltext() {
-        return fulltext;
-    }
-
-    public void setFulltext(String fulltext) {
-        this.fulltext = fulltext;
-    }
-
 
     public String getCenterName() {
         return centerName;
