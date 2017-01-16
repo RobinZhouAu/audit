@@ -2,7 +2,9 @@ package com.zhb.controller;
 
 import com.zhb.bean.Role;
 import com.zhb.bean.User;
+import com.zhb.manager.LockManager;
 import com.zhb.manager.MemoryCache;
+import com.zhb.manager.OnlineUserManager;
 import com.zhb.query.QueryResult;
 import com.zhb.service.DepartmentService;
 import com.zhb.service.ProjectService;
@@ -65,9 +67,12 @@ public class UserController extends ControllerBase {
 
     @RequestMapping("/logout")//注销
     public String logout(HttpServletRequest request) {
+        String userId = loadUserId(request);
         request.getSession().removeAttribute(USER_ID);
         request.getSession().removeAttribute(USER_NAME);
         request.getSession().removeAttribute(USER_PRIVILEGES);
+        OnlineUserManager.removeUser(userId);
+        LockManager.releaseUserAllLocks(userId);
         return "/jsp/login";
     }
 
@@ -151,7 +156,15 @@ public class UserController extends ControllerBase {
             result.put("result", false);
             return result;
         }
+        String ip = getIpAddr(request);
+        String existingIp = OnlineUserManager.findUser(userId);
+        if (existingIp != null && !ip.equals(existingIp)) {
+            result.put("loginMessage", String.format("用户已经在其他电脑登陆[%s]", existingIp));
+            result.put("result", false);
+            return result;
+        }
         //login success
+        OnlineUserManager.addOnlineUser(userId, ip);
         request.getSession().setAttribute(USER_ID, userId);
         User user = (User)MemoryCache.getObject(User.class, userId);
         request.getSession().setAttribute(USER_NAME, user.getName());

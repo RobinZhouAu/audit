@@ -51,7 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             request.getSession().setMaxInactiveInterval(600);
             String userId = (String)request.getSession().getAttribute(ControllerBase.USER_ID);
             if (userId == null) {
-                userId = "U002";
+                userId = "001";
                 ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
                 UserService userService = applicationContext.getBean(UserService.class);
                 request.getSession().setAttribute(ControllerBase.USER_ID, userId);

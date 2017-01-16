@@ -9,7 +9,16 @@ import java.util.List;
  * 任务模块对应的表结构
  */
 public class Table extends ObjectBase {
-    List<Field> fields;//字段列表
+    List<Field> fields;
+    int inheritable = 0;
+
+    public int getInheritable() {
+        return inheritable;
+    }
+
+    public void setInheritable(int inheritable) {
+        this.inheritable = inheritable;
+    }
 
     public List<Field> getFields() {
         return fields;

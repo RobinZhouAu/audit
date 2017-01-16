@@ -94,6 +94,13 @@ public class DiscoveryController extends ControllerBase {
     public Map addDiscovery(HttpServletRequest request) throws Exception {
         String userId = loadUserId(request);
         Discovery discovery = (Discovery)getObjectParameter(request, "discovery", Discovery.class);
+        Discovery existingDiscovery = discoveryService.loadDiscovery(discovery.getId());
+        if (existingDiscovery != null) {
+            logger.debug("发现已经存在");
+            Map result = new HashMap();
+            result.put("discoveryCode", existingDiscovery.getCode());
+            return result;
+        }
         discovery.setCreated(new Timestamp(System.currentTimeMillis()));
         discovery.setCreatorId(userId);
         discovery.setEditorId(userId);

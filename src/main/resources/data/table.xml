@@ -303,6 +303,7 @@
 
 	<bean id="项目简介" class="com.zhb.bean.Table">
 		<property name="name" value="项目简介"></property>
+		<property name="inheritable" value="1"></property><!--表示字段内容有继承-->
 		<property name="fields">
 			<list>
 				<ref bean="承担项目机构名称"/>

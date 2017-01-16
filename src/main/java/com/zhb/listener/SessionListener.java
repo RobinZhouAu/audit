@@ -2,6 +2,7 @@ package com.zhb.listener;
 
 import com.zhb.controller.ControllerBase;
 import com.zhb.manager.LockManager;
+import com.zhb.manager.OnlineUserManager;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,7 @@ public class SessionListener implements HttpSessionListener {
         String userId = (String)session.getAttribute(ControllerBase.USER_ID);
         if (userId != null)
             LockManager.releaseUserAllLocks(userId);
+        OnlineUserManager.removeUser(userId);
         logger.info(String.format("User[%s] session destroyed", userId));
     }
 }

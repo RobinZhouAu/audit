@@ -32,6 +32,19 @@
                     </tbody>
                 </table>
             </div>
+            <div class="margin-top-10">
+                <table class="table table-striped table-bordered table-hover dataTable">
+                    <thead>
+                    <tr>
+                        <th>登陆用户</th>
+                        <th>IP</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="online-user-container">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

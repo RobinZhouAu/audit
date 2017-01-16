@@ -59,8 +59,8 @@ var SelectUserDialog = function(){
                             }
                             f.doNothingAfterSelect = false;
                         }
-                        this.qs1.cache();
-                        this.qs2.cache();
+                        //this.qs1.cache();
+                        //this.qs2.cache();
                     },
 
                     afterDeselect: function(){
@@ -87,6 +87,7 @@ var SelectUserDialog = function(){
             f.showDialog();
             if (f.options.selectedUserIdList != undefined && f.options.selectedUserIdList.length > 0) {
                 f.doNothingAfterSelect = true;
+                dialog.find(".multi-select-user").multiSelect('deselect_all');
                 dialog.find(".multi-select-user").multiSelect('select', f.options.selectedUserIdList);
                 f.doNothingAfterSelect = false;
             } else {

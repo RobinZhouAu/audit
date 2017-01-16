@@ -84,9 +84,9 @@ var ProjectManager = function(){
 
                 var selectedUserIdList = [];//已经选中的内容
                 $td.find(".center-member").each(function() {
-                    selectedUserIdList.push({
-                        id: $(this).attr("userid")
-                    });
+                    selectedUserIdList.push(
+                        $(this).attr("userid")
+                    );
                 });
                 SelectUserDialog.show({
                     selectedUserIdList: selectedUserIdList,

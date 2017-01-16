@@ -2,6 +2,7 @@ package com.zhb.controller;
 
 import com.zhb.bean.*;
 import com.zhb.manager.MemoryCache;
+import com.zhb.manager.OnlineUserManager;
 import com.zhb.service.TestService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -124,11 +125,28 @@ public class TestController extends ControllerBase {
         return result;
     }
 
+    @RequestMapping("/loadOnlineUsers")
+    @ResponseBody
+    public Map loadOnlineUsers(HttpServletRequest request) throws Exception {
+        List list = OnlineUserManager.getOnlineUserList();
+        Map result = new HashMap();
+        result.put("list", list);
+        return result;
+    }
+
     @RequestMapping("/unlockResource")
     @ResponseBody
     public Map unlockResource(HttpServletRequest request) throws Exception {
         String id = getStringParameter(request, "id");
         testService.unlockResource(id);
+        return successResult();
+    }
+
+    @RequestMapping("/unlockOnlineUser")
+    @ResponseBody
+    public Map unlockOnlineUser(HttpServletRequest request) throws Exception {
+        String id = getStringParameter(request, "id");
+        OnlineUserManager.removeUser(id);
         return successResult();
     }
 }

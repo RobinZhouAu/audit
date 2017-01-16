@@ -248,7 +248,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 detail-control detail-content"></div>
-                            <textarea class="col-md-12 edit-control edit-content" style="display: none;"></textarea>
+                            <textarea class="col-md-12 edit-control edit-content" style="height: 200px; display: none;"></textarea>
                         </div>
                         <div class="row">
                             <div class="text-right">

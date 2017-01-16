@@ -10,7 +10,6 @@ var LockManager = function(){
     return{
         init: function() {
             f = this;
-            //Header.activeMenu("task-manager");
             f.initTemplate();
             f.bindEvent();
             f.load();
@@ -30,6 +29,15 @@ var LockManager = function(){
                 '</tr>';
             $.template("lockTemplate", lockTemplate);
 
+            var onlineUserTemplate =
+                '<tr id="{$id}">' +
+                '<td>${id}</td>' +
+                '<td>${name}</td>' +
+                '<td>' +
+                '<a title="解锁" href="javascript:void(0)" class="table-operation-icon unlock-online-user"><i class="glyphicon glyphicon-remove-circle"></i></a>' +
+                '</td>' +
+                '</tr>';
+            $.template("onlineUserTemplate", onlineUserTemplate);
         },
 
         bindEvent: function() {
@@ -48,18 +56,38 @@ var LockManager = function(){
                     }
                 });
             });
+            $("#online-user-container").on("click", ".unlock-online-user", function() {
+                var onlineUser = $.tmplItem($(this)).data;
+                if (!window.confirm("您确定要解锁该用户吗？"))
+                    return;
+                Ajax.call({
+                    url: "unlockOnlineUser",
+                    p: {
+                        id: onlineUser.id
+                    },
+                    f: function(response) {
+                        Notify.info("解锁成功");
+                        f.load();
+                    }
+                });
+            });
         },
 
         load: function() {
             Ajax.call({
                 url: "loadLocks",
                 p: {
-                    //keywords: $("#keywords").val(),
-                    //start: start,
-                    //limit: limit
                 },
                 f: function(response) {
                     f.render(response.list);
+                }
+            });
+            Ajax.call({
+                url: "loadOnlineUsers",
+                p: {
+                },
+                f: function(response) {
+                    f.renderOnlineUser(response.list);
                 }
             });
         },
@@ -72,6 +100,9 @@ var LockManager = function(){
             }));
         },
 
+        renderOnlineUser: function(list) {
+            $("#online-user-container").html($.tmpl("onlineUserTemplate", list));
+        },
         empty: null
     }
 }();
