@@ -4,6 +4,7 @@ import com.zhb.bean.Role;
 import com.zhb.bean.User;
 import com.zhb.manager.LockManager;
 import com.zhb.manager.MemoryCache;
+import com.zhb.manager.OnlineUser;
 import com.zhb.manager.OnlineUserManager;
 import com.zhb.query.QueryResult;
 import com.zhb.service.DepartmentService;
@@ -149,6 +150,7 @@ public class UserController extends ControllerBase {
     public Map userLogin(HttpServletRequest request) {
         String userId = getStringParameter(request, "userId");
         String pw = getStringParameter(request, "pw");
+        String token = getStringParameter(request, "token");
         String message = userService.userLogin(userId, pw);
         Map result = new HashMap();
         if (message != null) {
@@ -157,18 +159,23 @@ public class UserController extends ControllerBase {
             return result;
         }
         String ip = getIpAddr(request);
-        String existingIp = OnlineUserManager.findUser(userId);
-        if (existingIp != null && !ip.equals(existingIp)) {
-            result.put("loginMessage", String.format("用户已经在其他电脑登陆[%s]", existingIp));
-            result.put("result", false);
-            return result;
+        OnlineUser existingUser = OnlineUserManager.findUser(userId);
+        if (existingUser != null) {//已经有该用户在在线用户列表里了
+            if (existingUser.getIp() != null && !existingUser.getIp().equals(ip)) {//已有用户IP和此用户IP不一致
+                if (token == null || !token.equals(existingUser.getToken())) {
+                    result.put("loginMessage", String.format("用户已经在其他电脑登陆[%s]", existingUser.getIp()));
+                    result.put("result", false);
+                    return result;
+                }
+            }
         }
         //login success
-        OnlineUserManager.addOnlineUser(userId, ip);
         request.getSession().setAttribute(USER_ID, userId);
-        User user = (User)MemoryCache.getObject(User.class, userId);
+        User user = userService.getUser(userId);
         request.getSession().setAttribute(USER_NAME, user.getName());
         request.getSession().setAttribute(USER_PRIVILEGES, user.getUserPrivileges());
+        if (existingUser == null)
+            OnlineUserManager.addOnlineUser(userId, user.getName(), ip, request.getSession().getId(), token);
         result.put("result", true);
         return result;
     }

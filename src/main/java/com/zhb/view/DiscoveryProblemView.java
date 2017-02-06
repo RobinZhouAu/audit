@@ -1,7 +1,6 @@
 package com.zhb.view;
 
 import com.zhb.bean.Discovery;
-import com.zhb.bean.Reference;
 import com.zhb.core.ObjectBase;
 
 import java.util.ArrayList;
@@ -13,21 +12,44 @@ import java.util.List;
  */
 public class DiscoveryProblemView {
     int index = 0;
+    String level;
     String problemId;//问题归类id
     String problemName;//问题归类内容
     String problemOpinion;//问题归类评审建议
 
     String category;
-    List<Reference> references = new ArrayList<>();
+    List<DiscoveryReferenceView> references = new ArrayList<>();
     List<DiscoveryPatientView> patientViews = new ArrayList<>();
 
     public DiscoveryProblemView() {
 
     }
 
-    public DiscoveryProblemView(String problemId, String problemName) {
+    public DiscoveryProblemView(String level, String problemId, String problemName) {
+        this.level = level;
         this.problemId = problemId;
         this.problemName = problemName;
+    }
+
+    public static String formatId(String level, String problemId) {
+        return level + "_" + problemId;
+    }
+
+    public static String parseProblemId(String id) {
+        int pos = id.indexOf("_");
+        return id.substring(pos + 1);
+    }
+
+    public String getId() {
+        return formatId(level, problemId);
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public int getIndex() {
@@ -78,11 +100,11 @@ public class DiscoveryProblemView {
         this.category = category;
     }
 
-    public List<Reference> getReferences() {
+    public List<DiscoveryReferenceView> getReferences() {
         return references;
     }
 
-    public void setReferences(List<Reference> references) {
+    public void setReferences(List<DiscoveryReferenceView> references) {
         this.references = references;
     }
 
@@ -115,7 +137,10 @@ public class DiscoveryProblemView {
         }
     }
 
-    public void addReference(Reference reference) {
-        references.add(reference);
+    public void addReference(DiscoveryReferenceView referenceView) {
+        references.add(referenceView);
+        if (referenceView.getLevel() == null) {
+            referenceView.setLevel(level);
+        }
     }
 }

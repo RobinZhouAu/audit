@@ -8,6 +8,7 @@ import com.zhb.manager.LockManager;
 import com.zhb.manager.MemoryCache;
 import com.zhb.manager.ResourceLock;
 import com.zhb.query.QueryResult;
+import com.zhb.view.DiscoveryReferenceView;
 import com.zhb.view.ReportView;
 import com.zhb.view.DiscoveryLevelView;
 import com.zhb.view.DiscoveryProblemView;
@@ -239,8 +240,17 @@ public class ReportService extends AuditServiceBase {
         for (Iterator iterator = referenceMap.keySet().iterator(); iterator.hasNext(); ) {
             String id = (String)iterator.next();
             String name = referenceMap.get(id);
-            Reference reference = (Reference)allReferenceMap.get(id);
-            reportView.addReference(new Reference(id, name, reference.getProblemId()));
+            DiscoveryReferenceView  referenceView = new DiscoveryReferenceView();
+            referenceView.setId(id);
+            referenceView.setName(name);
+            referenceView.parseId();
+            if (referenceView.getProblemId() == null) {
+                Reference reference = (Reference) allReferenceMap.get(referenceView.getReferenceId());
+                if (reference == null)
+                    continue;
+                referenceView.setProblemId(reference.getProblemId());
+            }
+            reportView.addReference(referenceView);
         }
     }
 
@@ -263,12 +273,15 @@ public class ReportService extends AuditServiceBase {
         Map<String, String> problemMap = report.getProblemMap();
         for (DiscoveryLevelView levelView : reportView.getLevelViews()) {
             for (DiscoveryProblemView problemView : levelView.getProblemViews()) {
-                String problem = problemMap.get(problemView.getProblemId());
+                String problem = problemMap.get(problemView.getId());
                 if (problem != null) {
                     problemView.setProblemName(problem);
                 }
-                String problemOpinion = report.getProblemOpinionMap().get(problemView.getProblemId());
-                problemView.setProblemOpinion(problemOpinion);
+                String problemOpinion = report.getProblemOpinionMap().get(problemView.getId());
+                if (problemOpinion == null)
+                    problemOpinion = report.getProblemOpinionMap().get(problemView.getProblemId());//这个写法是兼容一下以前的报告格式
+                if (problemOpinion != null)
+                    problemView.setProblemOpinion(problemOpinion);
             }
         }
 
@@ -303,8 +316,11 @@ public class ReportService extends AuditServiceBase {
                 report.getProblemOpinionMap().put(itemId, value);
             else {
                 String oldValue = report.getProblemMap().get(itemId);
-                if (oldValue == null)
-                    oldValue = MemoryCache.getObject(Problem.class, itemId).getName();
+                if (oldValue == null) {
+                    String problemId = DiscoveryProblemView.parseProblemId(itemId);
+                    Problem problem = (Problem)MemoryCache.getObject(Problem.class, problemId);
+                    oldValue = problem.getName();
+                }
                 modifyRecordService.onCenterReportValueChanged(report, ModifyRecord.FIELD_NAME_PROBLEM, oldValue, value, userId);
                 report.getProblemMap().put(itemId, value);
             }
@@ -467,7 +483,7 @@ public class ReportService extends AuditServiceBase {
     }
 
     //是否所以的建议都已处理
-    private boolean areAllOpinionAccepted(ReportBase report) {
+    private boolean areAllOpinionAccepted(ReportBase report, List discoveries) {
         String opinion = report.getOverviewOpinion();
         String opinionAccepted = report.getOpinionAcceptedMap().get(report.getId());
         if (!isValueEmpty(opinion) && (opinionAccepted == null || !opinionAccepted.equals("true"))) {
@@ -480,6 +496,19 @@ public class ReportService extends AuditServiceBase {
             opinion = report.getProblemOpinionMap().get(id);
             opinionAccepted = report.getOpinionAcceptedMap().get(id);
             if (!isValueEmpty(opinion) && (opinionAccepted == null || !opinionAccepted.equals("true"))) {
+                //Is this discovery still in report?
+                boolean find = false;
+                for (int i = 0; i < discoveries.size(); i ++) {
+                    Discovery discovery = (Discovery)discoveries.get(i);
+                    String itemId = DiscoveryProblemView.formatId(discovery.getLevel(), discovery.getProblemId());
+                    if (itemId.equals(id)) {
+                        find = true;
+                        break;
+                    }
+                }
+                if (!find)
+                    continue;//该条问题描述没有在任何一个发现里面，意味着对应的发现已经不在报告里了
+
                 errorMessage = "问题归类的评审建议没有处理";
                 return false;
             }
@@ -505,9 +534,9 @@ public class ReportService extends AuditServiceBase {
     }
 
     //提交报告
-    public boolean submitReport(String id) {
+    public boolean submitReport(String id, List discoveries) {
         ReportBase report = loadReport(id);
-        if (!areAllOpinionAccepted(report))
+        if (!areAllOpinionAccepted(report, discoveries))
             return false;
         if (!areAllReferencesFilled(report))
             return false;
@@ -633,13 +662,14 @@ public class ReportService extends AuditServiceBase {
     }
 
     //重置问题归类
-    public String resetProblem(String reportId, String problemId, String userId) {
+    public String resetProblem(String reportId, String itemId, String userId) {
         ReportBase report = loadReport(reportId);
+        String problemId = DiscoveryProblemView.parseProblemId(itemId);
         Problem problem = (Problem)MemoryCache.getObject(Problem.class, problemId);
-        String oldValue = report.getProblemMap().get(problemId);
+        String oldValue = report.getProblemMap().get(itemId);
         String newValue = problem.getName();
         modifyRecordService.onCenterReportValueChanged(report, ModifyRecord.FIELD_NAME_PROBLEM, oldValue, newValue, userId);
-        report.getProblemMap().put(problemId, problem.getName());
+        report.getProblemMap().put(itemId, problem.getName());
         updateReport(report);
         return newValue;
     }
@@ -687,7 +717,7 @@ public class ReportService extends AuditServiceBase {
     }
 
     //开始编辑报告
-    public boolean startEditReport(String reportId, String  userId) {
+    public boolean startEditReport(String reportId, String  userId, String sessionId) {
         String locker = LockManager.getResourceLocker(reportId);
         if (locker != null) {
             if (!locker.equals(userId)) {
@@ -696,7 +726,7 @@ public class ReportService extends AuditServiceBase {
                 return false;
             }
         }
-        LockManager.addLock(reportId, isCenterReport ? ResourceLock.RESOURCE_TYPE_CENTER_REPORT : ResourceLock.RESOURCE_TYPE_STAGE_REPORT, userId);
+        LockManager.addLock(reportId, isCenterReport ? ResourceLock.RESOURCE_TYPE_CENTER_REPORT : ResourceLock.RESOURCE_TYPE_STAGE_REPORT, userId, sessionId);
         return true;
     }
 

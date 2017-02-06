@@ -1,7 +1,6 @@
 package com.zhb.view;
 
 import com.zhb.bean.Discovery;
-import com.zhb.bean.Reference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,9 +162,15 @@ public class ReportView {
         }
     }
 
-    public void addReference(Reference reference) {
-        for (DiscoveryLevelView levelView : levelViews) {
-            levelView.addReference(reference);
+    public void addReference(DiscoveryReferenceView referenceView) {
+        if (referenceView.getLevel() == null) {
+            for (DiscoveryLevelView levelView : levelViews) {
+                if (levelView.addReference(referenceView))
+                    break;
+            }
+        } else {
+            DiscoveryLevelView levelView = findLevelView(referenceView.getLevel());
+            levelView.addReference(referenceView);
         }
     }
 }

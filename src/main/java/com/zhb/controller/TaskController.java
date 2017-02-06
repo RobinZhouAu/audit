@@ -122,7 +122,7 @@ public class TaskController extends ControllerBase {
         taskService.setErrorMessage(null);
         String taskModuleId = getStringParameter(request, "taskModuleId");
         String userId = loadUserId(request);
-        boolean success = taskService.startEditTaskModule(taskModuleId, userId);
+        boolean success = taskService.startEditTaskModule(taskModuleId, userId, request.getSession().getId());
         Map result = new HashMap();
         result.put("success", success);
         result.put("message", taskService.getErrorMessage());

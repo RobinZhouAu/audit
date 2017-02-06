@@ -7,7 +7,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.zhb.bean.Discovery;
 import com.zhb.bean.LimitedWord;
 import com.zhb.bean.MainCategory;
-import com.zhb.bean.Reference;
 import com.zhb.core.ObjectBase;
 import com.zhb.manager.MemoryCache;
 import com.zhb.view.*;
@@ -250,8 +249,8 @@ public class ReportPdf {
             listCategory.add(listItem);
         } else {
             for (int j = 0; j < problemView.getReferences().size(); j++) {
-                Reference reference = problemView.getReferences().get(j);
-                String text = reference.getName();
+                DiscoveryReferenceView referenceView = problemView.getReferences().get(j);
+                String text = referenceView.getName();
                 if (j == 0) {
                     text = "依据：" + text;
                 } else {

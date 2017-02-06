@@ -49,7 +49,7 @@ public class PageUtil {
         jo.put("pageTableConfig", pageTableConfig);
         long autoSaveInterval = getAutoSaveInterval();
         if (debugMode)
-            autoSaveInterval = 30000;//10second
+            autoSaveInterval = 30 * 1000;//10second
         jo.put("autoSaveInterval", autoSaveInterval);
         jo.put("userPrivileges", request.getSession().getAttribute(ControllerBase.USER_PRIVILEGES));
         jo.put("userId", request.getSession().getAttribute(ControllerBase.USER_ID));

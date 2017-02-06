@@ -106,7 +106,7 @@ public class MemoryCache {
     }
 
     public static void addObject(ObjectBase object) {
-        Map objectMap = allObjectMap.get(object.getClass());
+        Map objectMap = allObjectMap.get(object.getClass().getName());
         if (objectMap == null)
             return;
         objectMap.put(object.getId(), object);

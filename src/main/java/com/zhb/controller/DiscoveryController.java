@@ -197,7 +197,7 @@ public class DiscoveryController extends ControllerBase {
         discoveryService.setErrorMessage(null);
         String id = getStringParameter(request, "id");
         String userId = loadUserId(request);
-        boolean success = discoveryService.startEditDiscovery(id, userId);
+        boolean success = discoveryService.startEditDiscovery(id, userId, request.getSession().getId());
         Map result = new HashMap();
         result.put("success", success);
         result.put("message", discoveryService.getErrorMessage());

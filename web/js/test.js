@@ -1,15 +1,15 @@
 /**
  * Created by zhouhaibin on 2016/9/23.
  */
-var Test = function() {
+var Test = function () {
     var f;
     return {
-        init: function() {
+        init: function () {
             f = this;
         },
 
-        createEmptyProject: function(project) {
-            for (var i = 0; i < DataStructure.Project.fields.length; i ++) {
+        createEmptyProject: function (project) {
+            for (var i = 0; i < DataStructure.Project.fields.length; i++) {
                 var field = DataStructure.Project.fields[i];
                 var value = "test-" + field.id;
                 if (field.type == "date") {
@@ -27,7 +27,7 @@ var Test = function() {
             project.id = Utils.newGUID().substring(0, 14);
 
             project.centers = [];
-            for (var i = 0; i < 1/*Global.allCenters.length*/; i ++) {
+            for (var i = 0; i < 1/*Global.allCenters.length*/; i++) {
                 var center = Global.allCenters[i];
                 project.centers.push({
                     id: center.id,
@@ -42,7 +42,7 @@ var Test = function() {
             }
 
             project.stages = [];
-            for (var i = 0; i < 1;/*Global.allStages.length;*/ i ++) {
+            for (var i = 0; i < 1; /*Global.allStages.length;*/ i++) {
                 var stage = Global.allStages[i];
                 project.stages.push({
                     id: stage.id,
@@ -51,7 +51,7 @@ var Test = function() {
                     stageCenters: [],
                     moduleIdList: []
                 });
-                for (var j = 0; j < project.centers.length; j ++) {
+                for (var j = 0; j < project.centers.length; j++) {
                     var center = project.centers[j];
                     project.stages[i].stageCenters.push({
                         centerId: center.id
@@ -59,15 +59,15 @@ var Test = function() {
                         //memberIdList: ["U003", "U004"]
                     });
                 }
-                for (var j = 0; j < Global.allModules.length; j ++) {
+                for (var j = 0; j < Global.allModules.length; j++) {
                     project.stages[i].moduleIdList.push(Global.allModules[j].id);
                 }
             }
         },
 
-        createEmptyModuleRecord: function(moduleRecord, table) {
+        createEmptyModuleRecord: function (moduleRecord, table) {
             var content = {};
-            for (var i = 0; i < table.fields.length; i ++) {
+            for (var i = 0; i < table.fields.length; i++) {
                 var field = table.fields[i];
                 var value = "test-" + field.id;
                 if (field.type == GlobalConstants.FIELD_TYPE_DATE) {
@@ -84,7 +84,7 @@ var Test = function() {
             moduleRecord.content = JSON.stringify(content);
         },
 
-        createEmptyDiscovery: function(discovery) {
+        createEmptyDiscovery: function (discovery) {
             //discovery.categoryId = "IMP3";
             //discovery.problemId = "IMP301";
             //discovery.level = "严重问题";
@@ -94,8 +94,8 @@ var Test = function() {
         },
 
 
-        createEmptyCenter: function(center) {
-            for (var i = 0; i < DataStructure.Center.fields.length; i ++) {
+        createEmptyCenter: function (center) {
+            for (var i = 0; i < DataStructure.Center.fields.length; i++) {
                 var field = DataStructure.Center.fields[i];
                 var value = "test-" + field.id;
                 if (field.type == "date") {
@@ -114,7 +114,7 @@ var Test = function() {
     }
 }();
 
-$(function(){
+$(function () {
     Test.init();
 });
 

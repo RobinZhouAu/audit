@@ -193,7 +193,7 @@ public class DiscoveryService extends AuditServiceBase {
         return true;
     }
 
-    public boolean startEditDiscovery(String discoveryId, String  userId) {
+    public boolean startEditDiscovery(String discoveryId, String  userId, String sessionId) {
         Discovery discovery = loadDiscovery(discoveryId);
         String locker = LockManager.getResourceLocker(discovery.getCode());
         if (locker != null) {
@@ -203,7 +203,7 @@ public class DiscoveryService extends AuditServiceBase {
                 return false;
             }
         }
-        LockManager.addLock(discovery.getCode(), ResourceLock.RESOURCE_TYPE_DISCOVERY, userId);
+        LockManager.addLock(discovery.getCode(), ResourceLock.RESOURCE_TYPE_DISCOVERY, userId, sessionId);
         return true;
     }
 

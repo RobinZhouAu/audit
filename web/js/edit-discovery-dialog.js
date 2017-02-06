@@ -6,6 +6,8 @@ var EditDiscoveryDialog = function(){
     var dialog;
     return{
         init: function() {
+            //这句话用于解决select2在modal里显示的问题，否则出不来搜索框
+            $.fn.modal.Constructor.prototype.enforceFocus = function() {};
             f = this;
         },
 
@@ -62,7 +64,7 @@ var EditDiscoveryDialog = function(){
                     if (problem.categoryId == categoryId)
                         $problemSelect.append('<option value="' + problem.id + '">' + problem.name + '</option>');
                 }
-                Global.initSelect($problemSelect);
+                Global.initSelectWithSearch($problemSelect);
             });
         },
 

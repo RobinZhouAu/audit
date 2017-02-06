@@ -19,6 +19,7 @@ public class ResourceLock {
     int resourceType;//资源类型
     String userId;//加锁用户Id
     Timestamp lastUpdateTime;//最后更新时间
+    String sessionId;
 
     public ResourceLock() {
     }
@@ -65,5 +66,13 @@ public class ResourceLock {
 
     public void update() {
         lastUpdateTime = new Timestamp(System.currentTimeMillis());
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

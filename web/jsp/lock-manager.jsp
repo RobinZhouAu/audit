@@ -25,6 +25,7 @@
                         <th>用户名称</th>
                         <th>资源类型</th>
                         <th>最后更新时间</th>
+                        <th>Session</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -36,8 +37,12 @@
                 <table class="table table-striped table-bordered table-hover dataTable">
                     <thead>
                     <tr>
-                        <th>登陆用户</th>
+                        <th>登陆用户ID</th>
+                        <th>登陆用户名称</th>
                         <th>IP</th>
+                        <th>最后登陆时间</th>
+                        <th>Session</th>
+                        <th>Token</th>
                         <th>操作</th>
                     </tr>
                     </thead>

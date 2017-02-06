@@ -231,8 +231,8 @@
                     <div class="font-hwxh-14">一、稽查概要</div>
                     <div id="report-overview" mode="detail" class="editable" fieldId="overview" opinion="false" itemId="">
                         <div class="row">
-                            <div class="col-md-12 detail-control detail-content"></div>
-                            <textarea class="col-md-12 edit-control edit-content" style="height: 200px; display: none;"></textarea>
+                            <div class="col-md-12 col-sm-12 col-lg-12 detail-control detail-content"></div>
+                            <textarea class="col-md-12 col-sm-12 col-lg-12 edit-control edit-content" style="height: 200px; display: none; width: 100%;"></textarea>
                         </div>
                         <div class="row">
                             <div class="text-right">
@@ -247,8 +247,8 @@
                             <div class="opinion-label">评审意见</div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 detail-control detail-content"></div>
-                            <textarea class="col-md-12 edit-control edit-content" style="height: 200px; display: none;"></textarea>
+                            <div class="col-md-12 col-sm-12 col-lg-12 detail-control detail-content"></div>
+                            <textarea class="col-md-12 col-sm-12 col-lg-12 edit-control edit-content" style="height: 200px; display: none; width: 100%;"></textarea>
                         </div>
                         <div class="row">
                             <div class="text-right">

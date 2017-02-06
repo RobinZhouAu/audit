@@ -1,9 +1,8 @@
 package com.zhb.view;
 
-import com.zhb.bean.Discovery;
 import com.zhb.bean.Category;
+import com.zhb.bean.Discovery;
 import com.zhb.bean.Problem;
-import com.zhb.bean.Reference;
 import com.zhb.manager.MemoryCache;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class DiscoveryLevelView {
             Problem problem = (Problem)MemoryCache.getObject(Problem.class, discovery.getProblemId());
             if (problem == null)
                 return;
-            problemView = new DiscoveryProblemView(problem.getId(), problem.getName());
+            problemView = new DiscoveryProblemView(level, problem.getId(), problem.getName());
             problemView.setIndex(problemViews.size() + 1);
             String categoryName = getCategoryName(discovery.getCategoryId());
             problemView.setCategory(categoryName);
@@ -86,10 +85,12 @@ public class DiscoveryLevelView {
         return categoryName;
     }
 
-    public void addReference(Reference reference) {
-        DiscoveryProblemView problemView = findProblemView(reference.getProblemId());
+    public boolean addReference(DiscoveryReferenceView referenceView) {
+        DiscoveryProblemView problemView = findProblemView(referenceView.getProblemId());
         if (problemView == null)
-            return;
-        problemView.addReference(reference);
+            return false;
+        problemView.addReference(referenceView);
+        referenceView.formatId();
+        return true;
     }
 }

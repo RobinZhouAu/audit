@@ -14,11 +14,18 @@ var Login = function(){
                 var userId = $("#userId").val();
                 var pw = $("#pw").val();
                 var hash = md5(pw);
+                var token = $.cookie("ip_token");
+                if (!token || token == "") {
+                    token = Utils.newGUID();
+                }
+                $.cookie('ip_token', token, { expires: 1 });
+
                 Ajax.call({
                     url: "userLogin",
                     p: {
                         userId: userId,
-                        pw: hash
+                        pw: hash,
+                        token: token
                     },
                     f: function(response) {
                         if (response.result != true) {

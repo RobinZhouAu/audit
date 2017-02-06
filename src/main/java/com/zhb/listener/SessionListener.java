@@ -23,10 +23,15 @@ public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
+        String sessionId = session.getId();
         String userId = (String)session.getAttribute(ControllerBase.USER_ID);
         if (userId != null)
             LockManager.releaseUserAllLocks(userId);
-        OnlineUserManager.removeUser(userId);
+        LockManager.releaseSessionAllLocks(sessionId);
+        if (userId != null)
+            OnlineUserManager.removeUser(userId);
+        else
+            OnlineUserManager.removeUserBySessionId(sessionId);
         logger.info(String.format("User[%s] session destroyed", userId));
     }
 }

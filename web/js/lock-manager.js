@@ -23,6 +23,7 @@ var LockManager = function(){
                 '<td>${Global.getUserName($item.data.userId)}</td>' +
                 '<td>${$item.getResourceTypeString($item.data)}</td>' +
                 '<td>${lastUpdateTime}</td>' +
+                '<td>${sessionId}</td>' +
                 '<td>' +
                 '<a title="解锁" href="javascript:void(0)" class="table-operation-icon unlock"><i class="glyphicon glyphicon-remove-circle"></i></a>' +
                 '</td>' +
@@ -31,8 +32,12 @@ var LockManager = function(){
 
             var onlineUserTemplate =
                 '<tr id="{$id}">' +
-                '<td>${id}</td>' +
-                '<td>${name}</td>' +
+                '<td>${userId}</td>' +
+                '<td>${userName}</td>' +
+                '<td>${ip}</td>' +
+                '<td>${loginTime}</td>' +
+                '<td>${sessionId}</td>' +
+                '<td>${token}</td>' +
                 '<td>' +
                 '<a title="解锁" href="javascript:void(0)" class="table-operation-icon unlock-online-user"><i class="glyphicon glyphicon-remove-circle"></i></a>' +
                 '</td>' +
@@ -63,7 +68,7 @@ var LockManager = function(){
                 Ajax.call({
                     url: "unlockOnlineUser",
                     p: {
-                        id: onlineUser.id
+                        id: onlineUser.userId
                     },
                     f: function(response) {
                         Notify.info("解锁成功");

@@ -147,7 +147,7 @@ public class ReportController extends ControllerBase {
             if (!report.getCheckUserId().equals(userId)) {
                 canEditReport = false;
             } else {
-                if (!reportService.startEditReport(id, userId)) {
+                if (!reportService.startEditReport(id, userId, request.getSession().getId())) {
                     canEditReport = false;
                 }
             }
@@ -201,7 +201,7 @@ public class ReportController extends ControllerBase {
         if (report.getCanceled() == 1)
             mode = MODE_DETAIL;
         else {
-            if (!reportService.startEditReport(id, userId)) {
+            if (!reportService.startEditReport(id, userId, request.getSession().getId())) {
                 //已经有别人正在编辑此报告，只能以只读方式打开
                 mode = MODE_DETAIL;
             } else
@@ -432,7 +432,8 @@ public class ReportController extends ControllerBase {
         String id = getStringParameter(request, "id");
         String userId = loadUserId(request);
         reportService.setReportClassByType(type);
-        if (!reportService.submitReport(id))
+        List discoveries = discoveryService.loadDiscoveriesInReport(id, "patientNo", null, null);
+        if (!reportService.submitReport(id, discoveries))
             return errorResult(reportService.getErrorMessage());
         reportService.endEditReport(id, userId);
         return successResult();

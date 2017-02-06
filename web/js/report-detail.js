@@ -8,7 +8,8 @@ var ReportDetail = function(){
     var STATUS_CORRECTING = 3;//审阅后修改
     var STATUS_SUBMITTED = 4;//报告已提交
     var STATUS_CLOSED = 5;//关闭
-    var STATUS_SUBMITTED_MORE_THAN_48HOURS = 6;//提交超过48小时
+    var STATUS_CANCELED = 6;//取消，内存状态，非数据库状态
+    var STATUS_SUBMITTED_MORE_THAN_48HOURS = 7;//提交超过48小时
 
     var CHECK_STATUS_UNREADY = 0;//未进入评审
     var CHECK_STATUS_UNASSIGNED = 1;//未评审（未领取）
@@ -329,18 +330,25 @@ var ReportDetail = function(){
         },
 
         addReference: function($container) {
-            var problemId = $container.parents(".problem-item").attr("id");
+            var $problem = $container.parents(".problem-item");
+            var problemId = $problem.attr("problemId");
             SelectReferenceDialog.show({
                 problemId: problemId,
                 callback: function(selectedReferences, $container) {
+                    var references = [];
                     for (var i = 0; i < selectedReferences.length; i ++) {
                         var referenceId = selectedReferences[i].id;
-                        if ($container.find(".reference-item[itemId='" + referenceId + "']").length > 0) {
+                        if ($container.find(".reference-item[referenceId='" + referenceId + "']").length > 0) {
                             alert("选择的参考依据已经在报告中，请重新选择。");
                             return;
                         }
+                        references.push({
+                            id: $problem.attr("id") + "_" + referenceId,
+                            referenceId: referenceId,
+                            name: selectedReferences[i].name
+                        });
                     }
-                    $.tmpl("referenceTemplate", selectedReferences).appendTo($container);
+                    $.tmpl("referenceTemplate", references).appendTo($container);
                     $container.find(".edit-control").hide();
                     $container.find(".detail-control").show();
                     f.saveReferences($container, function() {
@@ -376,7 +384,7 @@ var ReportDetail = function(){
         },
 
         deleteReference: function($reference) {
-            var $container = $reference.parents(".reference-containter");
+            var $container = $reference.parents(".reference-container");
             $reference.remove();
             f.saveReferences($container, function() {
                 Notify.info("删除成功");

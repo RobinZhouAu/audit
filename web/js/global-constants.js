@@ -36,7 +36,7 @@ var GlobalConstants = function(){
                 "4": "报告已提交",
                 "5": "关闭",
                 "6": "取消",
-                "7": "报告已提交"//提交超过48小时
+                "7": "报告已提交48"//提交超过48小时
             };
 
             this.CENTER_REPORT_CHECK_STATUS = {

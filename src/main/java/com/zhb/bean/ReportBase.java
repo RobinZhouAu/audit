@@ -324,4 +324,5 @@ public abstract class ReportBase extends ObjectBase {
         this.fulltext = fulltext;
     }
 
+
 }

@@ -105,8 +105,10 @@ var ReportManager = function(){
                     '<a title="详情" href="reportDetail?id=${id}&type=' + Global.type + '" class="table-operation-icon report-detail"><i class="glyphicon glyphicon-list-alt"></i></a>' +
                     '{{if canceled == 0 && status != 5}}' +
                         '<a title="编辑" pid="EDIT_CENTER_REPORT" href="editReport?id=${id}&type=' + Global.type + '" class="table-operation-icon edit-report"><i class="glyphicon glyphicon-pencil"></i></a>' +
+                        '{{if status != 7}}' +
                         '<a title="提交审阅" pid="EDIT_CENTER_REPORT" href="javascript:void(0)" class="table-operation-icon submit-to-check"><i class="glyphicon glyphicon-saved"></i></a>' +
                         '<a title="提交报告" pid="EDIT_CENTER_REPORT" href="javascript:void(0)" class="table-operation-icon submit-report"><i class="glyphicon glyphicon-open"></i></a>' +
+                        '{{/if}}' +
                         '<a title="打印" pid="PRINT" target="_blank" href="printReport?id=${id}&type=' + Global.type + '" class="table-operation-icon print-report"><i class="glyphicon glyphicon-print"></i></a>' +
                         '<a title="关闭" pid="EDIT_CENTER_REPORT" href="javascript:void(0)" class="table-operation-icon close-report"><i class="glyphicon glyphicon-off"></i></a>' +
                     '{{/if}}' +
@@ -125,8 +127,10 @@ var ReportManager = function(){
                 '<a title="详情" href="reportDetail?id=${id}&type=' + Global.type + '" class="table-operation-icon report-detail"><i class="glyphicon glyphicon-list-alt"></i></a>' +
                 '{{if canceled == 0 && status != 5}}' +
                     '<a title="编辑" pid="EDIT_STAGE_REPORT" href="editReport?id=${id}&type=' + Global.type + '" class="table-operation-icon edit-report"><i class="glyphicon glyphicon-pencil"></i></a>' +
+                    '{{if status != 7}}' +
                     '<a title="提交审阅" pid="EDIT_STAGE_REPORT" href="javascript:void(0)" class="table-operation-icon submit-to-check"><i class="glyphicon glyphicon-saved"></i></a>' +
                     '<a title="提交报告" pid="EDIT_STAGE_REPORT" href="javascript:void(0)" class="table-operation-icon submit-report"><i class="glyphicon glyphicon-open"></i></a>' +
+                    '{{/if}}' +
                     '<a title="打印" pid="PRINT" target="_blank" href="printReport?id=${id}&type=' + Global.type + '" class="table-operation-icon print-report"><i class="glyphicon glyphicon-print"></i></a>' +
                     '<a title="关闭" pid="EDIT_STAGE_REPORT" href="javascript:void(0)" class="table-operation-icon close-report"><i class="glyphicon glyphicon-off"></i></a>' +
                 '{{/if}}' +

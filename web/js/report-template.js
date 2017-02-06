@@ -9,12 +9,12 @@ var ReportTemplate = function(){
                     '<div class="font-hwxh-14">${ReportDetail.getHanziNumber(index)}、 ${level}</div>' +
                     '<ol type="1" class="list-group problem-list">' +
                         '{{each(i, problemView) problemViews}}' +
-                        '<li id="${problemView.problemId}" class="problem-item">' +
-                            '<div mode="detail" class="editable" fieldId="problem" itemId="${problemView.problemId}" opinion="false">' +
+                        '<li id="${problemView.id}" class="problem-item" problemId="${problemId}">' +
+                            '<div mode="detail" class="editable" fieldId="problem" itemId="${problemView.id}" opinion="false">' +
                                 '<div class="row">' +
                                     '<span class="problem-index font-hwfs-bold-12">${index}. </span>' +
                                     '<span class="detail-control detail-content problem-detail-control font-hwfs-bold-12">${problemView.problemName}</span>' +
-                                    '<textarea class="col-md-12 edit-control edit-content problem-edit-control" style="display:none;"></textarea>' +
+                                    '<textarea class="col-md-12 edit-control edit-content problem-edit-control" style="display:none; width:100%;"></textarea>' +
                                 '</div>' +
                                 '<div class="row">' +
                                     '<div class="text-right">' +
@@ -25,13 +25,13 @@ var ReportTemplate = function(){
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
-                            '<div mode="detail" class="problem-opinion editable" fieldId="problem" opinion="true" itemId="${problemView.problemId}">' +
+                            '<div mode="detail" class="problem-opinion editable" fieldId="problem" opinion="true" itemId="${problemView.id}">' +
                                 '<div class="row">' +
                                     '<div class="opinion-label">评审意见</div>' +
                                 '</div>' +
                                 '<div class="row">' +
                                     '<div class="col-md-12 detail-control detail-content">${problemView.problemOpinion}</div>' +
-                                    '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none;"></textarea>' +
+                                    '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none; width:100%;"></textarea>' +
                                 '</div>' +
                                 '<div class="row">' +
                                     '<div class="pull-right">' +
@@ -54,7 +54,7 @@ var ReportTemplate = function(){
                                                     '{{/if}}' +
                                                     '<span class="detail-control detail-content discovery-description font-hwfs-12">${discoveryView.description}</span><span class="stage">${ReportDetail.getCenterCode(discoveryView)}</span>' +
                                                     '<div class="row">' +
-                                                        '<textarea class="col-md-12 edit-control edit-content" style="display:none;"></textarea>' +
+                                                        '<textarea class="col-md-12 edit-control edit-content" style="display:none; width:100%;"></textarea>' +
                                                     '</div>' +
                                                     '<div class="row">' +
                                                         '<div class="text-right">' +
@@ -73,7 +73,7 @@ var ReportTemplate = function(){
                                                     '</div>' +
                                                     '<div class="row">' +
                                                         '<div class="col-md-12 detail-control detail-content discovery-description-opinion font-hwfs-12">${discoveryView.descriptionOpinion}</div>' +
-                                                        '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none;"></textarea>' +
+                                                        '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none; width:100%;"></textarea>' +
                                                     '</div>' +
                                                     '<div class="row">' +
                                                         '<div class="pull-right">' +
@@ -101,7 +101,7 @@ var ReportTemplate = function(){
                                                     '<span class="description-index">${ReportDetail.getLetter(discoveryView.index)}）</span>' +
                                                     '<span class="detail-control detail-content discovery-description description-detail-control">${discoveryView.description}</span><span class="stage">${ReportDetail.getCenterCode(discoveryView)}</span>' +
                                                     '<div class="row">' +
-                                                        '<textarea class="col-md-12 edit-control edit-content" style="display: none;"></textarea>' +
+                                                        '<textarea class="col-md-12 edit-control edit-content" style="display: none; width:100%;"></textarea>' +
                                                     '</div>' +
                                                     '<div class="row">' +
                                                         '<div class="text-right">' +
@@ -120,7 +120,7 @@ var ReportTemplate = function(){
                                                     '</div>' +
                                                     '<div class="row">' +
                                                         '<div class="col-md-12 detail-control detail-content discovery-description-opinion">${discoveryView.descriptionOpinion}</div>' +
-                                                        '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none;"></textarea>' +
+                                                        '<textarea class="col-md-12 edit-control edit-content" style="height: 120px; display:none; width:100%;"></textarea>' +
                                                     '</div>' +
                                                     '<div class="row">' +
                                                         '<div class="pull-right">' +
@@ -149,10 +149,10 @@ var ReportTemplate = function(){
                                 '<span class="reference-span2" style="width: 1085px;">' +
                                     '<div class="reference-container">' +
                                         '{{each(k, reference) problemView.references}}' +
-                                        '<div mode="detail" class="editable reference-item" fieldId="reference" itemId="${reference.id}" opinion="false">' +
+                                        '<div mode="detail" class="editable reference-item" fieldId="reference" itemId="${reference.id}" opinion="false" referenceId="${referenceId}">' +
                                             '<div class="row">' +
                                                 '<span class="detail-control detail-content font-hwfs-12">${reference.name}</span>' +
-                                                '<textarea class="col-md-12 edit-control edit-content" style="display:none;"></textarea>' +
+                                                '<textarea class="col-md-12 edit-control edit-content" style="display:none; width:100%;"></textarea>' +
                                             '</div>' +
                                             '<div class="row">' +
                                                 '<div class="text-right">' +
@@ -176,10 +176,10 @@ var ReportTemplate = function(){
             $.template("discoveryTemplate", discoveryTemplate);
 
             var referenceTemplate =
-                '<div mode="detail" class="editable reference-item" fieldId="reference" itemId="${id}" opinion="false">' +
+                '<div mode="detail" class="editable reference-item" fieldId="reference" itemId="${id}" opinion="false" referenceId="${referenceId}">' +
                     '<div class="row">' +
                         '<span class="detail-control detail-content font-hwfs-12">${name}</span>' +
-                        '<textarea class="edit-control edit-content"></textarea>' +
+                        '<textarea class="col-md-12 edit-control edit-content" style="width:100%;"></textarea>' +
                     '</div>' +
                     '<div class="row">' +
                         '<div class="text-right">' +

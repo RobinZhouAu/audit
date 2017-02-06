@@ -20,7 +20,7 @@ public class LockManager {
     }
 
     //添加资源锁
-    public static boolean addLock(String resourceId, int resourceType, String userId) {
+    public static boolean addLock(String resourceId, int resourceType, String userId, String sessionId) {
         ResourceLock resourceLock = locks.get(resourceId);
         if (resourceLock != null) {
             if (resourceLock.getUserId().equals(userId)) {
@@ -31,6 +31,7 @@ public class LockManager {
             return false;
         }
         resourceLock = new ResourceLock(resourceId, resourceType, userId);
+        resourceLock.setSessionId(sessionId);
         locks.put(resourceLock.getResourceId(), resourceLock);
         logger.debug(String.format("add resource lock[%s][%s]", resourceId, userId));
         return true;
@@ -61,6 +62,18 @@ public class LockManager {
         }
     }
 
+    //释放某个Session所有资源锁
+    public static void releaseSessionAllLocks(String sessionId) {
+        logger.debug(String.format("release all session's resource lock[%s]", sessionId));
+        for (Iterator iterator = locks.keySet().iterator(); iterator.hasNext(); ) {
+            String resourceId = (String)iterator.next();
+            ResourceLock resourceLock = locks.get(resourceId);
+            if (resourceLock.getSessionId().equals(sessionId)) {
+                locks.remove(resourceId);
+                logger.debug(String.format("release session's resource lock[%s]", resourceId));
+            }
+        }
+    }
     //获得锁定某个资源的用户Id
     public static String getResourceLocker(String resourceId) {
         ResourceLock resourceLock = locks.get(resourceId);

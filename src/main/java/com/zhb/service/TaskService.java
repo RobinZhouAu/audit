@@ -111,7 +111,7 @@ public class TaskService extends AuditServiceBase {
         dao.executeNativeSql(sql, new Object[]{currentTime, id});
     }
 
-    public boolean startEditTaskModule(String taskModuleId, String  userId) {
+    public boolean startEditTaskModule(String taskModuleId, String  userId, String sessionId) {
         String locker = LockManager.getResourceLocker(taskModuleId);
         if (locker != null) {
             if (!locker.equals(userId)) {
@@ -120,7 +120,7 @@ public class TaskService extends AuditServiceBase {
                 return false;
             }
         }
-        LockManager.addLock(taskModuleId, ResourceLock.RESOURCE_TYPE_TASK_MODULE, userId);
+        LockManager.addLock(taskModuleId, ResourceLock.RESOURCE_TYPE_TASK_MODULE, userId, sessionId);
         return true;
     }
 

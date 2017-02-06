@@ -57,6 +57,7 @@
 <script type="text/javascript" src="thirdparty/nunjucks.js"></script>
 <script type="text/javascript" src="thirdparty/json2.js"></script>
 <script type="text/javascript" src="thirdparty/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="thirdparty/jquery.cookie.js"></script>
 
 <script type="text/javascript" src="js/util/prototype-patch.js"></script>
 <script type="text/javascript" src="js/util/Notify.js"></script>
