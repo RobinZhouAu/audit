@@ -7,7 +7,7 @@ var ReportManager = function(){
     var STATUS_CORRECTING = 3;//审阅后修改
     var STATUS_SUBMITTED = 4;//报告已提交
     var STATUS_CLOSED = 5;//关闭
-    var STATUS_SUBMITTED_MORE_THAN_48HOURS = 6;//提交超过48小时
+    //var STATUS_SUBMITTED_MORE_THAN_48HOURS = 6;//提交超过48小时
 
     var f;
     var start = 0;
@@ -213,12 +213,12 @@ var ReportManager = function(){
                         $report.find(".print-report").remove();
                     }
                         break;
-                    case STATUS_SUBMITTED_MORE_THAN_48HOURS: {
-                        $report.find(".submit-to-check").remove();
-                        $report.find(".submit-report").remove();
-                        $report.find(".print-report").remove();
-                    }
-                        break;
+                    //case STATUS_SUBMITTED_MORE_THAN_48HOURS: {
+                    //    $report.find(".submit-to-check").remove();
+                    //    $report.find(".submit-report").remove();
+                    //    $report.find(".print-report").remove();
+                    //}
+                    //    break;
                     case STATUS_CLOSED: {
                         $report.find(".edit-report").remove();
                         $report.find(".submit-to-check").remove();

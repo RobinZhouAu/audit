@@ -9,7 +9,7 @@ var ReportDetail = function(){
     var STATUS_SUBMITTED = 4;//报告已提交
     var STATUS_CLOSED = 5;//关闭
     var STATUS_CANCELED = 6;//取消，内存状态，非数据库状态
-    var STATUS_SUBMITTED_MORE_THAN_48HOURS = 7;//提交超过48小时
+    //var STATUS_SUBMITTED_MORE_THAN_48HOURS = 7;//提交超过48小时
 
     var CHECK_STATUS_UNREADY = 0;//未进入评审
     var CHECK_STATUS_UNASSIGNED = 1;//未评审（未领取）
@@ -455,22 +455,22 @@ var ReportDetail = function(){
                         $("#print").remove();
                 }
                     break;
-                case STATUS_SUBMITTED_MORE_THAN_48HOURS: {
-                    $("#submit-to-check").remove();
-                    $("#submit").remove();
-                    $("#check-submit").remove();
-                    if (mode == MODE_DETAIL) {
-                        $("#detail").remove();
-                    } else if (mode == MODE_EDIT_AFTER_CHECK){
-                        $("#edit").remove();
-                    } else if (mode == MODE_CHECK) {
-                        $("#detail").remove();
-                        $("#edit").remove();
-                        $("#print").remove();
-                        $("#show-discovery-not-in-report").remove();
-                    }
-                }
-                    break;
+                //case STATUS_SUBMITTED_MORE_THAN_48HOURS: {
+                //    $("#submit-to-check").remove();
+                //    $("#submit").remove();
+                //    $("#check-submit").remove();
+                //    if (mode == MODE_DETAIL) {
+                //        $("#detail").remove();
+                //    } else if (mode == MODE_EDIT_AFTER_CHECK){
+                //        $("#edit").remove();
+                //    } else if (mode == MODE_CHECK) {
+                //        $("#detail").remove();
+                //        $("#edit").remove();
+                //        $("#print").remove();
+                //        $("#show-discovery-not-in-report").remove();
+                //    }
+                //}
+                //    break;
             }
             $(".navbar-form").show();
         },

@@ -21,7 +21,7 @@ public abstract class ReportBase extends ObjectBase {
     public static final int STATUS_SUBMITTED = 4;//报告已提交
     public static final int STATUS_CLOSED = 5;//关闭
     public static final int STATUS_CANCELED = 6;//取消，内存状态，非数据库状态
-    public static final int STATUS_SUBMITTED_MORE_THAN_48HOURS = 7;//报告提交超过48小时，内存状态，非数据库状态
+//    public static final int STATUS_SUBMITTED_MORE_THAN_48HOURS = 7;//报告提交超过48小时，内存状态，非数据库状态
 
     public static final int CHECK_STATUS_UNREADY = 0;//未进入评审
     public static final int CHECK_STATUS_UNASSIGNED = 1;//未评审（未领取）

@@ -656,8 +656,8 @@ public class ReportService extends AuditServiceBase {
         if (report.getStatus() != ReportBase.STATUS_SUBMITTED)
             return report.getStatus();
         int hours = (int)((System.currentTimeMillis() - report.getSubmitTime().getTime()) / 3600000);
-        if (hours >= 48)
-            return ReportBase.STATUS_SUBMITTED_MORE_THAN_48HOURS;
+//        if (hours >= 48)
+//            return ReportBase.STATUS_SUBMITTED_MORE_THAN_48HOURS;
         return ReportBase.STATUS_SUBMITTED;
     }
 
